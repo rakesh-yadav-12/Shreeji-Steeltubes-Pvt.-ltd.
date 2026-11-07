@@ -1,0 +1,193 @@
+{% extends "base.html" %}{% block body %}
+{# ---- per-row workflow state (same rules are enforced again on the server) ---- #}
+{% set cnt = namespace(all=0,new=0,wait=0,acc=0,dec=0,sel=0,rej=0) %}
+{% for r in rows %}{% set cnt.all = cnt.all + 1 %}
+ {% if r.final_status=='Selected' %}{% set cnt.sel = cnt.sel + 1 %}{% elif r.final_status=='Rejected' %}{% set cnt.rej = cnt.rej + 1 %}
+ {% elif r.interview_status=='Accepted' %}{% set cnt.acc = cnt.acc + 1 %}{% elif r.interview_status=='Declined' %}{% set cnt.dec = cnt.dec + 1 %}
+ {% elif r.interview_status=='Scheduled' %}{% set cnt.wait = cnt.wait + 1 %}{% else %}{% set cnt.new = cnt.new + 1 %}{% endif %}
+{% endfor %}
+
+<style>
+.jx-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.jx-bar h3{margin:0 10px 0 0}
+.jx-chip{background:#fff;color:var(--text);border:1px solid var(--line);padding:6px 12px;border-radius:20px;font-size:12.5px;font-weight:600;cursor:pointer;margin:0}
+.jx-chip b{color:var(--blue)}.jx-chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}.jx-chip.on b{color:#fff}
+.jx-search{flex:1 1 200px;max-width:260px;margin:0 0 0 auto}
+.jx-flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:#fff;border:1px dashed #c9cff0;border-radius:12px;padding:8px 14px;margin-bottom:14px;font-size:12px;color:var(--mute)}
+.jx-flow b{color:var(--blue2)}.jx-flow i{font-style:normal;color:#b3b8d6}
+.jx-grid{display:grid;grid-template-columns:58px minmax(0,1.15fr) minmax(0,1.1fr) minmax(190px,1.5fr) 66px 90px 100px 88px 72px;gap:10px;align-items:center;box-sizing:border-box}
+.jx-head{padding:0 18px 8px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);font-weight:700}
+.jx-row{position:relative;background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 18px;margin-bottom:10px;box-shadow:0 1px 2px #16215e0d,0 6px 18px #16215e08;transition:border-color .15s,box-shadow .15s}
+.jx-row:hover{border-color:#c9cff0;box-shadow:0 2px 4px #16215e10,0 8px 22px #16215e12}
+.jx-row:has(details[open]){z-index:50}
+.jx-btns{display:contents}
+.jx-no{font-weight:800;color:var(--blue)}
+.jx-nm b,.jx-ap b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jx-ap b{color:var(--blue2);font-size:13.5px}
+.jx-nm small,.jx-ap small{display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* status + step tracker */
+.jx-st{display:flex;flex-direction:column;gap:5px;align-items:flex-start;min-width:0}
+.jx-st .badge{font-size:12px;padding:4px 11px}
+.jx-st small{font-size:11.5px;color:var(--mute)}
+.jx-steps{display:flex;align-items:center;gap:0}
+.jx-steps span{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:10.5px;font-weight:800;background:#ebedf6;color:#9aa0bb;flex:none}
+.jx-steps u{width:14px;height:2px;background:#e1e4f3;flex:none}
+.jx-steps span.done{background:var(--ok);color:#fff}.jx-steps u.done{background:var(--ok)}
+.jx-steps span.cur{background:var(--blue);color:#fff;box-shadow:0 0 0 3px #26399e29}
+.jx-steps span.skip{background:#fff;border:1.5px dashed #c4c9e2;color:#b3b8d6}
+.jx-next{font-size:11.5px;font-weight:700;color:var(--blue2)}.jx-next.ok{color:var(--ok)}.jx-next.bad{color:var(--bad)}
+/* buttons */
+.jx-grid .btn,.jx-grid button,.jx-pop summary{margin:0;width:100%;box-sizing:border-box;text-align:center;padding:8px 4px;font-size:12.5px;border-radius:9px;font-weight:600;display:block}
+.jx-del{background:#fde1e1!important;color:#a52828!important}
+.jx-lock{background:#f1f2f8!important;color:#a3a8c3!important;cursor:not-allowed;pointer-events:auto;user-select:none}
+.jx-go{box-shadow:0 0 0 3px #26399e2e}
+.jx-pop{position:relative}.jx-pop summary{list-style:none;cursor:pointer;background:var(--blue);color:#fff}
+.jx-pop summary::-webkit-details-marker{display:none}
+.jx-pop.dc summary{background:#172574}
+.jx-pop form{position:absolute;right:0;top:calc(100% + 6px);z-index:60;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px #16215e33;padding:12px;width:230px}
+.jx-pop input{width:100%;margin:0 0 8px;box-sizing:border-box}.jx-pop form button{background:var(--blue);color:#fff;margin-bottom:6px}.jx-pop form button:last-child{margin-bottom:0}
+.jx-pop .hint{font-size:11.5px;color:var(--mute);margin:0 0 8px;white-space:normal}
+.jx-sel{background:var(--ok)!important}.jx-rej{background:var(--bad)!important}
+@media(max-width:1200px){
+ .jx-head{display:none}
+ .jx-grid{grid-template-columns:repeat(4,minmax(0,1fr));row-gap:12px}
+ .jx-btns{display:flex;gap:8px;grid-column:1/-1;flex-wrap:wrap}.jx-btns>*{flex:1 1 70px}
+ .jx-pop form{left:0;right:auto}
+}
+@media(max-width:640px){.jx-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.jx-search{max-width:none;margin:0}}
+</style>
+
+<div class="jx-bar">
+ <h3>Job Applications</h3>
+ <button class="jx-chip on" data-f="all">All <b>{{cnt.all}}</b></button>
+ <button class="jx-chip" data-f="new">New <b>{{cnt.new}}</b></button>
+ <button class="jx-chip" data-f="Scheduled">Awaiting reply <b>{{cnt.wait}}</b></button>
+ <button class="jx-chip" data-f="Accepted">Accepted <b>{{cnt.acc}}</b></button>
+ <button class="jx-chip" data-f="Selected">Selected <b>{{cnt.sel}}</b></button>
+ <button class="jx-chip" data-f="Rejected">Rejected <b>{{cnt.rej}}</b></button>
+ <button class="jx-chip" data-f="Declined">Declined <b>{{cnt.dec}}</b></button>
+ <input class="jx-search" id="jxq" type="search" placeholder="Search name, phone, position…">
+</div>
+
+<div class="jx-flow"><b>Process (compulsory order):</b>
+ <span><b>1</b> View / Download resume</span><i>›</i>
+ <span><b>2</b> Schedule interview</span><i>›</i>
+ <span><b>3</b> Candidate accepts / declines</span><i>›</i>
+ <span><b>4</b> Select / Reject</span><i>›</i>
+ <span>Delete</span>
+</div>
+
+<div class="jx-grid jx-head">
+ <div>Enquiry No</div><div>Name</div><div>Applied for</div><div>Status</div><div>View</div><div>Download</div><div>Reschedule</div><div>Decision</div><div>Delete</div>
+</div>
+
+{% for r in rows %}
+ {% set ist = r.interview_status or '' %}
+ {% set fin = r.final_status or '' %}
+ {% set viewed = reviewed.get(r.no) %}
+ {% set closed = fin or ist=='Declined' %}
+ {% set skipped = (fin=='Rejected' and not ist) %}
+ {% set steps = [viewed, (ist!='' or skipped), (ist in ('Accepted','Declined') or skipped), closed] %}
+ {% set cur = namespace(i=0) %}
+ {% for d in steps %}{% if not d and not cur.i %}{% set cur.i = loop.index %}{% endif %}{% endfor %}
+ {% set key = fin or ist or 'new' %}
+
+ <div class="jx-grid jx-row" data-st="{{key}}" data-q="{{ (r.name ~ ' ' ~ r.phone ~ ' ' ~ (r.email or '') ~ ' ' ~ (r.city or '') ~ ' ' ~ (r.position or ''))|lower }}">
+
+  <div class="jx-no">#{{r.no}}</div>
+
+  <div class="jx-nm"><b title="{{r.name}}">{{r.name}}</b><small>{{r.phone}}{% if r.city %} · {{r.city}}{% endif %}</small></div>
+
+  <div class="jx-ap"><b title="{{r.position}}">{{r.position}}</b><small>{{r.qualification or ''}}{% if r.experience %} · Exp {{r.experience}}{% endif %}</small></div>
+
+  <div class="jx-st">
+   {% if fin=='Selected' %}<span class="badge b-ok">★ Selected</span>{% elif fin=='Rejected' %}<span class="badge b-bad">✗ Rejected</span>
+   {% elif ist=='Accepted' %}<span class="badge b-ok">✓ Accepted</span>{% elif ist=='Declined' %}<span class="badge b-bad">✗ Declined</span>
+   {% elif ist=='Scheduled' %}<span class="badge b-new">⏳ Awaiting reply</span>{% else %}<span class="badge b-off">New</span>{% endif %}
+
+   <div class="jx-steps" aria-label="Process steps">
+    {% for d in steps %}{% set n = loop.index %}
+     {% set lbl = ['Resume reviewed','Interview scheduled','Candidate replied','Final decision'][loop.index0] %}
+     {% if not loop.first %}<u class="{{ 'done' if d else '' }}"></u>{% endif %}
+     <span class="{{ 'skip' if (skipped and n in (2,3)) else ('done' if d else ('cur' if n==cur.i else '')) }}" title="Step {{n}}: {{lbl}}{{ ' - done' if d and not (skipped and n in (2,3)) else '' }}">{{ '✓' if d and not (skipped and n in (2,3)) else n }}</span>
+    {% endfor %}
+   </div>
+
+   {% if fin=='Selected' %}<div class="jx-next ok">Process complete · {{r.interview_date}} {{r.interview_time or ''}}</div>
+   {% elif fin=='Rejected' %}<div class="jx-next bad">Process closed · Rejected</div>
+   {% elif ist=='Declined' %}<div class="jx-next bad">Closed · candidate declined</div>
+   {% elif not viewed %}<div class="jx-next">Next: View / Download resume</div>
+   {% elif not ist %}<div class="jx-next">Next: Schedule interview</div>
+   {% elif ist=='Scheduled' %}<div class="jx-next">Waiting for candidate reply</div>
+   {% else %}<div class="jx-next">Next: Select / Reject</div>{% endif %}
+
+   {% if r.interview_date %}<small>{{r.interview_date}} · {{r.interview_time or ''}}{% if r.interview_mail=='sent' %} · Mail sent{% elif r.interview_mail=='failed' %} · <span style="color:var(--bad)">Mail failed</span>{% elif r.interview_mail=='no-recipient' %} · No email{% endif %}</small>{% endif %}
+   {% if r.interview_mail in ('failed','no-recipient') and not closed %}<form method="post" action="/admin/jobs/{{r.no}}/resend-interview-mail"><button class="s">↻ Resend mail</button></form>{% endif %}
+  </div>
+
+  <div class="jx-btns">
+   {# 1 · View / Download #}
+   <div>{% if r.resume %}<a class="btn g jx-rv {{ '' if viewed else 'jx-go' }}" href="{{ url_for('job_resume', no=r.no) }}" target="_blank">View</a>{% else %}<span class="btn jx-lock" title="No resume uploaded">View</span>{% endif %}</div>
+   <div>{% if r.resume %}<a class="btn g jx-rv jx-dl" href="{{ url_for('job_resume', no=r.no, dl=1) }}">Download</a>{% else %}<span class="btn jx-lock" title="No resume uploaded">Download</span>{% endif %}</div>
+
+   {# 2 · Schedule / Reschedule (needs step 1; stops after final decision) #}
+   <div>
+    {% if not viewed %}<span class="btn jx-lock" title="Step 1 pending: view / download the resume first">🔒 Schedule</span>
+    {% elif fin %}<span class="btn jx-lock" title="Process closed ({{fin}})">🔒 Closed</span>
+    {% else %}
+    <details class="jx-pop">
+     <summary class="{{ '' if ist else 'jx-go' }}">{{ 'Reschedule' if ist else 'Schedule' }}</summary>
+     <form method="post" action="/admin/jobs/{{r.no}}/schedule-interview">
+      <p class="hint">Candidate gets a mail with Accept / Decline buttons.</p>
+      <input type="date" name="date" value="{{r.interview_date or ''}}" required>
+      <input type="time" name="time" value="{{r.interview_time or ''}}" required>
+      <button>Send interview mail</button>
+     </form>
+    </details>
+    {% endif %}
+   </div>
+
+   {# 4 · Final decision (Select only after the candidate accepted; Reject any time after the resume review) #}
+   <div>
+    {% if fin %}<span class="btn jx-lock" title="Final decision already taken">{{fin}}</span>
+    {% elif not viewed %}<span class="btn jx-lock" title="Step 1 pending: view / download the resume first">🔒 Decide</span>
+    {% else %}
+    <details class="jx-pop dc">
+     <summary class="{{ 'jx-go' if ist=='Accepted' else '' }}">Decide</summary>
+     <form method="post" action="/admin/jobs/{{r.no}}/decision" onsubmit="return confirm('Final decision for #{{r.no}} ({{r.name}}) cannot be changed. Continue?')">
+      <p class="hint">{% if ist=='Accepted' %}Candidate accepted the interview.{% else %}Select unlocks after the candidate accepts the interview.{% endif %}</p>
+      {% if ist=='Accepted' %}<button class="jx-sel" name="result" value="Selected">★ Select</button>{% else %}<span class="btn jx-lock" style="margin-bottom:6px" title="Candidate has not accepted an interview yet">🔒 Select</span>{% endif %}
+      <button class="jx-rej" name="result" value="Rejected">✗ Reject</button>
+     </form>
+    </details>
+    {% endif %}
+   </div>
+
+   {# 5 · Delete (only when the process is closed) #}
+   <div>
+    {% if closed %}
+    <form method="post" action="/admin/jobs/{{r.no}}/delete" onsubmit="return confirm('Delete application #{{r.no}} ({{r.name}})? This cannot be undone.')"><button class="jx-del">Delete</button></form>
+    {% else %}<span class="btn jx-lock" title="Finish the steps first: resume → interview → reply → final decision">🔒 Delete</span>{% endif %}
+   </div>
+  </div>
+ </div>
+{% else %}
+ <div class="card empty">No job applications yet. New applications from the website / chatbot will appear here.</div>
+{% endfor %}
+
+<script>
+(function(){
+ var f='all',q='',rows=[].slice.call(document.querySelectorAll('.jx-row'));
+ function go(){rows.forEach(function(r){var okf=f==='all'||r.dataset.st===f,okq=!q||r.dataset.q.indexOf(q)>-1;r.style.display=okf&&okq?'':'none';});}
+ [].forEach.call(document.querySelectorAll('.jx-chip'),function(b){b.onclick=function(){f=b.dataset.f;[].forEach.call(document.querySelectorAll('.jx-chip'),function(x){x.classList.toggle('on',x===b)});go();};});
+ document.getElementById('jxq').oninput=function(){q=this.value.trim().toLowerCase();go();};
+ document.addEventListener('click',function(e){[].forEach.call(document.querySelectorAll('.jx-pop[open]'),function(d){if(!d.contains(e.target))d.removeAttribute('open');});});
+ // step 1 is recorded on the server when the resume opens - refresh so the next step unlocks
+ [].forEach.call(document.querySelectorAll('a.jx-rv.jx-go, .jx-row .jx-rv'),function(a){a.addEventListener('click',function(){
+   var row=a.closest('.jx-row'); if(!row||!row.querySelector('.jx-lock[title^="Step 1"]'))return;
+   if(a.classList.contains('jx-dl')) setTimeout(function(){location.reload()},1400);
+   else window.addEventListener('focus',function(){location.reload()},{once:true});
+ });});
+})();
+</script>
+{% endblock %}

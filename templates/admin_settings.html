@@ -1,0 +1,41 @@
+{% extends "base.html" %}{% block body %}
+<style>
+.st label{display:block;font-weight:bold;font-size:13.5px;margin:14px 0 4px}.st input[type=text],.st input[type=password],.st input[type=number]{width:100%;max-width:460px;box-sizing:border-box;padding:9px;border:1px solid #bbb;border-radius:6px;font-size:14px}
+.st .hint{font-size:12.5px;color:#666;margin-top:3px}.st h4{margin:22px 0 4px;border-bottom:1px solid #e3e3e3;padding-bottom:6px}
+.st .chk{display:flex;align-items:center;gap:8px;font-weight:bold;margin-top:12px}.st .chk input{width:18px;height:18px}
+.st .warn{background:#fff6e0;color:#8a5a00;padding:8px 10px;border-radius:6px;font-size:13px;margin-top:8px}.st .good{background:#e4f6ea;color:#14753c;padding:8px 10px;border-radius:6px;font-size:13px;margin-top:8px}
+</style>
+<div class="card st"><h3>Settings – Sales price mail</h3>
+<p class="hint">Enquiry aane par sales person ko mail jata hai (product available / not available). Wo price likhta hai to customer ko mail jata hai. Yahan ki settings turant lagu hoti hain, restart nahi chahiye.</p>
+<form method="post" autocomplete="off">
+
+<h4>1. Feature on / off</h4>
+<label class="chk"><input type="checkbox" name="SALES_QUOTE" {{'checked' if v.SALES_QUOTE!='0'}}> Sales person price mail ON</label>
+<div class="hint">Off karne par purana tarika chalta hai: customer ko sheet ka price seedha auto-mail hota hai.</div>
+{% if not smtp_ok %}<div class="warn">⚠ Mail bhejne ke liye .env me SMTP_HOST / SMTP_USER / SMTP_PASS chahiye – abhi set nahi hain, isliye ye feature kaam nahi karega.</div>{% endif %}
+
+<h4>2. Sales person kaun hai</h4>
+{% if sales %}<div class="good">Abhi sales mail in admins ko jata hai: {% for a in sales %}<b>{{a.name}}</b> ({{a.email}}){{', ' if not loop.last}}{% endfor %}</div>
+{% else %}<div class="warn">⚠ Abhi koi admin sales person nahi hai. <a href="/admin/admins">Admins</a> page par email save karke us admin ka <b>Sales mails</b> switch On kijiye.</div>{% endif %}
+<label>Extra email(s) (optional)</label><input type="text" name="SALES_MAIL" value="{{v.SALES_MAIL}}" placeholder="sales2@company.com, sales3@company.com">
+<div class="hint">Jin logon ka admin login nahi hai unko bhi sales mail dena ho to yahan likhiye (comma se alag).</div>
+
+<h4>3. Website address (mail ke button ke liye)</h4>
+<label>Public URL</label><input type="text" name="PUBLIC_URL" value="{{v.PUBLIC_URL}}" placeholder="https://chat.yourcompany.com">
+<div class="hint">Mail ka "Write price" button isi address par khulta hai. Ye wahi address hona chahiye jo internet par sabko khulta hai (QR wala). Abhi aap ye page <code>{{req_host}}</code> par khol rahe hain.
+{% if v.PUBLIC_URL.startswith('http://192.') or v.PUBLIC_URL.startswith('http://10.') or 'localhost' in v.PUBLIC_URL or not v.PUBLIC_URL %}<br><b style="color:#a52828">⚠ Ye local address lag raha hai – button sirf isi Wi-Fi par khulega.</b>{% endif %}</div>
+
+<h4>4. Reply karke price bhejna (optional)</h4>
+<label class="chk"><input type="checkbox" name="SALES_IMAP_POLL" {{'checked' if v.SALES_IMAP_POLL=='1'}}> Sales person mail ko Reply karke bhi price bhej sake</label>
+<div class="hint">Bot mailbox padhta hai. Gmail me Settings → Forwarding and POP/IMAP → IMAP ON hona chahiye, aur App Password lagta hai.</div>
+<label>IMAP server</label><input type="text" name="IMAP_HOST" value="{{v.IMAP_HOST}}" placeholder="imap.gmail.com">
+<label>IMAP port</label><input type="number" name="IMAP_PORT" value="{{v.IMAP_PORT}}">
+<label>IMAP email (mailbox jisme reply aata hai)</label><input type="text" name="IMAP_USER" value="{{v.IMAP_USER}}" placeholder="{{smtp_user or 'yourcompany@gmail.com'}}">
+<div class="hint">Khali chhodne par SMTP wala email use hota hai ({{smtp_user or 'not set'}}).</div>
+<label>IMAP password / App Password</label><input type="password" name="IMAP_PASS" placeholder="{{'•••••••• saved – naya likhne par hi badlega' if has_pass else 'khali = SMTP wala password'}}">
+{% if has_pass %}<label class="chk" style="font-weight:normal"><input type="checkbox" name="clear_pass"> Saved password hata do</label>{% endif %}
+<label>Mailbox kitne second me check ho</label><input type="number" name="SALES_POLL_SECONDS" min="10" value="{{v.SALES_POLL_SECONDS}}">
+
+<p style="margin-top:22px"><button class="btn add" type="submit">💾 Save settings</button></p>
+</form></div>
+{% endblock %}

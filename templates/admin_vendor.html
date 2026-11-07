@@ -1,0 +1,66 @@
+{% extends "base.html" %}{% block body %}
+{% set bc = {'New':'b-new','Verified':'b-quoted','Approved':'b-ok','Rejected':'b-bad'} %}
+{% set files = v.files or {} %}
+<style>
+ .vd h4{margin:0 0 10px;padding:7px 12px;background:#26399e;color:#fff;border-radius:8px;font-size:13px;letter-spacing:.04em}
+ .vg{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px 18px}
+ .vg div{min-width:0}.vg small{display:block;font-weight:700;text-transform:uppercase;font-size:10.5px;letter-spacing:.05em;color:#696e8a}.vg span{display:block;word-break:break-word;white-space:pre-line}
+ .vg .w{grid-column:1/-1}
+ .ofc{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:4px 14px}.ofc label{font-size:12px;font-weight:700;color:#474f7b}.ofc input,.ofc select,.ofc textarea{display:block;width:100%;margin:3px 0 0}
+</style>
+<div class="card">
+ <div class="row" style="justify-content:space-between">
+  <div class="row"><a class="btn s g" href="/admin/vendors">⬅ All vendors</a>
+   <h3 style="margin:0 6px">#{{v.no}} · {{vn.firm(v)}}</h3><span class="badge {{bc.get(v.status or 'New','b-new')}}">{{v.status or 'New'}}</span>
+   {% if v.vendor_code %}<span class="badge b-ok">Code: {{v.vendor_code}}</span>{% endif %}</div>
+  <div class="row"><a class="btn" href="/admin/vendors/{{v.no}}.pdf">⬇ Download PDF form</a>
+   <form method="post" action="/admin/vendors/{{v.no}}/delete" onsubmit="return confirm('Delete vendor registration #{{v.no}} and its uploaded documents?')"><button class="s" style="background:#d64545">✕ Delete</button></form></div>
+ </div>
+ <small>Reference {{vn.ref(v)}} · received {{v.created.strftime('%d-%m-%Y %H:%M') if v.created else '-'}} · via {{v.source}}</small>
+</div>
+
+<div class="card vd"><h4>1. COMPANY INFORMATION</h4><div class="vg">
+ <div class="w"><small>Name of Firm / Company</small><span>{{vn.firm(v)}}</span></div>
+ <div><small>Type of the Firm</small><span>{{v.constitution or '-'}}</span></div><div><small>Type of Vendor</small><span>{{v.vtype or '-'}}</span></div>
+ <div><small>Country</small><span>{{v.country or 'India'}}</span></div><div><small>Status of Company</small><span>{{v.cstatus or '-'}}</span></div>
+ <div><small>Contact Person</small><span>{{vn.contact(v)}}</span></div><div><small>Designation</small><span>{{v.designation or '-'}}</span></div>
+ <div class="w"><small>Registered Address</small><span>{{v.address or v.city or '-'}}</span></div>
+ <div><small>City</small><span>{{v.city or '-'}}</span></div><div><small>State</small><span>{{v.state or '-'}}</span></div><div><small>PIN Code</small><span>{{v.pin or '-'}}</span></div>
+ <div><small>Mobile No.</small><span>{{vn.mobile(v)}}</span></div><div><small>Landline</small><span>{{v.landline or '-'}}</span></div><div><small>Email</small><span>{{v.email or '-'}}</span></div>
+ <div><small>Website</small><span>{{v.website or '-'}}</span></div><div><small>Year of Establishment</small><span>{{v.year or v.years or '-'}}</span></div></div></div>
+
+<div class="card vd"><h4>2. STATUTORY DETAILS</h4><div class="vg">
+ <div><small>PAN No.</small><span>{{v.pan or '-'}}</span></div><div><small>GST No.</small><span>{{v.gst or '-'}}</span></div>
+ <div><small>MSME / Udyam Reg. No.</small><span>{{v.udyam or '-'}}</span></div><div><small>CIN / Registration No.</small><span>{{v.cin or '-'}}</span></div></div></div>
+
+<div class="card vd"><h4>3. BANK DETAILS</h4><div class="vg">
+ <div><small>Account Holder Name</small><span>{{v.acc_name or '-'}}</span></div><div><small>Bank Name</small><span>{{v.bank or '-'}}</span></div>
+ <div><small>Account No.</small><span>{{v.acc_no or '-'}}</span></div><div><small>IFSC Code</small><span>{{v.ifsc or '-'}}</span></div>
+ <div><small>Account Type</small><span>{{v.acc_type or '-'}}</span></div><div class="w"><small>Branch Name &amp; Address</small><span>{{v.branch or '-'}}</span></div></div></div>
+
+<div class="card vd"><h4>4. BUSINESS DETAILS</h4><div class="vg">
+ <div class="w"><small>Products / Services Offered</small><span>{{vn.products(v)}}</span></div>
+ <div class="w"><small>Major Clients / References</small><span>{{v.clients or '-'}}</span></div>
+ <div><small>Annual Turnover (last FY)</small><span>{{v.turnover or '-'}}</span></div><div><small>Payment Terms Offered</small><span>{{v.pay_terms or '-'}}</span></div></div></div>
+
+<div class="card vd"><h4>5. DOCUMENTS ENCLOSED</h4><div class="vg">
+ {% for k, lb in vn.DOCS %}<div><small>{{lb}}</small><span>{% if k in files %}✅ <a href="/admin/vendors/{{v.no}}/file/{{k}}" target="_blank" rel="noopener">View</a> · <a href="/admin/vendors/{{v.no}}/file/{{k}}?dl=1">Download</a> <small style="display:inline;text-transform:none">({{(files[k].size/1024)|round|int}} KB)</small>{% else %}<span class="mute">☐ Not uploaded</span>{% endif %}</span></div>{% endfor %}</div></div>
+
+<div class="card vd"><h4>6. DECLARATION</h4><div class="vg">
+ <div class="w"><span>{% if v.agree %}☑ Declaration accepted online.{% else %}<span class="mute">Not recorded (older registration).</span>{% endif %}</span></div>
+ <div><small>Authorised Signatory</small><span>{{v.signatory or '-'}}</span></div><div><small>Designation</small><span>{{v.sig_desig or '-'}}</span></div><div><small>Place</small><span>{{v.place or '-'}}</span></div>
+ <div><small>Signature &amp; Company Seal</small><span>{% if 'signature' in files %}✅ <a href="/admin/vendors/{{v.no}}/file/signature" target="_blank" rel="noopener">View</a>{% else %}<span class="mute">Not uploaded</span>{% endif %}</span></div></div></div>
+
+<form class="card vd" method="post" action="/admin/vendors/{{v.no}}/office"><h4 style="background:#576094">FOR OFFICE USE ONLY</h4>
+ <div class="ofc">
+  <div><label>Vendor Code</label><input name="vendor_code" value="{{v.vendor_code or ''}}" maxlength="30" placeholder="e.g. V-0001"></div>
+  <div><label>Verified by</label><input name="verified_by" value="{{v.verified_by or ''}}" maxlength="60"></div>
+  <div><label>Approved by</label><input name="approved_by" value="{{v.approved_by or ''}}" maxlength="60"></div>
+  <div><label>Date</label><input name="office_date" value="{{v.office_date or ''}}" maxlength="20" placeholder="DD-MM-YYYY"></div>
+  <div><label>Status</label><select name="status">{% for st in vn.STATUSES %}<option {{'selected' if (v.status or 'New')==st}}>{{st}}</option>{% endfor %}</select></div>
+ </div>
+ <label style="font-size:12px;font-weight:700;color:#474f7b;display:block;margin-top:6px">Internal note (not shown to the vendor or printed)</label>
+ <textarea name="office_note" rows="2" maxlength="500" style="width:100%">{{v.office_note or ''}}</textarea>
+ <button style="margin-top:6px">Save office details</button>
+</form>
+{% endblock %}

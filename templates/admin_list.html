@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block body %}
+<div class="card"><h3 style="margin:0">{{title}} ({{rows|length}})</h3></div>
+<div class="card"><table><tr><th>#</th><th>Date</th><th>Name</th><th>Contact</th><th>Details</th><th>Source</th></tr>
+{% for r in rows %}<tr><td>{{r.no}}</td><td>{{r.created.strftime('%d-%m-%y %H:%M') if r.created else '-'}}</td><td><b>{{r.name}}</b>{% if r.company %}<br>{{r.company}}{% endif %}</td>
+<td>{{r.phone}}<br>{{r.email or ''}}<br>{{r.city or ''}}</td>
+<td>{% if col=='jobs' %}<b>{{r.position}}</b><br>{{r.qualification or ''}} {{r.experience or ''}}<br>{{r.note or ''}}{% if r.resume %}<br><a href="{{ url_for('job_resume', no=r.no) }}" target="_blank">📄 Resume (PDF)</a> · <a href="{{ url_for('job_resume', no=r.no, dl=1) }}">Download</a>{% endif %}{% else %}GST: {{r.gst or '-'}}<br>{{r.supplies}}<br>{{r.years or ''}} yrs{% endif %}</td><td>{{r.source}}</td></tr>
+{% else %}<tr><td colspan=6>Nothing yet.</td></tr>{% endfor %}</table></div>{% endblock %}

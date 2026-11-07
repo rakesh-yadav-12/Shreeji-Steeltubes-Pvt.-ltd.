@@ -1,0 +1,28 @@
+{% extends "base.html" %}{% block title %}Resume #{{j.no}} · {% endblock %}{% block body %}
+<div class="card" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+ <div><h3 style="margin:0">Resume · {{j.name}}</h3>
+  <div class="mute" style="margin-top:2px">Application #{{j.no}} · {{j.position or '-'}} · {{j.phone or ''}}{% if j.email %} · {{j.email}}{% endif %}{% if j.city %} · {{j.city}}{% endif %}</div></div>
+ <div class="noprint">
+  {% if has %}<a class="btn" href="/admin/jobs/{{j.no}}/resume/file?dl=1">&#11015; Download</a> <a class="btn g" href="/admin/jobs/{{j.no}}/resume/file" target="_blank" rel="noopener">Open in new tab &#8599;</a> {% endif %}
+  <a class="btn g" href="/admin/jobs">&larr; All applications</a></div>
+</div>
+{% if not has %}
+<div class="card"><b>No resume file was uploaded for this application.</b>
+ {% if j.note %}<p>Applicant's note / resume link:</p><p style="white-space:pre-wrap;word-break:break-word">{{j.note}}</p>{% endif %}</div>
+{% elif ext == '.pdf' %}
+<div class="card" style="padding:0;overflow:hidden">
+ <object data="/admin/jobs/{{j.no}}/resume/file" type="application/pdf" style="width:100%;height:82vh;display:block">
+  <div style="padding:22px;text-align:center"><p>Your browser cannot show the PDF here.</p>
+   <a class="btn" href="/admin/jobs/{{j.no}}/resume/file" target="_blank" rel="noopener">Open resume</a>
+   <a class="btn g" href="/admin/jobs/{{j.no}}/resume/file?dl=1">&#11015; Download</a></div>
+ </object>
+</div>
+{% else %}
+<div class="card" style="text-align:center;padding:34px 18px">
+ <div style="font-size:42px">&#128196;</div>
+ <p><b>{{j.resume.name}}</b><br><span class="mute">{{ext[1:]|upper}} file · {{ ((j.resume.size or 0)/1024)|round|int }} KB</span></p>
+ <p class="mute">Word files cannot be previewed in the browser. Please download to read it.</p>
+ <a class="btn" href="/admin/jobs/{{j.no}}/resume/file?dl=1">&#11015; Download {{ext[1:]|upper}}</a>
+</div>
+{% endif %}
+{% endblock %}

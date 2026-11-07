@@ -1,0 +1,129 @@
+{% extends "base.html" %}{% block body %}
+{# ===== Customers page: layout/styling only. Route and data are unchanged. ===== #}
+<style>
+.cu{--cu-ink:#1c2035;--cu-mute:#696e8a;--cu-line:#e5e7f5;--cu-soft:#f5f7ff}
+.cu-bar{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:12px;box-shadow:0 1px 2px #16215e0d}
+.cu-search{display:flex;gap:8px}
+.cu-search .box{position:relative;flex:1;min-width:0}
+.cu-search .box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#888eb0;pointer-events:none}
+.cu-search input{width:100%;margin:0;padding:10px 12px 10px 38px;background:#fff}
+.cu-search button,.cu-search a{margin:0;padding:10px 20px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;display:inline-flex;align-items:center}
+.cu-search a{background:#edeffc;color:var(--blue)}
+.cu-count{margin:0 2px 10px;color:var(--cu-mute);font-size:13px}
+.cu-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:0 1px 2px #16215e0d,0 6px 18px #16215e0a;overflow:hidden}
+.cu-scroll{overflow-x:auto}
+.cu-t{width:100%;border-collapse:collapse;font-size:13.5px}
+.cu-t th:first-child,.cu-t td:first-child{padding-left:14px}.cu-t th:last-child,.cu-t td:last-child{padding-right:14px}
+.cu-t th{background:var(--cu-soft);color:#575e88;font-size:12px;font-weight:700;text-transform:none;letter-spacing:0;padding:11px 10px;border-bottom:1px solid var(--cu-line);text-align:left;white-space:nowrap;position:static}
+.cu-t td{padding:12px 10px;border-bottom:1px solid var(--cu-line);vertical-align:middle}
+.cu-t tbody tr:last-child td{border-bottom:0}
+.cu-t tbody tr:hover td{background:#f9faff}
+.cu-t .n{width:34px;color:#888eb0;font-weight:600}
+.cu-who{display:flex;align-items:center;gap:10px;min-width:0}
+.cu-av{flex:none;width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;background:var(--blue)}
+.cu-av.c1{background:#f15307}.cu-av.c2{background:#1f9d55}.cu-av.c3{background:#7a4fd6}.cu-av.c4{background:#0b8fb3}
+.cu-nm{min-width:0;line-height:1.3}
+.cu-nm b{display:block;color:var(--cu-ink);font-weight:700;overflow-wrap:anywhere}
+.cu-nm span{display:block;color:var(--cu-mute);font-size:12.5px;overflow-wrap:anywhere}
+.cu-ph{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px}.cu-ph a.p{white-space:nowrap}
+.cu-ph a.p{color:var(--cu-ink);text-decoration:none;font-weight:600}
+.cu-ph a.p:hover{color:var(--blue);text-decoration:underline}
+.cu-wa{display:inline-flex;align-items:center;justify-content:center;padding:2px 9px;border-radius:20px;background:#e8f8ee;border:1px solid #bfe8cf;color:#14753c;font-size:11.5px;font-weight:700;text-decoration:none}
+.cu-wa:hover{background:#d9f3e4}
+.cu-ids{display:flex;flex-direction:column;gap:3px;font-size:12.5px;line-height:1.35}
+.cu-ids span{color:var(--cu-mute);white-space:nowrap}.cu-ids b{color:var(--cu-ink);font-weight:600}
+.cu-reps{display:flex;flex-direction:column;gap:5px}
+.cu-rep{display:inline-flex;align-items:baseline;gap:6px;font-size:12.5px;color:var(--cu-ink);line-height:1.3}
+.cu-rep i{font-style:normal;font-size:11px;font-weight:700;padding:1px 8px;border-radius:20px;background:#e6eaff;color:#26399e}
+.cu-rep small{color:var(--cu-mute)}
+.cu-src{display:inline-block;padding:2px 10px;border-radius:20px;background:#ebedf6;color:#474f7b;font-size:12px;font-weight:600;text-transform:capitalize}
+.cu-dt{line-height:1.3;white-space:nowrap}.cu-dt b{display:block;font-weight:600;color:var(--cu-ink)}.cu-dt span{color:var(--cu-mute);font-size:12.5px}
+.cu-en{display:inline-flex;align-items:center;justify-content:center;min-width:32px;padding:3px 10px;border-radius:20px;font-weight:800;font-size:12.5px;text-decoration:none;background:#e6eaff;color:#26399e}
+a.cu-en:hover{background:#d2d9ff}
+.cu-en.zero{background:#ebedf6;color:#888eb0;font-weight:600}
+.cu-t td.act{width:52px;text-align:right}
+.cu-t td.act form{margin:0}
+.cu-del{display:inline-flex;align-items:center;justify-content:center;margin:0;padding:7px 9px;border-radius:9px;background:#fff;border:1px solid #f1c9c9;color:var(--bad);cursor:pointer}
+.cu-del:hover{background:#fde1e1;filter:none}
+.nil{color:#a1a6c2}
+.cu-empty{padding:46px 20px;text-align:center;color:var(--cu-mute)}
+.cu-empty b{display:block;font-size:16px;color:var(--cu-ink);margin-bottom:4px}
+/* mobile: every row becomes a small card */
+@media(max-width:860px){
+ .cu-search{flex-wrap:wrap}.cu-search .box{flex:1 1 100%}.cu-search button,.cu-search a{flex:1;justify-content:center}
+ .cu-wrap{background:transparent;border:0;box-shadow:none;overflow:visible}
+ .cu-t,.cu-t tbody,.cu-t tr,.cu-t td{display:block;width:100%}
+ .cu-t thead{display:none}
+ .cu-t tr{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:0 1px 2px #16215e0d;margin-bottom:10px;padding:6px 0}
+ .cu-t td{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:8px 14px;border:0!important}
+ .cu-t td::before{content:attr(data-l);flex:none;font-size:11.5px;font-weight:700;color:#888eb0}
+ .cu-t td.n{display:none}
+ .cu-t td.act{width:100%;text-align:left;border-top:1px solid var(--cu-line)!important;margin-top:4px;padding-top:10px}
+ .cu-t td.who{display:block;padding:10px 14px 8px;border-bottom:1px solid var(--cu-line)!important}
+ .cu-t td.who::before{display:none}
+ .cu-t tbody tr:hover td{background:transparent}
+ .cu-ids,.cu-reps{align-items:flex-end;text-align:right}
+}
+.cu-t td.ck,.cu-t th.ck{width:34px;text-align:right}
+.cu-t input[type=checkbox],.cu-bulk input[type=checkbox]{width:16px;height:16px;margin:0;cursor:pointer;accent-color:var(--blue)}
+.cu-t tr.sel td{background:#f3f5ff}
+.cu-bulk{display:flex;align-items:center;justify-content:flex-end;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 14px;margin:0 0 10px;box-shadow:0 1px 2px #16215e0d}
+.cu-bulk label{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--cu-ink);cursor:pointer;margin:0}
+.cu-bulk .cnt{font-size:13px;color:var(--cu-mute)}
+.cu-bulk button{margin:0;padding:7px 14px;border-radius:9px;background:#fff;border:1px solid #f1c9c9;color:var(--bad);font-weight:600;font-size:12.5px;cursor:pointer}
+.cu-bulk button:hover{background:#fde1e1;filter:none}.cu-bulk button:disabled{opacity:.45;cursor:not-allowed}
+</style>
+
+<div class="cu">
+ <div class="cu-bar">
+  <form class="cu-search" method="get">
+   <div class="box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+   <input name="q" value="{{q}}" placeholder="Search by name, company, GST or phone number" aria-label="Search customers"></div>
+   <button type="submit">Search</button>{% if q %}<a href="/admin/customers">Clear</a>{% endif %}
+  </form>
+ </div>
+ <form id="cu-bulkf" method="post" action="/admin/customers/bulk-delete"><input type="hidden" name="q" value="{{q}}"></form>
+ {% if rows %}<div class="cu-bulk">
+  <span class="cnt" id="cu-cnt">0 selected</span>
+  <button type="submit" form="cu-bulkf" id="cu-del" disabled>🗑 Delete selected</button>
+  <label>Select all <input type="checkbox" id="cu-selall"></label>
+ </div>{% endif %}
+ <div class="cu-count">{% if rows|length %}{{rows|length}} customer{{'' if rows|length==1 else 's'}} who started a chat{% if q %} · matching “{{q}}”{% endif %}{% endif %}</div>
+
+ <div class="cu-wrap">
+ {% if rows %}
+ <div class="cu-scroll"><table class="cu-t">
+  <thead><tr><th>#</th><th>Customer</th><th>Contact</th><th>GST / UC</th><th>Representatives</th><th>Source</th><th>Started</th><th>Enquiries</th><th class="ck" aria-label="Select"></th></tr></thead>
+  <tbody>
+  {% for c in rows %}{% set ph = (c.phone or '')|replace('+','')|replace(' ','') %}
+  <tr>
+   <td class="n" data-l="#">{{loop.index}}</td>
+   <td class="who" data-l="Customer"><div class="cu-who"><span class="cu-av c{{(c.name or '?')|length % 5}}">{{((c.name or '?')|trim)[:1]|upper}}</span><div class="cu-nm"><b>{{c.name or '—'}}</b><span>{{c.company if c.company and c.company!='-' else 'No company'}}</span></div></div></td>
+   <td data-l="Contact">{% if ph and ph!='-' %}<div class="cu-ph"><a class="p" href="tel:+{{ph}}">{{c.phone}}</a><a class="cu-wa" href="https://wa.me/{{ph}}" target="_blank" rel="noopener" title="Open WhatsApp chat">WhatsApp</a></div>{% else %}<span class="nil">—</span>{% endif %}</td>
+   <td data-l="GST / UC">{% set g = c.gst if c.gst and c.gst!='-' else '' %}{% set u = c.uc_code if c.uc_code and c.uc_code!='-' else '' %}{% set pa = c.portal_access if c.portal_access and c.portal_access!='-' else '' %}
+    {% if g or u or pa %}<div class="cu-ids">{% if g %}<span>GST <b>{{g}}</b></span>{% endif %}{% if u %}<span>UC <b>{{u}}</b></span>{% endif %}{% if pa %}<span>Portal <b>{{pa}}</b></span>{% endif %}</div>{% else %}<span class="nil">—</span>{% endif %}</td>
+   <td data-l="Representatives">{% if c.reps %}<div class="cu-reps">{% for k,r in c.reps.items() %}<span class="cu-rep"><i>{{k|title}}</i>{{r.name or '-'}}{% if r.mobile %} <small>{{r.mobile}}</small>{% endif %}</span>{% endfor %}</div>{% else %}<span class="nil">—</span>{% endif %}</td>
+   <td data-l="Source"><span class="cu-src">{{c.source or '—'}}</span></td>
+   <td data-l="Started">{% if c.created %}<div class="cu-dt"><b>{{c.created.strftime('%d %b %y')}}</b><span>{{c.created.strftime('%H:%M')}}</span></div>{% else %}<span class="nil">—</span>{% endif %}</td>
+   <td data-l="Enquiries">{% if c.enq_count %}<a class="cu-en" href="/admin/enquiries?q={{ph}}" title="View this customer's enquiries">{{c.enq_count}}</a>{% else %}<span class="cu-en zero">0</span>{% endif %}</td>
+   <td class="ck" data-l="Select"><input type="checkbox" class="cu-ck" name="ids" value="{{c._id}}" form="cu-bulkf" aria-label="Select customer {{c.name}}"></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+ </table></div>
+ {% else %}
+ <div class="cu-empty"><b>No customers found</b>{% if q %}Try a different search or <a href="/admin/customers">clear the search</a>.{% else %}Customers appear here as soon as they start a chat.{% endif %}</div>
+ {% endif %}
+ </div>
+</div>
+<script>
+(function(){var cks=[].slice.call(document.querySelectorAll('.cu-ck')),all=document.getElementById('cu-selall'),cnt=document.getElementById('cu-cnt'),btn=document.getElementById('cu-del'),f=document.getElementById('cu-bulkf');
+if(!all)return;function n(){return cks.filter(function(c){return c.checked}).length}
+function upd(){var k=n();cks.forEach(function(c){c.closest('tr').classList.toggle('sel',c.checked)});all.checked=k>0&&k===cks.length;all.indeterminate=k>0&&k<cks.length;cnt.textContent=k+' selected';btn.disabled=!k}
+all.addEventListener('change',function(){cks.forEach(function(c){c.checked=all.checked});upd()});
+cks.forEach(function(c){c.addEventListener('change',upd)});
+f.addEventListener('submit',function(e){var k=n();if(!k){e.preventDefault();return}
+ if(!confirm('Delete '+k+' customer'+(k===1?'':'s')+'?\nTheir enquiries stay in the Enquiries list.'))e.preventDefault()});
+upd()})();
+</script>
+{% endblock %}

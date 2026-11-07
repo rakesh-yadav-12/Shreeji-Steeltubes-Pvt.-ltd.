@@ -1,0 +1,42 @@
+# /etc/nginx/conf.d/srj.conf  (example - change server_name and paths)
+proxy_cache_path /var/cache/nginx/srj levels=1:2 keys_zone=srj:50m max_size=500m inactive=10m use_temp_path=off;
+limit_req_zone $binary_remote_addr zone=chat:20m rate=20r/s;
+
+upstream srj_app { server 127.0.0.1:8000; keepalive 256; }
+
+server {
+    listen 80 reuseport backlog=8192;
+    server_name your-domain.com;
+    # (add listen 443 ssl http2 + certificates for HTTPS)
+    client_max_body_size 60m;     # Vendor Registration form uploads (up to 7 documents x 3 MB); nginx's default of 1 MB would reject them
+
+    gzip on; gzip_comp_level 5; gzip_min_length 512;
+    gzip_types text/css application/javascript application/json image/svg+xml text/plain;
+    open_file_cache max=5000 inactive=60s;
+    sendfile on; tcp_nopush on; tcp_nodelay on;
+
+    # static files straight from disk by nginx (never touches Python)
+    location /static/        { alias /path/to/srj_whatsapp_bot/static/;  expires 7d; access_log off; add_header Cache-Control "public, immutable"; }
+    location /catalog-files/ { alias /path/to/srj_whatsapp_bot/catalog/; expires 7d; access_log off; }
+    location /files/         { alias /path/to/srj_whatsapp_bot/uploads/; expires 1d; access_log off; }
+
+    # chatbot messages are dynamic (Mongo) - protect them with a rate limit
+    location /chat/ {
+        limit_req zone=chat burst=60 nodelay;
+        proxy_pass http://srj_app; proxy_http_version 1.1; proxy_set_header Connection "";
+        proxy_set_header Host $host; proxy_set_header X-Forwarded-For $remote_addr;
+    }
+
+    # home page: cached by nginx for 30s for visitors without a session cookie
+    location = / {
+        proxy_cache srj; proxy_cache_valid 200 30s; proxy_cache_lock on; proxy_cache_use_stale updating error timeout;
+        proxy_no_cache $cookie_session; proxy_cache_bypass $cookie_session;
+        proxy_pass http://srj_app; proxy_http_version 1.1; proxy_set_header Connection "";
+        proxy_set_header Host $host;
+    }
+
+    location / {
+        proxy_pass http://srj_app; proxy_http_version 1.1; proxy_set_header Connection "";
+        proxy_set_header Host $host; proxy_set_header X-Forwarded-For $remote_addr;
+    }
+}

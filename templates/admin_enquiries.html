@@ -1,0 +1,261 @@
+{% extends "base.html" %}{% block body %}
+{# ===== Enquiries page: layout/styling only. Routes, form actions and field names are unchanged. ===== #}
+<style>
+.eq{--eq-ink:#1c2035;--eq-mute:#696e8a;--eq-line:#e5e7f5;--eq-soft:#f5f7ff}
+/* toolbar */
+.eq-bar{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;box-shadow:0 1px 2px #16215e0d}
+.eq-bar-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.eq-tabs{display:inline-flex;background:var(--eq-soft);border:1px solid var(--eq-line);border-radius:12px;padding:3px;gap:2px;flex-wrap:wrap}
+.eq-tab{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:9px;color:#474f7b;text-decoration:none;font-weight:600;font-size:13px;white-space:nowrap}
+.eq-tab:hover{background:#fff}
+.eq-tab em{font-style:normal;font-size:12px;font-weight:700;background:#e2e5f7;color:#474f7b;border-radius:20px;padding:1px 8px;min-width:22px;text-align:center}
+.eq-tab.on{background:var(--blue);color:#fff;box-shadow:0 2px 6px #26399e40}
+.eq-tab.on em{background:#ffffff30;color:#fff}
+.eq-exp{display:flex;gap:8px}
+.eq-exp a{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:10px;background:#fff;border:1px solid #d3d7ec;color:var(--blue);font-weight:600;font-size:13px;text-decoration:none}
+.eq-exp a:hover{background:var(--eq-soft)}
+.eq-search{display:flex;gap:8px;margin-top:12px}
+.eq-search .box{position:relative;flex:1;min-width:0}
+.eq-search .box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#888eb0;pointer-events:none}
+.eq-search input{width:100%;margin:0;padding:10px 12px 10px 38px;background:#fff}
+.eq-search button,.eq-search a{margin:0;padding:10px 20px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;display:inline-flex;align-items:center}
+.eq-search a{background:#edeffc;color:var(--blue)}
+.eq-count{margin:0 2px 10px;color:var(--eq-mute);font-size:13px}
+/* enquiry = one compact row; details open on hover (tap on touch screens) */
+.eq-list{display:flex;flex-direction:column;gap:6px}
+.eq-card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:12px;box-shadow:0 1px 2px #16215e0d;overflow:hidden;transition:box-shadow .18s,border-color .18s}
+.eq-card.s-New{border-left-color:var(--orange)}.eq-card.s-Quoted{border-left-color:#e0a21b}.eq-card.s-Closed{border-left-color:var(--ok)}
+.eq-card:hover,.eq-card:focus-within,.eq-card.open{box-shadow:0 8px 24px #16215e22}
+.eq-row{display:grid;grid-template-columns:46px 96px minmax(0,1.15fr) minmax(0,1.5fr) 92px 92px 54px auto 18px;align-items:center;gap:12px;padding:9px 14px;min-height:54px;cursor:default}
+.eq-card:hover .eq-row,.eq-card:focus-within .eq-row,.eq-card.open .eq-row{background:var(--eq-soft)}
+.eq-no{font-weight:800;font-size:14px;color:var(--blue2)}
+.eq-dt{font-size:12.5px;line-height:1.3;color:var(--eq-mute)}.eq-dt b{display:block;color:var(--eq-ink);font-weight:600}
+.eq-cu,.eq-pr{display:flex;flex-direction:column;min-width:0;line-height:1.3}
+.eq-cu b,.eq-pr b{font-size:14px;color:var(--eq-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eq-cu small,.eq-pr small{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eq-q{font-weight:700;font-size:13.5px;color:var(--eq-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eq-dl{font-size:12.5px;color:var(--eq-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eq-dl.imm{color:#a13603;font-weight:700}
+.eq-nf{display:flex;gap:5px}
+.eq-dot{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;background:#ebedf6;color:#696e8a}
+.eq-dot.ok{background:#dcf5e6;color:#14753c}.eq-dot.bad{background:#fde1e1;color:#a52828}.eq-dot.new{background:#e6eaff;color:#26399e}
+.eq-chev{width:18px;height:18px;color:#888eb0;transition:transform .2s}
+.eq-card:hover .eq-chev,.eq-card:focus-within .eq-chev,.eq-card.open .eq-chev{transform:rotate(180deg)}
+.eq-acts{display:flex;align-items:center;gap:6px}
+.eq-acts form{margin:0}
+.eq-acts select.st{margin:0;padding:6px 12px;font-size:12.5px}
+.eq-ib{display:inline-flex;align-items:center;gap:6px;margin:0;padding:6px 11px;border-radius:9px;background:#fff;border:1px solid #d3d7ec;color:var(--blue);font-weight:600;font-size:12.5px;text-decoration:none;cursor:pointer}
+.eq-ib:hover{background:#edeffc;filter:none}
+.eq-ib.del{padding:6px 8px;color:var(--bad);border-color:#f1c9c9}
+.eq-ib.del:hover{background:#fde1e1}
+/* details: collapsed by default, smooth open/close */
+.eq-det{display:grid;grid-template-rows:0fr;transition:grid-template-rows .2s ease}
+.eq-det>div{overflow:hidden;min-height:0}
+.eq-card:hover .eq-det,.eq-card:focus-within .eq-det,.eq-card.open .eq-det{grid-template-rows:1fr}
+.eq-det-in{border-top:1px solid var(--eq-line)}
+@media(prefers-reduced-motion:reduce){.eq-det,.eq-chev{transition:none}}
+/* details = read-only form */
+.eq-form{padding:0}
+.eq-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);align-items:stretch}
+.eq-cols>.eq-sec:first-child{border-right:3px solid #cdd2f2}
+.eq-rcol{min-width:0;display:flex;flex-direction:column}
+.eq-sec{margin:0;background:#fff}
+.eq-sec+.eq-sec{border-top:3px solid #cdd2f2}
+.eq-sec>h4{margin:0;padding:10px 16px;font-size:13px;font-weight:800;color:var(--blue2);background:#e9ecfd;border-bottom:1px solid #d3d7ec;display:flex;align-items:center;gap:8px}
+.eq-rcol>.eq-sec>h4{background:#ffeee6;color:#973506;border-bottom-color:#f8cdb8}
+.eq-sec>.eq-grid{padding:14px 16px 16px}
+.eq-grid{display:grid;gap:10px 14px}
+.eq-grid.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.eq-grid.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.eq-f{min-width:0}.eq-f.w2{grid-column:span 2}.eq-f.w4{grid-column:1/-1}
+.eq-fl{display:block;font-size:11.5px;font-weight:600;color:#696e8a;margin-bottom:4px}
+.eq-fv{min-height:38px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:7px 12px;border:1px solid #dee1f2;border-radius:9px;background:#f6f8ff;color:var(--eq-ink);font-size:13.5px;font-weight:600;overflow-wrap:anywhere}
+.eq-fv.nil{color:#a1a6c2;font-weight:400}
+.eq-fv.big{font-size:15px;font-weight:800}
+.eq-fv.note{background:#fff8e6;border-color:#f3e2a8;color:#6b5200;font-weight:500}
+.eq-fv.imm{background:#ffe7db;border-color:#f8c7b0;color:#a13603}
+.eq-fv .eq-pill{padding:1px 10px;font-size:12px}
+.eq-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:20px;font-size:12.5px;font-weight:600;text-decoration:none;border:1px solid #d3d7ec;color:var(--blue);background:#fff}
+.eq-pill:hover{background:#edeffc}
+.eq-pill.wa{background:#e8f8ee;border-color:#bfe8cf;color:#14753c}.eq-pill.wa:hover{background:#d9f3e4}
+/* notification footer */
+.eq-foot{display:flex;gap:10px 28px;flex-wrap:wrap;align-items:center;padding:10px 16px;border-top:1px solid var(--eq-line);background:#fcfcff}
+.eq-nt{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--eq-mute)}
+.eq-nt form{margin:0}
+.eq-nt .rs{margin:0;padding:3px 10px;border-radius:8px;background:#fff;border:1px solid #d3d7ec;color:var(--blue);font-size:12px;font-weight:600;cursor:pointer}
+.eq-nt .rs:hover{background:#edeffc;filter:none}
+.eq-empty{background:#fff;border:1px dashed #cdd2ec;border-radius:var(--r);text-align:center;padding:46px 20px;color:var(--eq-mute)}
+.eq-empty b{display:block;font-size:16px;color:var(--eq-ink);margin-bottom:4px}
+@media(max-width:1100px){
+ .eq-cols{grid-template-columns:minmax(0,1fr)}.eq-cols>.eq-sec:first-child{border-right:0;border-bottom:3px solid #cdd2f2}
+ .eq-row{grid-template-columns:46px minmax(0,1fr) minmax(0,1.3fr) 84px auto 18px}
+ .eq-dt,.eq-dl,.eq-nf{display:none}
+}
+@media(max-width:700px){
+ .eq-grid.g2,.eq-grid.g3{grid-template-columns:minmax(0,1fr)}.eq-f.w2,.eq-f.w4{grid-column:auto}
+ .eq-row{grid-template-columns:40px minmax(0,1fr) auto 18px;grid-template-areas:"no cu q chev" "pr pr pr pr" "acts acts acts acts";row-gap:6px;padding:10px 12px}
+ .eq-no{grid-area:no}.eq-cu{grid-area:cu}.eq-q{grid-area:q}.eq-chev{grid-area:chev}.eq-pr{grid-area:pr}.eq-acts{grid-area:acts}
+ .eq-acts .eq-ib.pdf{margin-left:auto}
+ .eq-bar-top{align-items:stretch}.eq-exp{width:100%}.eq-exp a{flex:1;justify-content:center}
+ .eq-tabs{width:100%}.eq-tab{flex:1;justify-content:center;padding:7px 8px}
+ .eq-search{flex-wrap:wrap}.eq-search .box{flex:1 1 100%}.eq-search button,.eq-search a{flex:1;justify-content:center}
+}
+.eq-pg{display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;margin:16px 0 4px}
+.eq-pg a,.eq-pg span{min-width:36px;padding:8px 12px;border-radius:10px;border:1px solid #d3d7ec;background:#fff;color:var(--blue);font-weight:600;font-size:13px;text-decoration:none;text-align:center}
+.eq-pg a:hover{background:var(--eq-soft)}.eq-pg .on{background:var(--blue);color:#fff;border-color:var(--blue)}.eq-pg .dis{color:#a1a6c2;background:var(--eq-soft)}.eq-pg .gap{border:0;background:none;color:#888eb0;min-width:0;padding:8px 2px}
+.eq-card{position:relative}
+.eq-card .eq-row{padding-right:42px}
+.eq-ck{position:absolute;right:14px;top:19px;width:16px;height:16px;margin:0;cursor:pointer;accent-color:var(--blue);z-index:2}
+.eq-card.sel{background:#f3f5ff;border-color:#b5bff6}
+.eq-bulk{display:flex;align-items:center;justify-content:flex-end;gap:14px;flex-wrap:wrap;padding-right:14px!important;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 14px;margin:0 0 10px;box-shadow:0 1px 2px #16215e0d}
+.eq-bulk label{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--eq-ink);cursor:pointer;margin:0}
+.eq-bulk input[type=checkbox]{width:16px;height:16px;margin:0;accent-color:var(--blue)}
+.eq-bulk .cnt{font-size:13px;color:var(--eq-mute)}
+.eq-bulk .eq-ib.del{padding:7px 14px;margin:0}
+.eq-bulk .eq-ib.del:disabled{opacity:.45;cursor:not-allowed}
+.eq-bulk .allmsg{flex-basis:100%;text-align:right;font-size:13px;color:var(--eq-ink);background:#fff8e6;border:1px solid #f3e2a8;border-radius:9px;padding:7px 12px}
+.eq-bulk .allmsg a{color:var(--blue);font-weight:700;cursor:pointer;margin-left:6px;text-decoration:underline}
+</style>
+
+{% macro dims(it) %}{% set d = [it.size, it.thickness, it.length]|select('ne','-')|select|list %}{% if d %}{{ d|join(' × ') }}{% endif %}{% endmacro %}
+{% macro fld(label, val, cls='', wide='') %}{% set has = val is not none and (val|string|trim) not in ('','-') %}<div class="eq-f {{wide}}"><span class="eq-fl">{{label}}</span><div class="eq-fv {{cls}}{{'' if has else ' nil'}}">{{ val if has else '—' }}</div></div>{% endmacro %}
+{% macro item_fields(it) %}{{ fld('Product', it.product, '', 'w4') }}{{ fld('Size', it.size) }}{{ fld('Thickness', it.thickness) }}{{ fld('Length', it.length) }}{{ fld('Grade', it.grade) }}{{ fld('Standard', it.standard) }}{{ fld('Brand', it.brand) }}{% endmacro %}
+{% macro chips(it) %}{% set cs = [('Grade', it.grade), ('Std', it.standard), ('Brand', it.brand)] %}{% for k,v in cs %}{% if v and v!='-' %}<span class="eq-chip">{{k}}: <b>{{v}}</b></span>{% endif %}{% endfor %}{% endmacro %}
+
+{% macro pager() %}{% if pages > 1 %}{% set base = '/admin/enquiries?status=' ~ (status|urlencode) ~ '&q=' ~ (q|urlencode) ~ '&page=' %}
+ <nav class="eq-pg" aria-label="Enquiry pages">
+  {% if page > 1 %}<a href="{{base}}1">« First</a><a href="{{base}}{{page-1}}">‹ Prev</a>{% else %}<span class="dis">« First</span><span class="dis">‹ Prev</span>{% endif %}
+  {% for n in range(1, pages+1) %}{% if n==1 or n==pages or (n >= page-2 and n <= page+2) %}{% if n==page %}<span class="on">{{n}}</span>{% else %}<a href="{{base}}{{n}}">{{n}}</a>{% endif %}{% elif n==page-3 or n==page+3 %}<span class="gap">…</span>{% endif %}{% endfor %}
+  {% if page < pages %}<a href="{{base}}{{page+1}}">Next ›</a><a href="{{base}}{{pages}}">Last »</a>{% else %}<span class="dis">Next ›</span><span class="dis">Last »</span>{% endif %}
+ </nav>{% endif %}{% endmacro %}
+<div class="eq">
+ <div class="eq-bar">
+  <div class="eq-bar-top">
+   <div class="eq-tabs" role="tablist" aria-label="Filter by status">
+    <a class="eq-tab {{'on' if not status}}" href="/admin/enquiries?q={{q}}">All <em>{{counts.all}}</em></a>
+    {% for st in ['New','Quoted','Closed'] %}<a class="eq-tab {{'on' if status==st}}" href="/admin/enquiries?status={{st}}&q={{q}}">{{st}} <em>{{counts[st]}}</em></a>{% endfor %}
+   </div>
+   <div class="eq-exp">
+    <a href="/admin/enquiries/export.csv?status={{status}}&q={{q}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>Export CSV</a>
+    <a href="/admin/enquiries/export.pdf?status={{status}}&q={{q}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>Export PDF</a>
+   </div>
+  </div>
+  <form class="eq-search" method="get">
+   <input type="hidden" name="status" value="{{status}}">
+   <div class="box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+   <input name="q" value="{{q}}" placeholder="Search by name, number, company, GST, product or size" aria-label="Search enquiries"></div>
+   <button type="submit">Search</button>{% if q or status %}<a href="/admin/enquiries">Clear</a>{% endif %}
+  </form>
+ </div>
+
+ <div class="eq-count">{% if total %}Showing {{first_no}}–{{last_no}} of {{total}} enquir{{'y' if total==1 else 'ies'}}{% if status %} · {{status}}{% endif %}{% if q %} · matching “{{q}}”{% endif %} · Page {{page}} of {{pages}}{% endif %}</div>
+
+{% if enq %}
+ <form id="bulkf" method="post" action="/admin/enquiries/bulk-delete"><input type="hidden" name="status" value="{{status}}"><input type="hidden" name="q" value="{{q}}"><input type="hidden" name="all" id="eq-all" value=""></form>
+ <div class="eq-bulk">
+  <span class="cnt" id="eq-cnt">0 selected</span>
+  <button type="submit" form="bulkf" class="eq-ib del" id="eq-del" disabled>🗑 Delete selected</button>
+  <label>Select all on this page <input type="checkbox" id="eq-selall"></label>
+  <div class="allmsg" id="eq-allmsg" hidden></div>
+ </div>
+ {% endif %}
+
+ <div class="eq-list">
+ {% for e in enq %}{% set ph = (e.phone or '')|replace('+','')|replace(' ','') %}
+ <article class="eq-card s-{{e.status}}" tabindex="-1">
+  <input type="checkbox" class="eq-ck" name="nos" value="{{e.no}}" form="bulkf" aria-label="Select enquiry {{e.no}}">
+  {% set w = e.wa_confirm %}{% set m = e.admin_mail %}{% set sq = e.sheet_quote %}
+  {% set dl = (e.delivery_date or '')|string %}
+  <div class="eq-row">
+   <span class="eq-no">#{{e.no}}</span>
+   <span class="eq-dt"><b>{{e.created.strftime('%d %b %y')}}</b>{{e.created.strftime('%H:%M')}} · {{e.source}}</span>
+   <span class="eq-cu"><b title="{{e.name}}">{{e.name}}{% if e.lang=='hi' %} <span class="badge b-hi" title="Customer chatted in Hindi">हिं</span>{% endif %}</b><small>{{(e.company if e.company and e.company!='-' else '') or e.phone or ''}}</small></span>
+   <span class="eq-pr"><b title="{{e.product}}">{{e.product}}{% if e.more_items %} <span class="badge b-new">+{{e.more_items|length}}</span>{% endif %}</b><small>{{dims(e)|trim}}</small></span>
+   <span class="eq-q" title="{{e.qty}}">{{e.qty}}</span>
+   <span class="eq-dl{{' imm' if dl|lower=='immediate'}}" title="Delivery">{{dl or '-'}}</span>
+   <span class="eq-nf">
+    <span class="eq-dot {{'ok' if w=='sent' else 'bad' if w=='failed' else 'new' if w=='in-chat' else ''}}" title="WhatsApp: {{w or 'off'}}">W</span>
+    <span class="eq-dot {{'ok' if m=='sent' else 'bad' if m=='failed' else ''}}" title="Admin mail: {{m or 'off'}}">M</span>
+    <span class="eq-dot {{'ok' if sq=='sent' else 'bad' if sq in ('failed','error') else ''}}" title="Customer price/stock mail: {{sq or 'off'}}{{' - ' + e.sheet_quote_note if e.sheet_quote_note}}">S</span>
+   </span>
+   <div class="eq-acts">
+    <form method="post" action="/admin/enquiries/{{e.no}}/status"><select class="st st-{{e.status}}" name="status" aria-label="Status of enquiry {{e.no}}" onchange="this.form.submit()">{% for st in ['New','Quoted','Closed'] %}<option {{'selected' if st==e.status}}>{{st}}</option>{% endfor %}</select></form>
+    <a class="eq-ib pdf" href="/admin/enquiries/{{e.no}}.pdf" title="Download enquiry PDF"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>PDF</a>
+    <form method="post" action="/admin/enquiries/{{e.no}}/delete" onsubmit="return confirm('Delete enquiry #{{e.no}}?')"><button type="submit" class="eq-ib del" title="Delete enquiry" aria-label="Delete enquiry {{e.no}}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2m-9 0l1 14h8l1-14M10 11v6M14 11v6"/></svg></button></form>
+   </div>
+   <svg class="eq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+
+  <div class="eq-det"><div><div class="eq-det-in">
+  <div class="eq-form"><div class="eq-cols">
+   <section class="eq-sec"><h4>Your details</h4><div class="eq-grid g2">
+    {{ fld('Name', e.name) }}
+    {{ fld('Company', e.company) }}
+    <div class="eq-f w4"><span class="eq-fl">Phone</span><div class="eq-fv{{'' if ph and ph!='-' else ' nil'}}">{% if ph and ph!='-' %}<a class="eq-pill" href="tel:+{{ph}}">📞 {{e.phone}}</a><a class="eq-pill wa" href="https://wa.me/{{ph}}" target="_blank" rel="noopener">WhatsApp</a>{% else %}—{% endif %}</div></div>
+    {{ fld('Email', e.email) }}
+    {{ fld('GST number', e.gst) }}
+    {{ fld('UC code', e.uc_code) }}
+    {{ fld('Language', 'Hindi' if e.lang=='hi' else 'English') }}
+    {{ fld('Sales representative', (e.reps or '')|replace('Sales Representative:','')|trim) }}
+   </div></section>
+   <div class="eq-rcol">
+    <section class="eq-sec"><h4>Product enquiry details{% if e.more_items %} · Item 1{% endif %}</h4><div class="eq-grid g3">
+     {{ item_fields(e) }}
+     {{ fld('Quantity', e.qty, 'big') }}
+     {% set imm = (e.delivery_date or '')|string|lower == 'immediate' %}{{ fld('Delivery', e.delivery_date, 'imm' if imm else '') }}
+     {{ fld('Remarks', e.remarks, 'note', 'w4') }}
+    </div></section>
+    {% for it in (e.more_items or []) %}<section class="eq-sec"><h4>Product enquiry details · Item {{loop.index + 1}}</h4><div class="eq-grid g3">
+     {{ item_fields(it) }}
+     {{ fld('Quantity', it.qty, 'big') }}
+     {{ fld('Delivery', it.delivery_date) }}
+    </div></section>{% endfor %}
+   </div>
+  </div></div>
+
+  <footer class="eq-foot">
+   <div class="eq-nt"><span>WhatsApp confirmation</span>
+    {% if w=='sent' %}<span class="badge b-ok">✓ Sent</span>{% elif w=='failed' %}<span class="badge b-bad" title="{{e.wa_confirm_note}}">✗ Failed</span>{% elif w=='queued' %}<span class="badge b-off">… Sending</span>{% elif w=='in-chat' %}<span class="badge b-new">In chat</span>{% elif w=='no-number' %}<span class="badge b-off">No number</span>{% else %}<span class="badge b-off">Off</span>{% endif %}
+    {% if w in ('failed','off') or not w %}{% if ph and ph!='-' %}<form method="post" action="/admin/enquiries/{{e.no}}/resend-wa"><button class="rs" title="Send the WhatsApp confirmation to the customer now">↻ Send</button></form>{% endif %}{% endif %}
+   </div>
+   <div class="eq-nt"><span>Admin email</span>
+    {% if m=='sent' %}<span class="badge b-ok">✓ Sent</span>{% elif m=='failed' %}<span class="badge b-bad" title="{{e.admin_mail_note}}">✗ Failed</span>{% elif m=='queued' %}<span class="badge b-off">… Sending</span>{% elif m=='no-recipient' %}<span class="badge b-off" title="No admin has an email saved - Admin -> Admins">No email set</span>{% else %}<span class="badge b-off">Off</span>{% endif %}
+    {% if m in ('failed','no-recipient','off') or not m %}<form method="post" action="/admin/enquiries/{{e.no}}/resend-mail"><button class="rs" title="Email the enquiry PDF to the admin(s) now">↻ Send</button></form>{% endif %}
+   </div>
+   <div class="eq-nt"><span>Customer price/stock mail</span>
+    {% if sq=='sent' %}<span class="badge b-ok" title="{{e.sheet_quote_note}}">✓ Sent</span>{% elif sq=='failed' or sq=='error' %}<span class="badge b-bad" title="{{e.sheet_quote_note}}">✗ Failed</span>{% elif sq=='queued' %}<span class="badge b-off">… Sending</span>{% elif sq=='no-email' %}<span class="badge b-off" title="Customer did not give an email">No email given</span>{% else %}<span class="badge b-off" title="GOOGLE_SHEET_ID / SMTP not set in .env">Off</span>{% endif %}
+    <form method="post" action="/admin/enquiries/{{e.no}}/resend-sheet-quote"><button class="rs" title="Re-check the Google Sheet and email the customer now">↻ Send</button></form>
+   </div>
+  </footer>
+  </div></div></div>
+ </article>
+ {% else %}
+ <div class="eq-empty"><b>No enquiries found</b>{% if q or status %}Try a different search or <a href="/admin/enquiries">clear the filters</a>.{% else %}New enquiries from the chatbot and website will appear here.{% endif %}</div>
+ {% endfor %}
+ </div>
+ {{ pager() }}
+</div>
+<script>
+(function(){
+var cks=[].slice.call(document.querySelectorAll('.eq-ck')),all=document.getElementById('eq-selall'),cnt=document.getElementById('eq-cnt'),
+btn=document.getElementById('eq-del'),flag=document.getElementById('eq-all'),msg=document.getElementById('eq-allmsg'),f=document.getElementById('bulkf');
+if(!all||!f)return;var TOTAL={{total}},mode=false;
+function n(){return cks.filter(function(c){return c.checked}).length}
+function upd(){var k=n();
+ cks.forEach(function(c){c.closest('.eq-card').classList.toggle('sel',c.checked)});
+ all.checked=k>0&&k===cks.length;all.indeterminate=k>0&&k<cks.length;
+ cnt.textContent=mode?('All '+TOTAL+' selected'):(k+' selected');btn.disabled=!(k>0||mode);flag.value=mode?'1':'';
+ if(mode){msg.hidden=false;msg.innerHTML='All '+TOTAL+' enquiries'+{{ ('" matching this filter"' if (status or q) else '""')|safe }}+' are selected (all pages). <a id="eq-clr">Clear selection</a>';document.getElementById('eq-clr').onclick=function(){mode=false;cks.forEach(function(c){c.checked=false});upd()}}
+ else if(k===cks.length&&k>0&&TOTAL>cks.length){msg.hidden=false;msg.innerHTML='All '+k+' enquiries on this page are selected. <a id="eq-all-link">Select all '+TOTAL+' enquiries</a>';document.getElementById('eq-all-link').onclick=function(){mode=true;upd()}}
+ else msg.hidden=true}
+all.addEventListener('change',function(){mode=false;cks.forEach(function(c){c.checked=all.checked});upd()});
+cks.forEach(function(c){c.addEventListener('change',function(){if(mode&&!c.checked)mode=false;upd()})});
+f.addEventListener('submit',function(e){var k=mode?TOTAL:n();if(!k){e.preventDefault();return}
+ if(!confirm('Delete '+k+' enquir'+(k===1?'y':'ies')+' permanently? This cannot be undone.'))e.preventDefault()});
+upd()})();
+</script>
+<script>
+(function(){var t=window.matchMedia&&matchMedia('(hover:none)').matches;if(!t)return;
+document.querySelectorAll('.eq-card .eq-row').forEach(function(r){r.addEventListener('click',function(ev){if(ev.target.closest('a,button,select,form'))return;r.parentNode.classList.toggle('open')})})})();
+</script>
+{% endblock %}

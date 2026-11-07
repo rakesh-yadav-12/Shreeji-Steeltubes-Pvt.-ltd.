@@ -1,0 +1,31 @@
+{% extends "base.html" %}{% block body %}
+<div class="kpis">
+ <div class="kpi" style="--c:var(--blue)"><small>Total enquiries</small><b>{{s.total}}</b><span>all time</span></div>
+ <div class="kpi" style="--c:var(--orange)"><small>Today</small><b>{{s.today}}</b><span>new since midnight</span></div>
+ <div class="kpi" style="--c:#26399e"><small>Waiting (New)</small><b>{{s.new}}</b><span><a href="/admin/enquiries?status=New">review now →</a></span></div>
+ <div class="kpi" style="--c:var(--warn)"><small>Quoted</small><b>{{s.quoted}}</b><span>awaiting customer</span></div>
+ <div class="kpi" style="--c:var(--ok)"><small>Closed</small><b>{{s.closed}}</b><span>completed</span></div>
+ <div class="kpi" style="--c:#7b61ff"><small>Customers</small><b>{{s.customers}}</b><span>{{s.jobs}} job apps · {{s.vendors}} vendors</span></div>
+</div>
+
+<div class="grid2">
+ <div class="card"><h3>Enquiries – last 7 days</h3>
+  <div class="bars">{% for d in days %}<div title="{{d.date}}: {{d.n}}"><b>{{d.n}}</b><i style="height:{{ (d.n / peak * 100)|round|int }}%"></i>{{d.label}}</div>{% endfor %}</div></div>
+ <div class="card"><h3>Top products</h3>
+  {% for name, n in top %}<div class="hb"><div><span>{{name}}</span><b>{{n}}</b></div><i style="--w:{{ (n / top[0][1] * 100)|round|int }}%"></i></div>
+  {% else %}<div class="empty">No enquiries yet.</div>{% endfor %}</div>
+</div>
+
+<div class="grid2">
+ <div class="card"><h3>Latest enquiries <a class="btn s g" style="float:right" href="/admin/enquiries">View all →</a></h3>
+  <table><tr><th>#</th><th>Customer</th><th>Product</th><th>Qty</th><th>Status</th></tr>
+  {% for e in recent %}<tr><td>{{e.no}}</td><td><b>{{e.name}}</b><br><small>{{e.company or ''}} · {{e.created.strftime('%d %b, %H:%M')}}</small></td><td>{{e.product}}<br><small>{{e.size}}</small></td><td>{{e.qty}}</td><td><span class="badge b-{{(e.status or 'New')|lower}}">{{e.status or 'New'}}</span></td></tr>
+  {% else %}<tr><td colspan="5" class="empty">No enquiries yet.</td></tr>{% endfor %}</table></div>
+ <div class="card"><h3>Bot features</h3>
+  <div class="feat"><div><b>🌐 Hindi / English</b><small>{{s.hindi}} enquiries received in Hindi</small></div><span class="badge b-ok">ON</span></div>
+  <div class="feat"><div><b>🎤 Voice input (web chat)</b><small>Microphone button in the chat – works in the visitor's browser</small></div><span class="badge b-ok">ON</span></div>
+  <div class="feat"><div><b>🎙 WhatsApp voice notes</b><small>{{ 'Customers can send voice notes' if voice_on else 'Add OPENAI_API_KEY in .env to enable' }}</small></div><span class="badge {{'b-ok' if voice_on else 'b-off'}}">{{'ON' if voice_on else 'OFF'}}</span></div>
+  <div class="feat"><div><b>📲 WhatsApp confirmation</b><small>{% if wa_on %}{{s.wa_sent}} sent · {{s.wa_failed}} failed{% else %}Add WA_TOKEN &amp; WA_PHONE_NUMBER_ID in .env{% endif %}</small></div><span class="badge {{'b-ok' if wa_on else 'b-off'}}">{{'ON' if wa_on else 'OFF'}}</span></div>
+ </div>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+# ---- add these lines to your .env (all optional) ----
+
+# WhatsApp confirmation to the customer after an enquiry (needs WA_TOKEN + WA_PHONE_NUMBER_ID already set)
+# Create a UTILITY template in Meta Business Manager with 4 variables:
+#   Hello {{1}}, thank you for your enquiry #{{2}} with Shreeji SteelTubes for {{3}} ({{4}}). Our team will contact you shortly.
+WA_CONFIRM_TEMPLATE=enquiry_confirmation
+WA_CONFIRM_TEMPLATE_LANG=en
+# optional Hindi version of the same template (language code "hi")
+WA_CONFIRM_TEMPLATE_HI=enquiry_confirmation_hi
+# set to 0 to switch the confirmation off
+WA_CONFIRM=1
+
+# Voice notes sent on WhatsApp -> text (Hindi / English / Hinglish)
+OPENAI_API_KEY=
+STT_MODEL=whisper-1
+
+# ---- GST verification + automatic UC code (new) ----
+# Get a key at https://appyflow.in/verify-gst/  (GST portal data through a GSP API; the official GST portal itself has no open API - it needs a captcha)
+GST_PROVIDER=gstincheck   # gstincheck (GSTIN validator) | appyflow
+GST_API_KEY=your_appyflow_key_secret
+GST_STRICT=1          # 1 = GST that cannot be verified (or API down) is not accepted | 0 = if API is DOWN still accept enquiry, no UC code
+GST_CACHE_DAYS=7
+UC_PREFIX=UC          # codes look like UC00001
+UC_START=1            # raise this if codes already exist (e.g. 1001 -> UC01001)
+
+# ---- Automatic email of the enquiry PDF to the admin(s) (new) ----
+# Every admin who is ACTIVE and has an email saved (Admin -> Admins) gets the PDF the moment a customer submits an enquiry.
+# Gmail: use an App Password (Google Account -> Security -> 2-Step Verification -> App passwords); a normal password will NOT work.
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587          # 587 = STARTTLS (Gmail/most providers) | 465 = SSL
+SMTP_USER=yourcompany@gmail.com
+SMTP_PASS=your_16_char_app_password
+SMTP_FROM=yourcompany@gmail.com        # optional, defaults to SMTP_USER
+MAIL_NOTIFY=1          # set to 0 to switch this feature off
+MAIL_NOTIFY_EXTRA=     # optional, comma-separated extra emails always copied (people without an admin login)
+
+# ---- Job Application mail (new) ----
+# Every new job application is mailed automatically (the mail body is the filled form, resume PDF attached) to the active admins
+# (Admin -> Admins email), MAIL_NOTIFY_EXTRA and the HR address(es) below (comma-separated). Uses the same SMTP_* settings as above.
+HR_MAIL=hr@yourcompany.com
+# The Preview / Download buttons for the resume inside that mail use PUBLIC_URL - it must be the real public address of the site
+# (e.g. https://yourwebsite.com), not a LAN address like http://192.168.x.x:5000, or the buttons will not open outside your office network.
+
+# ---- Google Sheet price/stock auto-reply to the CUSTOMER (new, sheet_quote.py) ----
+# The moment a customer submits a product enquiry (and gave an email), the bot looks up their Product + Size
+# (+ Thickness, if the sheet has that column) in this Google Sheet and emails them the matching price & stock.
+# Uses the same SMTP_* settings above to send the mail - no extra mail setup needed.
+#
+# Sheet columns required (header row, any order, case-insensitive):  Product | Size | Thickness | Price | Unit | Stock
+#
+# Setup (one-time, ~5 minutes):
+# 1. https://console.cloud.google.com -> create/select a project -> "APIs & Services" -> Library -> enable
+#    "Google Sheets API".
+# 2. "APIs & Services" -> Credentials -> Create Credentials -> Service account -> any name -> Create and continue -> Done.
+# 3. Open that service account -> Keys tab -> Add key -> Create new key -> JSON -> download it.
+#    Save the file as  service_account.json  in this project folder (same folder as app.py).
+#    IMPORTANT: this file is a secret, like a password - never commit it to git or share it.
+# 4. Open the JSON file, copy the "client_email" value (looks like xxx@xxx.iam.gserviceaccount.com).
+# 5. Open your Google Sheet -> Share -> paste that client_email -> give it "Viewer" access -> Send.
+# 6. Copy the Sheet ID from its URL:  https://docs.google.com/spreadsheets/d/<THIS PART>/edit  -> paste below.
+# GOOGLE_SHEET_ID: ONLY the long id from the URL (the part between /d/ and /edit) - NOT the whole link.
+GOOGLE_SHEET_ID=1XHv13zEHPsm8AYo3iNyTp6knFBv0DMoeEoLv4xt1xA0
+# GOOGLE_SHEET_TAB: worksheet/tab name - OPTIONAL, leave the value after "=" completely blank to use the first tab.
+# IMPORTANT: do not add a "# comment" on the same line as a value below - put comments on their own line, like here,
+# otherwise the comment text itself gets saved as the value.
+GOOGLE_SHEET_TAB=
+GOOGLE_SERVICE_ACCOUNT_FILE=service_account.json
+# SHEET_QUOTE: set to 0 to switch this feature off
+SHEET_QUOTE=1
+# SHEET_CACHE_MINUTES: how long sheet data is cached before re-reading it (lower = fresher, more API calls)
+SHEET_CACHE_MINUTES=10
+
+# ---- Sales person price flow (new, sales_quote.py) ----
+# ALL the settings of this block (on/off, website address, extra sales email, reply-by-mail / IMAP) are now changed in the
+# Admin panel -> Settings page (no restart needed). The lines below are only a fallback used when nothing is saved there.
+# Enquiry comes -> SALES person gets a mail (product AVAILABLE / NOT AVAILABLE from the Google Sheet above) -> sales person writes
+# the price -> the customer gets a "Price Quotation" mail immediately.  (This replaces the automatic sheet price mail to the customer.)
+# WHO is the sales person: Admin panel -> Admins -> save the person's email -> switch 'Sales mails' to On. (Nothing to set in .env.)
+# Optional extra address that always gets the sales mail too (not needed):
+# SALES_MAIL=
+# 1 = on (default) | 0 = off (old behaviour: customer gets the sheet price automatically)
+SALES_QUOTE=1
+# Optional: the sales person can also just REPLY to the mail and write the price there (bot reads the mailbox every 30 sec).
+# Gmail: turn IMAP on (Settings -> Forwarding and POP/IMAP) and use the same App Password.
+SALES_IMAP_POLL=0
+IMAP_HOST=imap.gmail.com
+# IMAP_USER / IMAP_PASS default to SMTP_USER / SMTP_PASS
+SALES_POLL_SECONDS=30
+# PUBLIC_URL must be the real public https address - the "Write price" button in the sales mail uses it.

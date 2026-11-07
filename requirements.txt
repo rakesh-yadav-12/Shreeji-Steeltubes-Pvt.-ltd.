@@ -1,0 +1,13 @@
+Flask>=3.0
+requests>=2.32
+python-dotenv>=1.0
+gunicorn>=22.0
+pymongo>=4.6
+dnspython>=2.4
+qrcode[pil]>=7.4
+reportlab>=4.0
+beautifulsoup4>=4.12
+gspread>=6.0
+google-auth>=2.30
+cryptography>=42.0
+pypdf>=4.0

@@ -1,0 +1,67 @@
+{% extends "base.html" %}{% block body %}
+<style>
+.dm-ov{position:fixed;inset:0;background:rgba(18,24,64,.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:1000;opacity:0;visibility:hidden;transition:opacity .18s,visibility .18s}
+.dm-ov.show{opacity:1;visibility:visible}
+.dm-box{background:#fff;border-radius:18px;max-width:420px;width:100%;padding:26px 24px 20px;text-align:center;box-shadow:0 20px 60px rgba(16,22,70,.35);transform:translateY(14px) scale(.96);transition:transform .2s}
+.dm-ov.show .dm-box{transform:none}
+.dm-ico{width:60px;height:60px;border-radius:50%;background:#fdeaea;color:var(--bad);font-size:28px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.dm-box h4{font-size:19px;margin:0 0 8px;color:var(--text)}
+.dm-box p{margin:0 0 4px;color:var(--mute);font-size:14px}
+.dm-name{display:inline-block;margin:8px 0 2px;padding:6px 12px;background:var(--bg);border-radius:8px;font-weight:600;color:var(--text);max-width:100%;word-break:break-word;font-size:14px}
+.dm-act{display:flex;gap:10px;margin-top:20px}
+.dm-act button{flex:1;padding:12px;border-radius:10px;border:0;font-weight:700;font-size:14px;cursor:pointer}
+.dm-cancel{background:#edeffc;color:var(--blue)}
+.dm-cancel:hover{background:#dfe3fa}
+.dm-ok{background:var(--bad);color:#fff}
+.dm-ok:hover{background:#b93636}
+</style>
+
+<div class="card">
+<h3>Upload catalog / technical file</h3>
+<form method="post" enctype="multipart/form-data" class="row">
+<select name="category" onchange="location.href='?cat='+this.value">
+{% for k, label in cats %}<option value="{{k}}" {{'selected' if k == cat}}>{{label}} ({{counts[k]}})</option>{% endfor %}
+</select>
+<input name="title" placeholder="Title (optional)"><input type="file" name="file" multiple required {% if cat in ('godown','office') %}accept="image/*"{% endif %}><button>Upload</button>
+</form>
+</div>
+
+<div class="card">
+<h3>{{ dict(cats)[cat] }} <small style="color:var(--mute);font-weight:500">— {{docs|length}} file{{'' if docs|length == 1 else 's'}}</small></h3>
+<table><tr><th>#</th>{% if cat in ('godown','office') %}<th>Photo</th>{% endif %}<th>Title</th><th>File</th><th></th></tr>
+{% for d in docs %}<tr>
+<td>{{loop.index}}</td>
+{% if cat in ('godown','office') %}<td>{% if d.is_img and not d.missing %}<a href="{{d.url}}" target="_blank"><img src="{{d.url}}" alt="" style="width:84px;height:62px;object-fit:cover;border-radius:8px;display:block"></a>{% endif %}</td>{% endif %}
+<td>{{d.title}}{% if d.src == 'folder' %} <small style="color:var(--mute)">(project folder)</small>{% else %} <small style="color:var(--ok);font-weight:700">(uploaded)</small>{% endif %}</td>
+<td>{% if d.missing %}<span style="color:var(--bad)">{{d.filename}} (file missing)</span>{% else %}<a href="{{d.url}}" target="_blank">{{d.filename}}</a>{% endif %}</td>
+<td style="white-space:nowrap">
+{% if not d.missing %}<a class="s" href="{{d.url}}?dl=1" style="margin-right:6px">Download</a>{% endif %}
+<form method="post" action="/admin/documents/delete" style="display:inline" data-title="{{d.title}}">
+<input type="hidden" name="cat" value="{{cat}}"><input type="hidden" name="src" value="{{d.src}}"><input type="hidden" name="key" value="{{d.key}}">
+<button type="button" class="s dm-open">Delete</button></form></td>
+</tr>{% else %}<tr><td colspan="5" style="color:var(--mute)">No files in this category yet. Upload one above.</td></tr>{% endfor %}
+</table>
+</div>
+
+<div class="dm-ov" id="dmOv" role="dialog" aria-modal="true" aria-labelledby="dmTitle">
+<div class="dm-box">
+<div class="dm-ico">🗑️</div>
+<h4 id="dmTitle">Delete this file?</h4>
+<span class="dm-name" id="dmName"></span>
+<p>This will permanently remove it from the chat as well. This action cannot be undone.</p>
+<div class="dm-act"><button type="button" class="dm-cancel" id="dmNo">Cancel</button><button type="button" class="dm-ok" id="dmYes">Yes, Delete</button></div>
+</div>
+</div>
+<script>
+(function(){
+var ov=document.getElementById('dmOv'),nm=document.getElementById('dmName'),yes=document.getElementById('dmYes'),no=document.getElementById('dmNo'),cur=null;
+function close(){ov.classList.remove('show');cur=null;}
+document.querySelectorAll('.dm-open').forEach(function(b){b.addEventListener('click',function(){
+cur=b.closest('form');nm.textContent=cur.getAttribute('data-title');ov.classList.add('show');no.focus();});});
+yes.addEventListener('click',function(){if(cur){yes.disabled=true;yes.textContent='Deleting…';cur.submit();}});
+no.addEventListener('click',close);
+ov.addEventListener('click',function(e){if(e.target===ov)close();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();
+</script>
+{% endblock %}

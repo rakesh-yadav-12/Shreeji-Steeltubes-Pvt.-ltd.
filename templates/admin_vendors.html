@@ -1,0 +1,28 @@
+{% extends "base.html" %}{% block body %}
+{% set bc = {'New':'b-new','Verified':'b-quoted','Approved':'b-ok','Rejected':'b-bad'} %}
+<div class="card">
+ <div class="row" style="justify-content:space-between">
+  <div class="row">
+   <a class="btn s {{'o' if not status else 'g'}}" href="/admin/vendors?q={{q}}">All <b>{{counts.all}}</b></a>
+   {% for st in vn.STATUSES %}<a class="btn s {{'o' if status==st else 'g'}}" href="/admin/vendors?status={{st}}&q={{q}}">{{st}} <b>{{counts[st]}}</b></a>{% endfor %}
+  </div>
+  <div class="row"><a class="btn g" href="/admin/vendors/export.csv?status={{status}}&q={{q}}">⬇ CSV</a></div>
+ </div>
+ <form class="row" method="get" style="margin-top:8px"><input type="hidden" name="status" value="{{status}}"><input name="q" value="{{q}}" placeholder="🔍 Search firm / contact / mobile / PAN / GST / city / product / vendor code…"><button>Search</button>{% if q or status %}<a class="btn g" href="/admin/vendors">Clear</a>{% endif %}</form>
+</div>
+<div class="card" style="padding:0"><table>
+<tr><th>#</th><th>Date</th><th>Firm</th><th>Contact</th><th>Statutory</th><th>Products / Services</th><th>Docs</th><th>Status</th><th></th></tr>
+{% for r in rows %}{% set ph = (vn.mobile(r) or '')|replace('+','')|replace(' ','') %}<tr>
+<td><b>{{r.no}}</b></td>
+<td style="white-space:nowrap">{{r.created.strftime('%d %b %y') if r.created else '-'}}<br><small>{{r.created.strftime('%H:%M') if r.created else ''}} · {{r.source}}</small></td>
+<td><a href="/admin/vendors/{{r.no}}"><b>{{vn.firm(r)}}</b></a>{% if r.vendor_code %}<br><span class="badge b-ok">{{r.vendor_code}}</span>{% endif %}<br><small>{{r.constitution or ''}}{% if r.constitution and r.vtype %} · {% endif %}{{r.vtype or ''}}<br>{{r.city or ''}}{% if r.state %}, {{r.state}}{% endif %}</small></td>
+<td>{{vn.contact(r)}}{% if r.designation %}<br><small>{{r.designation}}</small>{% endif %}
+ {% if ph and ph!='-' %}<br><a href="tel:+{{ph}}">{{vn.mobile(r)}}</a> · <a href="https://wa.me/{{ph if ph|length>10 else '91'+ph}}" target="_blank" rel="noopener">WhatsApp</a>{% endif %}
+ {% if r.email %}<br><small>{{r.email}}</small>{% endif %}</td>
+<td><small>PAN: {{r.pan or '-'}}<br>GST: {{r.gst or '-'}}{% if r.udyam %}<br>Udyam: {{r.udyam}}{% endif %}</small></td>
+<td style="max-width:260px">{{vn.products(r)}}</td>
+<td>{% set n = (r.files or {})|length %}{% if n %}<span class="badge b-ok">{{n}} file{{'s' if n>1}}</span>{% else %}<span class="badge b-off">None</span>{% endif %}</td>
+<td><span class="badge {{bc.get(r.status or 'New','b-new')}}">{{r.status or 'New'}}</span></td>
+<td><div class="row" style="flex-wrap:nowrap"><a class="btn s" href="/admin/vendors/{{r.no}}">View</a><a class="btn s g" href="/admin/vendors/{{r.no}}.pdf">PDF</a></div></td></tr>
+{% else %}<tr><td colspan="9" class="empty">No vendor registrations found.</td></tr>{% endfor %}</table></div>
+{% endblock %}

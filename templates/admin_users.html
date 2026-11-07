@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block body %}
+<div class="card"><h3>Register new user (contact number)</h3><form method="post" class="row">
+<input name="name" placeholder="Name" required><input name="phone" placeholder="WhatsApp number" required>
+<input name="password" placeholder="Login password (default 1234)"><button>Register</button></form></div>
+<div class="card"><h3>Registered users</h3><table><tr><th>Name</th><th>Number</th><th>Status</th><th></th></tr>
+{% for u in users %}<tr><td>{{u.name}}</td><td>{{u.phone}}</td><td>{{'Active' if u.active else 'Blocked'}}</td><td class="row">
+<form method="post" action="/admin/users/{{u.id}}/toggle"><button>{{'Block' if u.active else 'Unblock'}}</button></form>
+<form method="post" action="/admin/users/{{u.id}}/delete" onsubmit="return confirm('Delete?')"><button>Delete</button></form></td></tr>{% endfor %}</table></div>{% endblock %}

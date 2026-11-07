@@ -1,0 +1,15 @@
+# secrets - never commit these, add them in Render dashboard instead
+.env
+service_account.json
+service_account.json.json
+
+# local junk
+__pycache__/
+*.pyc
+venv/
+.venv/
+bot.db
+*.log
+
+# OS
+.DS_Store

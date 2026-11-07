@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block body %}
+<div class="card"><h3>My enquiries</h3><table><tr><th>#</th><th>Product</th><th>Size</th><th>Thk</th><th>Length</th><th>Qty</th><th>Status</th><th>Date</th></tr>
+{% for e in enq %}<tr><td>{{e.id}}</td><td>{{e.product}}</td><td>{{e.size}}</td><td>{{e.thickness}}</td><td>{{e.length}}</td><td>{{e.qty}}</td><td>{{e.status}}</td><td>{{e.created}}</td></tr>
+{% else %}<tr><td colspan=8>No enquiries yet. Message our WhatsApp number to start.</td></tr>{% endfor %}</table></div>
+<div class="card"><h3>Change password</h3><form method="post"><input name="password" type="password" required><button>Update</button></form></div>{% endblock %}

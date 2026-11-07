@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% block body %}
+<div class="card" style="max-width:480px;margin:40px auto;text-align:center;padding:30px 24px">
+ <img src="/static/logo.png" alt="Shreeji SteelTubes Pvt. Ltd." style="height:40px;margin-bottom:14px">
+ {% if ok %}
+  <div style="font-size:46px;line-height:1">✅</div>
+  <h2 style="color:#14753c;margin:10px 0 6px">Thank you, {{j.name}}!</h2>
+  <p style="font-size:14.5px;line-height:1.55">You've confirmed your interview for <b>{{j.position}}</b> on
+   <b>{{j.interview_date}}</b> at <b>{{j.interview_time}}</b>.</p>
+  <p class="mute" style="font-size:13px">Our HR team has been notified. We look forward to meeting you — all the best!</p>
+ {% else %}
+  <div style="font-size:46px;line-height:1">❌</div>
+  <h2 style="color:#a52828;margin:10px 0 6px">Interview declined</h2>
+  <p style="font-size:14.5px;line-height:1.55">You've declined the interview for <b>{{j.position}}</b> scheduled on
+   <b>{{j.interview_date}}</b> at <b>{{j.interview_time}}</b>.</p>
+  <p class="mute" style="font-size:13px">If this was a mistake, please contact us directly and we'll help reschedule.</p>
+ {% endif %}
+ <p class="mute" style="font-size:12px;margin-top:18px">Application No.: #{{j.no}}</p>
+</div>
+{% endblock %}

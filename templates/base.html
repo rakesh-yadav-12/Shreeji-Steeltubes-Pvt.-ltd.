@@ -1,0 +1,149 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{% block title %}{% endblock %}Shreeji SteelTubes Pvt. Ltd.</title><link rel="icon" href="/static/logo.png">
+<style>
+:root{--blue:#26399e;--blue2:#172574;--orange:#f15307;--bg:#f2f4fc;--card:#fff;--line:#e5e7f5;--text:#1c2035;--mute:#696e8a;--ok:#1f9d55;--warn:#d98a00;--bad:#d64545;--r:14px}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:var(--text);font-size:14px;line-height:1.45}
+a{color:var(--blue)}img{max-width:100%;height:auto}h2{margin:.2em 0 .5em}h3,h4{margin:.2em 0 .7em;font-size:16px}
+/* ---------- layout ---------- */
+.shell{display:flex;min-height:100vh}
+.side{width:244px;flex:none;background:linear-gradient(180deg,var(--blue2),var(--blue));color:#fff;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:60}
+.brand{display:flex;align-items:center;gap:10px;padding:18px 16px 14px;text-decoration:none}
+.brand img{height:34px;background:#fff;border-radius:8px;padding:3px 7px}
+.brand b{color:#fff;font-size:14px;line-height:1.15}.brand small{display:block;color:#b5bff4;font-weight:500;font-size:11px}
+.grp{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:#92a0ec;padding:14px 18px 4px}
+.side a.it{display:flex;align-items:center;gap:11px;margin:2px 10px;padding:10px 12px;border-radius:10px;color:#dfe4ff;text-decoration:none;font-weight:600;font-size:14px}
+.side a.it i{font-style:normal;width:22px;text-align:center;font-size:16px}
+.side a.it:hover{background:#ffffff1c;color:#fff}
+.side a.it.on{background:#fff;color:var(--blue)}
+.side .me{margin-top:auto;padding:14px 16px;border-top:1px solid #ffffff22;font-size:13px;color:#cfd6ff}
+.side .me b{display:block;color:#fff}
+.side .me a{color:#ffcfb8;text-decoration:none;font-weight:600}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:12px;background:#fff;border-bottom:1px solid var(--line);padding:12px 24px;position:sticky;top:0;z-index:40}
+.top h1{font-size:19px;margin:0;font-weight:700;color:var(--text)}
+.top .sp{margin-left:auto}.top .chip{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#f15307,#c23e07);color:#fff;padding:9px 18px;border-radius:24px;font-weight:700;text-decoration:none;font-size:14px;white-space:nowrap;border:1px solid #ffffff66;box-shadow:0 4px 14px #c23e0766;transition:transform .15s,box-shadow .15s;animation:chipPulse 2.6s ease-out infinite}
+.top .chip:hover{transform:translateY(-1px);box-shadow:0 7px 20px #c23e0788;animation:none}.top .chip:focus-visible{outline:3px solid #26399e66;outline-offset:2px}
+.top .chip .ar{font-weight:800;opacity:.9}
+@keyframes chipPulse{0%{box-shadow:0 4px 14px #c23e0766,0 0 0 0 #f1530788}70%{box-shadow:0 4px 14px #c23e0766,0 0 0 11px #f1530700}100%{box-shadow:0 4px 14px #c23e0766,0 0 0 0 #f1530700}}
+@media(prefers-reduced-motion:reduce){.top .chip{animation:none}}
+/* sidebar shortcut: first thing under the logo, so nobody has to hunt for it */
+.side a.it.chatgo{margin:6px 12px 4px;padding:12px 14px;background:linear-gradient(135deg,#f15307,#c23e07);color:#fff;font-weight:700;border:1px solid #ffffff55;box-shadow:0 4px 14px #0004}
+.side a.it.chatgo:hover{background:linear-gradient(135deg,#ff7a33,#d94906);color:#fff}.side a.it.chatgo .ar{margin-left:auto;font-weight:800}
+.burger{display:none;background:#edeffc;color:var(--blue);border:0;font-size:20px;line-height:1;padding:8px 11px;border-radius:10px}
+main{width:100%;max-width:1280px;margin:0 auto;padding:22px 24px 40px}
+/* ---------- public (login) ---------- */
+.pub{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:radial-gradient(1200px 520px at 50% -10%,#dfe4ff 0,var(--bg) 60%)}
+.pub main{max-width:1000px;width:100%}
+.pub .msg{max-width:480px;margin:0 auto 16px}
+/* ---------- components (class names kept so every admin page picks the new look) ---------- */
+.card{background:var(--card);border-radius:var(--r);padding:18px;margin-bottom:16px;box-shadow:0 1px 2px #16215e0d,0 6px 20px #16215e0a;border:1px solid var(--line);overflow-x:auto}
+.card>h3:first-child{margin-top:0}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input,select,textarea,button,.btn{font:inherit;font-size:14px;padding:9px 12px;margin:3px 0;border-radius:10px}
+input,select,textarea{border:1px solid #d3d7ec;background:#fff;color:var(--text);outline:0;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #26399e25}
+button,.btn{background:var(--blue);color:#fff;border:0;cursor:pointer;text-decoration:none;display:inline-block;font-weight:600;transition:filter .15s,transform .05s}
+button:hover,.btn:hover{filter:brightness(1.1)}button:active,.btn:active{transform:translateY(1px)}
+.btn.o{background:var(--orange)}.btn.g{background:#edeffc;color:var(--blue)}.btn.s,button.s{padding:5px 10px;font-size:12px;border-radius:8px}
+.row>input,.row>select{flex:1 1 170px;min-width:0}
+.msg{background:#fff7e0;border:1px solid #f3dd9a;color:#6b5200;padding:11px 14px;border-radius:12px;margin-bottom:14px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:10px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f5f7ff;color:#474f7b;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;position:sticky;top:0}
+tbody tr:hover td,table tr:hover td{background:#fafbff}
+small,.mute{color:var(--mute)}
+.cform{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px;background:#fafbff}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:4px 12px;margin-bottom:6px}
+.cgrid label{display:block;font-size:12px;font-weight:600;color:#474f7b}.cgrid input{display:block;width:100%;margin:3px 0 0;font-weight:400;color:var(--text)}
+/* badges + status */
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-new{background:#e6eaff;color:#26399e}.b-quoted{background:#fff1d1;color:#9a6400}.b-closed{background:#dcf5e6;color:#14753c}
+.b-ok{background:#dcf5e6;color:#14753c}.b-bad{background:#fde1e1;color:#a52828}.b-off{background:#ebedf6;color:#696e8a}.b-hi{background:#ffe7db;color:#a13603}
+select.st{padding:5px 8px;border-radius:20px;font-weight:700;font-size:12px;border:0;cursor:pointer}
+select.st-New{background:#e6eaff;color:#26399e}select.st-Quoted{background:#fff1d1;color:#9a6400}select.st-Closed{background:#dcf5e6;color:#14753c}
+/* dashboard */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:14px;margin-bottom:16px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 14px;box-shadow:0 1px 2px #16215e0d;position:relative;overflow:hidden}
+.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c,var(--blue))}
+.kpi small{display:block;font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:11px}
+.kpi b{display:block;font-size:30px;line-height:1.15;margin-top:4px;color:var(--text)}.kpi span{font-size:12px;color:var(--mute)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px}
+.bars{display:flex;align-items:flex-end;gap:10px;height:170px;padding-top:10px}
+.bars div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px;font-size:12px;color:var(--mute)}
+.bars i{display:block;width:100%;max-width:46px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--orange),#fc905c);min-height:3px}
+.bars b{color:var(--text);font-size:13px}
+.hb{margin:10px 0}.hb div{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}.hb i{display:block;height:8px;border-radius:6px;background:#edeffc;position:relative;overflow:hidden}.hb i:after{content:"";position:absolute;inset:0;width:var(--w);background:var(--blue);border-radius:6px}
+.feat{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.feat:last-child{border:0}.feat small{display:block}
+.empty{text-align:center;color:var(--mute);padding:26px 0}
+/* login : single large centered card */
+.login{max-width:480px;margin:0 auto;text-align:center;padding:48px 46px 38px;border-radius:20px;box-shadow:0 16px 48px #16215e1a,0 2px 10px #16215e0d}
+.login .login-logo{width:210px;margin-bottom:14px}
+.login h2{font-size:26px;margin-bottom:6px}
+.login .sub{margin:0 0 30px;font-size:14.5px}
+.login .field{text-align:left;margin-bottom:18px}
+.login .field label{display:block;font-size:13px;font-weight:700;color:#474f7b;margin-bottom:6px;letter-spacing:.01em}
+.login .field input{width:100%;padding:14px 16px;font-size:15px}
+.login .pwd-wrap{position:relative}
+.login .pwd-wrap input{padding-right:46px}
+.login .pwd-eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);background:none;border:0;padding:9px;margin:0;font-size:18px;line-height:1;cursor:pointer;color:var(--mute);border-radius:8px}
+.login .pwd-eye:hover{color:var(--blue);background:#edeffc}
+.login button[type=submit]{width:100%;padding:15px 14px;margin-top:10px;font-size:16px;border-radius:12px;box-shadow:0 6px 18px #26399e33}
+.login .foot{margin:26px 0 0;font-size:12px;color:var(--mute)}
+@media(max-width:560px){
+ .login{max-width:100%;padding:38px 26px 30px;border-radius:16px}
+ .login .login-logo{width:170px}
+}
+/* ---------- mobile ---------- */
+.scrim{display:none}
+@media(max-width:900px){
+ .grid2{grid-template-columns:minmax(0,1fr)}
+ .side{position:fixed;left:0;top:0;bottom:0;transform:translateX(-102%);transition:transform .22s;box-shadow:6px 0 30px #0004}
+ body.nav-open .side{transform:none}
+ body.nav-open .scrim{display:block;position:fixed;inset:0;background:#0007;z-index:55}
+ .burger{display:block}.top{padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top))}.top h1{font-size:17px}
+ main{padding:14px 12px 30px}.card{padding:14px}
+ .row>*{flex:1 1 100%}.row .btn,.row button{text-align:center}
+ .cgrid{grid-template-columns:1fr}.cform button{width:100%}
+ input,select,textarea,button,.btn{font-size:16px}.btn.s,button.s{font-size:13px}
+ th,td{padding:8px 6px}.top .chip{padding:8px 13px;font-size:13px}.top h1{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}
+@media print{.side,.top,.noprint,.scrim,.pub .pt{display:none!important}.main,main{padding:0;max-width:none}.shell{display:block}body{background:#fff}.card{box-shadow:none;border:0}}
+@media(max-width:420px){.top .chip .ct{display:none}.top .chip{padding:9px 13px}}
+</style></head><body>
+{% if session.admin_id %}
+{% set p = request.path %}
+<div class="shell">
+<aside class="side" id="side">
+ <a class="brand" href="/admin/dashboard"><img src="/static/logo.png" alt="Shreeji SteelTubes Pvt. Ltd."><b>Admin Panel<small>Shreeji SteelTubes Pvt. Ltd.</small></b></a>
+ <a class="it chatgo" href="/?resume=1" target="_blank" rel="noopener" title="Open the customer chatbot - continues the last chat"><i>💬</i>Open chatbot<span class="ar">↗</span></a>
+ <div class="grp">Overview</div>
+ <a class="it {{'on' if p.startswith('/admin/dashboard')}}" href="/admin/dashboard"><i>📊</i>Dashboard</a>
+ <div class="grp">Leads</div>
+ <a class="it {{'on' if p.startswith('/admin/enquiries')}}" href="/admin/enquiries"><i>📋</i>Enquiries</a>
+ <a class="it {{'on' if p.startswith('/admin/customers')}}" href="/admin/customers"><i>👥</i>Customers</a>
+ <a class="it {{'on' if p.startswith('/admin/jobs')}}" href="/admin/jobs"><i>💼</i>Jobs</a>
+ <a class="it {{'on' if p.startswith('/admin/vendors')}}" href="/admin/vendors"><i>🤝</i>Vendors</a>
+ <div class="grp">Content</div>
+ <a class="it {{'on' if p.startswith('/admin/contacts')}}" href="/admin/contacts"><i>📞</i>Contacts</a>
+ <a class="it {{'on' if p.startswith('/admin/documents')}}" href="/admin/documents"><i>📁</i>Uploads</a>
+ <a class="it {{'on' if p.startswith('/admin/qr')}}" href="/admin/qr"><i>🔳</i>QR code</a>
+ <div class="grp">Settings</div>
+ <a class="it {{'on' if p.startswith('/admin/admins')}}" href="/admin/admins"><i>🔐</i>Admins</a>
+ <a class="it {{'on' if p.startswith('/admin/settings')}}" href="/admin/settings"><i>⚙️</i>Settings</a>
+ <div class="me"><b>{{session.admin_name}}</b><a href="/admin/logout">⏻ Logout</a></div>
+</aside>
+<div class="scrim" onclick="document.body.classList.remove('nav-open')"></div>
+<div class="main">
+ <div class="top"><button class="burger" type="button" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">☰</button>
+  <h1>{% if p.startswith('/admin/dashboard') %}Dashboard{% elif p.startswith('/admin/enquiries') %}Enquiries{% elif p.startswith('/admin/customers') %}Customers{% elif p.startswith('/admin/jobs') %}Job applications{% elif p.startswith('/admin/vendors') %}Vendor registrations{% elif p.startswith('/admin/contacts') %}Contacts{% elif p.startswith('/admin/documents') %}Uploads{% elif p.startswith('/admin/qr') %}QR code{% elif p.startswith('/admin/admins') %}Admins{% elif p.startswith('/admin/settings') %}Settings{% else %}Shreeji SteelTubes{% endif %}</h1>
+  <span class="sp"></span></div>
+  <main>
+{% else %}
+<div class="pub">
+<main>
+{% endif %}
+{% for m in get_flashed_messages() %}<div class="msg">{{m}}</div>{% endfor %}
+{% block body %}{% endblock %}
+{% if session.admin_id %}</main></div></div>{% else %}</main></div>{% endif %}
+</body></html>

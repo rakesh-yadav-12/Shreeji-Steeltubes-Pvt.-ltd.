@@ -1,0 +1,146 @@
+{% extends "base.html" %}{% block body %}
+<style>
+.am-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:16px}
+.am-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.am-head h3{margin:0;font-size:17px}.am-head .sp{margin-left:auto}
+.am-search{flex:0 1 260px;margin:0;padding-left:34px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23696e8a' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='M11 11l4 4'/%3E%3C/svg%3E") 11px 50%/16px no-repeat}
+.note{color:var(--mute);font-size:13px;margin:0 0 4px}
+.who{display:flex;align-items:center;gap:11px;min-width:180px}
+.av{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(135deg,var(--blue),#5668d6)}
+.who b{display:block;line-height:1.2}.who small{display:block}
+.you{background:#e6eaff;color:var(--blue);font-size:10.5px;padding:2px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:1px}
+.ct small{display:block}
+.sw{display:inline-flex;align-items:center;gap:8px;background:none;border:0;padding:0;margin:0;color:var(--text);font-weight:600;font-size:12.5px;cursor:pointer}
+.sw:disabled{opacity:.45;cursor:not-allowed}
+.sw i{width:36px;height:20px;border-radius:20px;background:#c9cde3;position:relative;transition:background .2s;flex:none}
+.sw i:after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0004;transition:transform .2s}
+.sw.on i{background:var(--ok)}.sw.on i:after{transform:translateX(16px)}
+.acts{display:flex;gap:6px;white-space:nowrap}
+.bt{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:8px;font-size:12.5px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--blue);cursor:pointer;margin:0}
+.bt:hover{background:#f5f7ff;filter:none}.bt.del{color:var(--bad);border-color:#f3c9c9}.bt.del:hover{background:#fdecec}
+.bt:disabled{opacity:.4;cursor:not-allowed}
+.btn.add{background:var(--blue);display:inline-flex;gap:6px;align-items:center;margin:0}
+dialog{border:0;border-radius:16px;padding:0;width:min(520px,94vw);box-shadow:0 20px 60px #0006;color:var(--text)}
+dialog::backdrop{background:#0f163d99;backdrop-filter:blur(2px)}
+.mh{display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}.mh h3{margin:0;font-size:17px}
+.mh .x{margin-left:auto;background:none;color:var(--mute);font-size:22px;line-height:1;padding:2px 8px;margin-top:0;margin-bottom:0}
+.mb{padding:16px 20px 6px}.mf{display:flex;justify-content:flex-end;gap:8px;padding:12px 20px 18px}
+.fld{display:block;font-size:12px;font-weight:700;color:#474f7b;margin-bottom:10px}
+.fld input{display:block;width:100%;margin:4px 0 0;font-weight:400}.fld small{font-weight:400;display:block;margin-top:2px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.pw{position:relative}.pw input{padding-right:64px}
+.pw button{position:absolute;right:6px;top:50%;transform:translateY(-35%);background:#edeffc;color:var(--blue);padding:4px 9px;font-size:11.5px;margin:0;border-radius:7px}
+.phn{display:flex;align-items:center;gap:6px}.phn b{margin-top:4px}
+.btn.gh{background:#edeffc;color:var(--blue);margin:0}.btn.dg{background:var(--bad);margin:0}
+.danger-txt{padding:18px 20px 4px;line-height:1.55}
+.hint{font-size:11.5px;color:var(--mute)}
+.uname{display:inline-block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;background:#f0f2fb;border:1px solid var(--line);border-radius:7px;padding:3px 8px;color:var(--blue2);font-weight:600}
+.pwd{display:flex;align-items:center;gap:6px;white-space:nowrap}.pwv{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;background:#fff7e8;border:1px solid #f3dd9a;border-radius:7px;padding:3px 8px;color:#6b4a00;font-weight:600;user-select:all}.ic{background:none;color:var(--mute);padding:2px 6px;margin:0;font-size:15px;border-radius:6px}.ic:hover{background:#edeffc;filter:none}
+.bt.rst{color:var(--orange);border-color:#fbd3bf}.bt.rst:hover{background:#fff1ea}
+table.am th:last-child,table.am td:last-child{text-align:right;position:sticky;right:0;background:#fff;box-shadow:-8px 0 8px -8px #16215e22}
+table.am th:last-child{background:#f5f7ff}.acts{justify-content:flex-end}
+table.am tr:hover td:last-child{background:#fafbff}
+@media(max-width:760px){.g2{grid-template-columns:1fr}.am-search{flex:1 1 100%}.am-head .sp{display:none}
+ table.am thead{display:none}table.am,table.am tbody,table.am tr,table.am td{display:block;width:100%}
+ table.am tr{border:1px solid var(--line);border-radius:12px;margin-bottom:12px;padding:6px 4px}table.am td:last-child{position:static;box-shadow:none;text-align:left;background:none}.acts{justify-content:flex-start}
+ table.am td{border:0;padding:6px 10px}table.am td[data-l]:before{content:attr(data-l);display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);font-weight:700;margin-bottom:2px}}
+</style>
+
+<div class="am-stats">
+ <div class="kpi" style="--c:var(--blue)"><small>Total admins</small><b>{{stats.total}}</b><span>with panel access</span></div>
+ <div class="kpi" style="--c:var(--ok)"><small>Active</small><b>{{stats.active}}</b><span>can log in</span></div>
+ <div class="kpi" style="--c:var(--bad)"><small>Disabled</small><b>{{stats.disabled}}</b><span>login blocked</span></div>
+ <div class="kpi" style="--c:var(--orange)"><small>Job mail linked</small><b>{{stats.job}}</b><span>get job applications</span></div>
+</div>
+
+<div class="card">
+ <div class="am-head">
+  <h3>Admin accounts</h3><span class="sp"></span>
+  <input class="am-search" id="q" type="search" placeholder="Search name, username, mobile, email" oninput="amFilter()">
+  <button class="btn add" type="button" onclick="amOpen('mAdd')">＋ Add admin</button>
+ </div>
+ <p class="note">Admins log in with their <b>username</b> or <b>mobile number</b> and password. Each admin's password is shown in the table — use <b>Reset</b> to set a new one. Every new <b>enquiry PDF</b> is emailed to each <b>active</b> admin who has an email saved.</p>
+ <p class="note" style="margin-bottom:12px"><b>Job applications</b> are emailed <u>only</u> to admins whose <b>Job mails</b> switch is On — so they don't go to everyone.</p>
+ <p class="note" style="margin-bottom:12px"><b>Sales person:</b> switch <b>Sales mails</b> On — that admin gets a mail for every new enquiry saying whether the product is <u>available / not available</u>; when they write the price (button in the mail, or by replying to it) it is sent to the customer automatically.</p>
+
+ <table class="am">
+  <thead><tr><th>Admin</th><th>Username</th><th>Password</th><th>Contact</th><th>Email</th><th>Job mails</th><th>Sales mails</th><th>Status</th><th>Actions</th></tr></thead>
+  <tbody id="amBody">
+  {% for a in admins %}{% set mine = a.id==me %}{% set act = a.get('active', True) %}
+  <tr data-s="{{(a.name ~ ' ' ~ (a.username or '') ~ ' ' ~ a.phone ~ ' ' ~ (a.email or ''))|lower}}">
+   <td data-l="Admin"><div class="who"><span class="av">{{(a.name or '?')[:1]|upper}}</span><div><b>{{a.name}}{% if mine %}<span class="you">YOU</span>{% endif %}</b></div></div></td>
+   <td data-l="Username"><span class="uname">{{a.username or a.phone}}</span></td>
+   <td data-l="Password"><div class="pwd">{% if a.pw_plain %}<span class="pwv">{{a.pw_plain}}</span><button type="button" class="ic" title="Copy password" onclick="amCopyPw(this)" data-t="{{a.pw_plain}}">⧉</button>{% else %}<span class="hint" title="This password was set before it could be shown here. It appears automatically after this admin logs in once — or click Reset to set a new one.">Shows after next login</span>{% endif %}</div>{% if a.pw_changed %}<small class="hint">Changed {{a.pw_changed.strftime('%d %b %Y')}}</small>{% endif %}</td>
+   <td data-l="Contact" class="ct">{{a.phone|fmt_phone}}</td>
+   <td data-l="Email">{% if a.email %}{{a.email}}{% else %}<span class="mute">— not set —</span>{% endif %}</td>
+   <td data-l="Job mails">
+    {% if a.email %}<form method="post" action="/admin/admins/{{a.id}}/toggle-job"><button class="sw {{'on' if a.job_notify}}" title="Receive job application emails"><i></i>{{'On' if a.job_notify else 'Off'}}</button></form>
+    {% else %}<span class="hint">Add an email first</span>{% endif %}
+   </td>
+   <td data-l="Sales mails">
+    {% if a.email %}<form method="post" action="/admin/admins/{{a.id}}/toggle-sales"><button class="sw {{'on' if a.sales_notify}}" title="Gets every new enquiry: product available or not + a box to write the price (the price is mailed to the customer)"><i></i>{{'On' if a.sales_notify else 'Off'}}</button></form>
+    {% else %}<span class="hint">Add an email first</span>{% endif %}
+   </td>
+   <td data-l="Status">
+    <form method="post" action="/admin/admins/{{a.id}}/toggle"><button class="sw {{'on' if act}}" {{'disabled' if mine}} title="{{'You cannot disable yourself' if mine else 'Enable / disable login'}}"><i></i>{{'Active' if act else 'Disabled'}}</button></form>
+   </td>
+   <td data-l="Actions"><div class="acts">
+    <button type="button" class="bt rst" data-id="{{a.id}}" data-name="{{a.name}}" data-user="{{a.username or ''}}" data-phone="{{(a.phone|fmt_phone).replace('+91 ','')}}" data-email="{{a.email or ''}}" onclick="amReset(this)" title="Set a new password for this admin">🔑 Reset</button>
+    <button type="button" class="bt del" {{'disabled' if mine}} data-id="{{a.id}}" data-name="{{a.name}}" onclick="amDel(this)" title="{{'You cannot delete yourself' if mine else 'Delete admin'}}">🗑 Delete</button>
+   </div></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+ </table>
+ <div class="empty" id="amNone" style="display:none">No admin matches your search.</div>
+</div>
+
+<!-- ADD -->
+<dialog id="mAdd"><form method="post" autocomplete="off">
+ <div class="mh"><h3>Add admin</h3><button type="button" class="x" onclick="this.closest('dialog').close()" aria-label="Close">×</button></div>
+ <div class="mb"><input type="hidden" name="action" value="add">
+  <label class="fld">Full name<input name="name" required minlength="2" placeholder="e.g. Rakesh Yadav"></label>
+  <div class="g2">
+   <label class="fld">Username<input name="username" required pattern="[A-Za-z0-9][A-Za-z0-9._\-]{2,29}" placeholder="e.g. rakesh.y" autocapitalize="none" spellcheck="false"><small class="hint">3-30 chars, letters / numbers / . _ -</small></label>
+   <label class="fld">Mobile number<span class="phn"><b>+91</b><input name="phone" required pattern="[0-9]{10}" maxlength="10" inputmode="numeric" placeholder="10-digit number"></span></label>
+  </div>
+  <label class="fld">Email <span class="hint">(optional — receives enquiry PDFs)</span><input name="email" type="email" placeholder="name@example.com"></label>
+  <label class="fld">Password<span class="pw"><input name="password" type="password" required minlength="{{min_pw}}" autocomplete="new-password"><button type="button" onclick="amShow(this)">Show</button></span><small class="hint">Minimum {{min_pw}} characters</small></label>
+ </div>
+ <div class="mf"><button type="button" class="btn gh" onclick="this.closest('dialog').close()">Cancel</button><button class="btn" style="margin:0">Add admin</button></div>
+</form></dialog>
+
+<!-- EDIT -->
+<dialog id="mEdit"><form method="post" autocomplete="off">
+ <div class="mh"><h3>Reset password</h3><button type="button" class="x" onclick="this.closest('dialog').close()" aria-label="Close">×</button></div>
+ <div class="mb"><input type="hidden" name="action" value="edit"><input type="hidden" name="id" id="eId">
+  <label class="fld">Full name<input name="name" id="eName" required minlength="2"></label>
+  <div class="g2">
+   <label class="fld">Username<input name="username" id="eUser" required pattern="[A-Za-z0-9][A-Za-z0-9._\-]{2,29}" autocapitalize="none" spellcheck="false"></label>
+   <label class="fld">Mobile number<span class="phn"><b>+91</b><input name="phone" id="ePhone" required pattern="[0-9]{10}" maxlength="10" inputmode="numeric"></span></label>
+  </div>
+  <label class="fld">Email <span class="hint">(receives enquiry PDFs)</span><input name="email" id="eEmail" type="email" placeholder="name@example.com"></label>
+  <label class="fld">New password <span class="hint">(leave blank to keep the current one)</span><span class="pw"><input name="password" type="password" minlength="{{min_pw}}" autocomplete="new-password" placeholder="New password"><button type="button" onclick="amShow(this)">Show</button></span></label>
+ </div>
+ <div class="mf"><button type="button" class="btn gh" onclick="this.closest('dialog').close()">Cancel</button><button class="btn" style="margin:0">Save changes</button></div>
+</form></dialog>
+
+<!-- DELETE -->
+<dialog id="mDel"><form method="post" id="dForm">
+ <div class="mh"><h3>Delete admin?</h3><button type="button" class="x" onclick="this.closest('dialog').close()" aria-label="Close">×</button></div>
+ <div class="danger-txt">Are you sure you want to delete <b id="dName"></b>? They will lose access to the admin panel immediately and will stop receiving enquiry / job emails. <b>This cannot be undone.</b></div>
+ <div class="mf"><button type="button" class="btn gh" onclick="this.closest('dialog').close()">Cancel</button><button class="btn dg">Yes, delete</button></div>
+</form></dialog>
+
+<script>
+function amOpen(id){var d=document.getElementById(id);d.querySelectorAll('form').forEach(function(f){f.reset()});d.showModal();var i=d.querySelector('input:not([type=hidden])');if(i)setTimeout(function(){i.focus()},30)}
+function amEdit(b){var g=function(i){return document.getElementById(i)};g('eId').value=b.dataset.id;g('eName').value=b.dataset.name;g('eUser').value=b.dataset.user||b.dataset.phone;g('ePhone').value=b.dataset.phone;g('eEmail').value=b.dataset.email;
+ var d=g('mEdit');d.querySelector('input[name=password]').value='';d.showModal()}
+function amReset(b){amEdit(b);var p=document.querySelector('#mEdit input[name=password]');setTimeout(function(){p.focus()},40)}
+function amCopyPw(b){var x=b.dataset.t,done=function(){var o=b.textContent;b.textContent='✓';setTimeout(function(){b.textContent=o},1200)};if(navigator.clipboard)navigator.clipboard.writeText(x).then(done);else{var a=document.createElement('textarea');a.value=x;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();done()}}
+function amDel(b){document.getElementById('dName').textContent=b.dataset.name;document.getElementById('dForm').action='/admin/admins/'+b.dataset.id+'/delete';document.getElementById('mDel').showModal()}
+function amShow(b){var i=b.parentNode.querySelector('input');var s=i.type==='password';i.type=s?'text':'password';b.textContent=s?'Hide':'Show'}
+function amFilter(){var q=document.getElementById('q').value.toLowerCase().trim(),n=0;document.querySelectorAll('#amBody tr').forEach(function(r){var ok=!q||r.dataset.s.indexOf(q)>-1;r.style.display=ok?'':'none';if(ok)n++});document.getElementById('amNone').style.display=n?'none':'block'}
+document.querySelectorAll('dialog').forEach(function(d){d.addEventListener('click',function(e){if(e.target===d)d.close()})});
+</script>
+{% endblock %}

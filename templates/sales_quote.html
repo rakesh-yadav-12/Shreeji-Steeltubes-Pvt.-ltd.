@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Enquiry #{{e.no}} – Send price</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f6f5;margin:0;padding:14px;color:#222}
+.card{max-width:680px;margin:0 auto;background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 6px #0002}
+h2{margin:0 0 4px}.mute{color:#666;font-size:13px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:12px 0}td,th{border:1px solid #ddd;padding:8px;text-align:left;vertical-align:top}th{background:#f1f1f1}
+.available{color:#14753c;font-weight:bold}.unavailable{color:#a52828;font-weight:bold}.unknown{color:#9a6700;font-weight:bold}
+textarea{width:100%;box-sizing:border-box;min-height:130px;font-size:15px;padding:10px;border:1px solid #bbb;border-radius:6px;font-family:inherit}
+button{background:#14753c;color:#fff;border:0;border-radius:6px;padding:12px 22px;font-size:15px;font-weight:bold;cursor:pointer;margin-top:10px}
+.ok{background:#e4f6ea;color:#14753c;padding:10px;border-radius:6px;margin:10px 0}.bad{background:#fde8e8;color:#a52828;padding:10px;border-radius:6px;margin:10px 0}
+.prev{background:#f7f7f7;border-left:4px solid #14753c;padding:10px;white-space:pre-wrap;font-size:14px;margin:8px 0}
+</style></head><body><div class="card">
+<h2>Enquiry #{{e.no}}</h2>
+<div class="mute"><b>{{e.name}}</b> ({{e.company or '-'}}) · 📞 {{e.phone}} · ✉ {{e.email or 'NOT GIVEN'}}</div>
+
+<table><tr><th>#</th><th>Requirement</th><th>Availability</th></tr>
+{% for c in checks %}<tr><td>{{c.n}}</td>
+<td><b>{{c.item.product}}</b><br>Size {{c.item.size}} | Thk {{c.item.thickness}} | Length {{c.item.length}} | Qty {{c.item.qty}}<br>Grade {{c.item.grade}} | {{c.item.standard}}</td>
+<td class="{{c.status}}">{{label[c.status]}}{% for r in c.rows[:3] %}<div class="mute" style="font-weight:normal">{{rowtext(r)}}</div>{% endfor %}</td></tr>{% endfor %}</table>
+
+{% if msg %}<div class="ok">{{msg}}</div>{% endif %}{% if err %}<div class="bad">{{err}}</div>{% endif %}
+{% if e.sq_price %}<div class="mute">Last price sent ({{e.sq_price_at.strftime('%d-%m-%Y %H:%M') if e.sq_price_at}}, mail: {{e.sq_customer_mail}}):</div><div class="prev">{{e.sq_price}}</div>{% endif %}
+
+{% if not e.email %}<div class="bad">Customer has not given an email, so the mail cannot be sent. Please call <b>{{e.phone}}</b>.</div>
+{% else %}
+<form method="post"><label><b>Write the price / quotation</b> – it is mailed to <i>{{e.email}}</i> the moment you press Send</label>
+<textarea name="price" placeholder="e.g. 50 NB, 3.2 mm, 6 m – Rs. 68,500 per MT + GST, ex-godown Mumbai. Ready stock. Valid till Saturday.">{{draft}}</textarea>
+<button type="submit">{{ 'Send again to customer' if e.sq_price else 'Send to customer' }}</button></form>
+{% endif %}
+<p class="mute" style="margin-top:18px">Shreeji SteelTubes Pvt. Ltd.</p></div></body></html>

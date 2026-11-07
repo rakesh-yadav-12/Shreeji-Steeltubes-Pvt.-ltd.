@@ -1,0 +1,899 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+<title>Shreeji SteelTubes – Chat</title><link rel="icon" href="/static/logo.png">
+<meta name="description" content="Shreeji SteelTubes - GI, MS, GP, Hollow Section and Seamless pipes in ready stock. Chat to get product details, catalogue and a quick quote.">
+<meta name="theme-color" content="#2E3F96"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="/manifest.webmanifest"><link rel="apple-touch-icon" href="/static/logo.png">
+<style>
+:root{--blue:#2E3F96;--orange:#EE6A24;--bg:#eef1f8}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:#1c2333;overflow:hidden}
+#app{height:100vh;height:100dvh;display:flex;flex-direction:column;position:relative}
+header{display:flex;align-items:center;gap:12px;background:#fff;border-bottom:3px solid var(--orange);padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top));box-shadow:0 1px 6px #0001;z-index:3}
+header img{height:36px}.ti{margin-right:auto;line-height:1.25}.ti b{display:block;color:var(--blue);font-size:15px}.ti span{font-size:12px;color:#5c667d}
+.ti i{display:inline-block;width:8px;height:8px;background:#27ae60;border-radius:50%;margin-right:5px}
+header button,header a{background:#eef1fb;color:var(--blue);border:0;padding:8px 13px;border-radius:18px;font-size:13.5px;font-weight:600;text-decoration:none;cursor:pointer}
+header button:hover,header a:hover{background:var(--blue);color:#fff}
+#prog{background:#fff;padding:7px 16px 9px;border-bottom:1px solid #e1e5f0}#prog>div{max-width:820px;margin:0 auto}
+.pl{display:flex;justify-content:space-between;font-size:12.5px;color:#5c667d;margin-bottom:5px}.pl b{color:var(--blue)}
+.pb{height:6px;background:#e6e9f5;border-radius:6px;overflow:hidden}.pb i{display:block;height:100%;width:0;background:var(--orange);border-radius:6px;transition:width .4s}
+#box{flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+#msgs{min-width:0;max-width:820px;margin:0 auto;padding:18px 14px 10px;display:flex;flex-direction:column;gap:10px}
+.m{max-width:min(88%,580px);padding:10px 14px;border-radius:16px;font-size:15.5px;line-height:1.55;white-space:pre-wrap;word-wrap:break-word;box-shadow:0 1px 2px #0001}
+.bot{background:#fff;align-self:flex-start;border:1px solid #e1e5f0;border-top-left-radius:4px}
+.me{background:var(--blue);color:#fff;align-self:flex-end;border-top-right-radius:4px}
+.m.wide{max-width:min(calc(100% - 42px),640px)}.gal{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:10px 0 4px;padding-bottom:6px}
+.gal figure{flex:none;width:min(76vw,320px);margin:0;scroll-snap-align:start;border:1px solid #e1e5f0;border-radius:10px;overflow:hidden;background:#fff}
+.gal img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.gal figcaption{padding:7px 10px;font-size:13px;line-height:1.35;color:#4b556d;white-space:normal}
+.m video,.m iframe{display:block;width:100%;max-width:480px;aspect-ratio:16/9;border:0;border-radius:10px;margin-top:8px;background:#000}
+.m img.lg{display:block;width:min(100%,250px);margin:2px auto 12px}
+.ts{white-space:nowrap;display:block;font-size:10.5px;color:#8a93a8;text-align:right;margin-top:3px}.me .ts{color:#c9d0f5}
+.opts{display:flex;flex-direction:column;gap:8px;align-self:flex-start;width:min(100%,460px)}.opts .o{width:100%}
+.opts .o{text-align:left;background:#fff;color:var(--blue);border:1.5px solid var(--blue);padding:12px 15px;border-radius:12px;font-size:15px;font-weight:600;min-height:46px;cursor:pointer}
+.lb{margin:10px -14px -10px;border-top:1px solid #e9edef}.lbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;border:0;background:none;color:#027eb5;font-size:15.5px;font-weight:600;cursor:pointer;border-radius:0 0 16px 16px}.lbtn span{font-size:19px;line-height:1}.lbtn:active{background:#f0f2f5}
+#sheet{position:fixed;left:0;right:0;top:0;bottom:0;height:100vh;height:100dvh;z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;padding-top:calc(16px + env(safe-area-inset-top));padding-bottom:calc(16px + env(safe-area-inset-bottom))}#sheet[hidden]{display:none}.sbk{position:absolute;inset:0;background:#0b141a99;backdrop-filter:blur(2px);animation:sbk .2s ease}
+.spn{position:relative;background:#fff;border-radius:16px;max-height:min(78vh,78dvh);display:flex;flex-direction:column;width:100%;max-width:440px;margin:0 auto;box-shadow:0 20px 60px #0006,0 2px 8px #0003;overflow:hidden;animation:spop .22s cubic-bezier(.2,.9,.3,1.2)}
+.shd{flex:none;display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid #e9edef;font-size:16.5px;color:#111b21;background:#fff}.shd b{flex:1;font-weight:700}.sx{border:0;background:none;font-size:19px;color:#54656f;cursor:pointer;padding:6px 9px;border-radius:50%}.sx:hover{background:#f0f2f5}
+.sls{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:6px}
+.sit{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border:0;border-bottom:1px solid #f0f2f5;background:#fff;font-size:15.5px;color:#111b21;text-align:left;cursor:pointer}.sit:last-child{border-bottom:0}.sit:active,.sit:hover{background:#f0f2f5}.sit i{width:20px;height:20px;border:2px solid #8696a0;border-radius:50%;flex:none}.sit:hover i{border-color:#027eb5}
+@keyframes spop{from{opacity:0;transform:scale(.92) translateY(10px)}to{opacity:1;transform:none}}@keyframes sbk{from{opacity:0}to{opacity:1}}
+.lbtn .ln{font-size:15.5px;line-height:1.2}.dqm{flex:1;min-width:0}.dsg{margin-bottom:2px}.dl{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px;color:#667781;font-size:13.5px}.dl .dcl{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:104px;background:#128c7e;color:#fff!important;text-decoration:none;font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:20px;box-shadow:0 1px 2px #0002}.dcl.dr{background:#2e3f96}.dcl.ml{background:#ee6a24}.dcl:active{filter:brightness(.92)}.rqa{padding:16px 20px;font-size:15px;line-height:1.55;white-space:pre-wrap;color:#1c2333}.rqi{display:block;width:calc(100% - 40px);margin:0 20px 16px;border-radius:10px}
+.rd{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid #f0f2f5;cursor:pointer}.rd:active{background:#f0f2f5}.ric{flex:none;width:42px;height:48px;border-radius:6px;background:#e53935;color:#fff;font-weight:700;font-size:11px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px}.rtt{flex:1;min-width:0}.rtt b{display:block;font-size:15px;color:#111b21;font-weight:600}.rtt small{color:#667781;font-size:12.5px}.rdl{flex:none;width:36px;height:36px;border-radius:50%;background:#eef1fb;color:#2e3f96!important;text-decoration:none;display:flex;align-items:center;justify-content:center}
+.rcg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;padding:14px 16px}.rcc{background:#fff;border:1px solid #e1e5f0;border-radius:12px;overflow:hidden;cursor:pointer;box-shadow:0 1px 3px #0b141a14;transition:box-shadow .2s,transform .2s}.rcc:hover,.rcc:focus-within{box-shadow:0 6px 18px #0b141a2e;transform:translateY(-2px)}
+.rci{position:relative;aspect-ratio:3/4;background:#f3f5fa;display:flex;align-items:center;justify-content:center;overflow:hidden}.rci img{width:100%;height:100%;object-fit:contain;display:block}.rci .nf{font-weight:700;color:#2e3f96;font-size:22px}
+.rco{position:absolute;inset:0;background:rgba(10,31,92,.72);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;opacity:0;transition:opacity .2s}.rcc:hover .rco,.rcc:focus-within .rco{opacity:1}
+.rco .rb{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:118px;padding:9px 14px;border-radius:8px;border:0;background:#fff;color:#0a1f5c;font-size:13.5px;font-weight:700;text-decoration:none;cursor:pointer}.rco .rb:hover{background:#ef7d00;color:#fff}
+.rct{padding:10px 10px 12px;text-align:center;font-size:13.5px;font-weight:700;color:#0a1f5c;line-height:1.3}
+@media (hover:none){.rco{opacity:1;background:linear-gradient(transparent 60%,rgba(10,31,92,.82));justify-content:flex-end;flex-direction:row;gap:6px;padding:0 6px 8px}.rco .rb{min-width:0;padding:7px 10px;font-size:12.5px}}
+.rgal{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px}.rgal figure{margin:0;border:1px solid #e1e5f0;border-radius:10px;overflow:hidden;cursor:pointer;background:#fff}.rgal img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}.rgal figcaption{padding:6px 8px;font-size:12px;line-height:1.3;color:#4b556d}
+#rv{position:fixed;inset:0;z-index:2000;background:#525659;display:flex;flex-direction:column}#rv[hidden]{display:none}.rvh{flex:none;display:flex;align-items:center;gap:12px;background:#fff;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 2px 8px #0004}.rvh b{flex:1;min-width:0;font-size:16px;color:#111b21;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rvx{flex:none;width:40px;height:40px;border:0;border-radius:50%;background:#eef1fb;color:#2e3f96;font-size:20px;font-weight:700;cursor:pointer}.rvx:hover{background:#2e3f96;color:#fff}.rvd{flex:none;width:40px;height:40px;border-radius:50%;background:#128c7e;color:#fff!important;text-decoration:none;display:flex;align-items:center;justify-content:center;font-size:18px}
+.rvb{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 0;text-align:center}.rvp{width:min(100%,900px);margin:0 auto 10px;background:#fff}.rvi{width:min(100%,1000px);max-width:100%;height:auto;margin:auto}.rvf{width:100%;height:calc(100% - 44px);border:0;background:#fff}.rvn{color:#fff;padding:14px;font-size:14.5px}.rvn a{color:#fff;font-weight:700}
+.dqi{padding:14px 20px;font-size:14.5px;line-height:1.45;color:#3b4a54}.dq{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 20px;border-top:1px solid #f0f2f5;font-size:14.5px;color:#111b21}.dq b{display:block;color:#075e54;font-size:13.5px;letter-spacing:.3px}.dq small{display:block;color:#667781;font-size:13px;margin-top:2px}.dcl{flex:none;background:#128c7e;color:#fff!important;text-decoration:none;font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:20px}.dqf{position:sticky;bottom:0;background:#fff;padding:10px 16px 12px;border-top:1px solid #e9edef}.dqb{width:100%;border:0;border-radius:24px;padding:13px;font-size:15.5px;font-weight:700;background:var(--orange,#ee6a24);color:#fff;cursor:pointer}
+.opts .o:hover,.opts .o:active{background:var(--blue);color:#fff}
+.ot{font-size:12.5px;color:#667781;margin-top:6px}.ot b{color:#111b21}
+.sec{display:flex;gap:8px;flex-wrap:wrap}.sec button{background:transparent;border:1px solid #b4bcd2;color:#4b556d;padding:8px 15px;border-radius:20px;font-size:13.5px;cursor:pointer}
+.sec button:hover{background:#4b556d;color:#fff}
+.dp{display:flex;gap:8px;align-items:center;flex-wrap:wrap;align-self:flex-start;background:#fff;border:1px solid #e1e5f0;padding:10px 12px;border-radius:12px}
+.dp input{font-size:16px;padding:9px 10px;border:1.5px solid #cfd6e6;border-radius:8px}.dp button{background:var(--orange);color:#fff;border:0;padding:10px 16px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer}
+.typing{display:flex;gap:5px;padding:13px 16px}.typing i{width:8px;height:8px;border-radius:50%;background:#9aa3b8;animation:tp 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}@keyframes tp{0%,60%,100%{opacity:.3;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+footer{background:#fff;border-top:1px solid #dde2ee;padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+#f{max-width:820px;margin:0 auto;display:flex;gap:10px}
+#t{flex:1;min-width:0;font-size:16px;padding:13px 18px;border:1.5px solid #cfd6e6;border-radius:26px;outline:0;background:#f8f9fd}#t:focus{border-color:var(--blue);background:#fff}
+#s{flex:none;width:48px;height:48px;border:0;border-radius:50%;background:var(--orange);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+#splash{position:absolute;inset:0;z-index:9;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .5s;cursor:pointer}
+#splash img{width:70%;max-width:400px;animation:pop .8s ease}#splash p{color:var(--blue);margin:0;font-weight:600}
+.bar{width:140px;height:4px;background:#e6e9f5;border-radius:4px;overflow:hidden}.bar b{display:block;height:100%;width:0;background:var(--orange);animation:ld 2.2s linear forwards}
+@keyframes ld{to{width:100%}}@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
+header img{max-width:38vw;object-fit:contain}.ti{min-width:0}.ti b,.ti span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+@media(max-width:600px){header{padding-left:10px;padding-right:10px;gap:8px}header img{height:30px}.tx,.ti span{display:none}header button,header a{padding:9px 12px;font-size:16px}.m{font-size:15px}#msgs{padding:14px 10px 8px}}
+@media(max-width:380px){.ti{display:none}header>button:first-of-type{margin-left:auto}}
+.r{display:flex;gap:8px;align-items:flex-start;min-width:0;animation:in .28s ease}.rr{justify-content:flex-end}.r .m{align-self:auto;min-width:0}@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.av{width:34px;height:34px;border-radius:50%;flex:none;box-shadow:0 1px 3px #0003}.av.ghost{visibility:hidden}
+.day{align-self:center;background:#dfe4f2;color:#5c667d;font-size:12px;padding:3px 12px;border-radius:12px}
+.tk{color:#7fd3ff;margin-left:3px}.opts,.dp{margin-left:42px;max-width:calc(100% - 42px)}
+.sc{margin-top:10px;border:1px solid #d5dbee;border-radius:10px;overflow:hidden;background:#f8f9fd}.sc>b{display:block;background:var(--blue);color:#fff;padding:9px 12px;font-size:14px}
+.sc table{width:100%;border-collapse:collapse;font-size:14px}.sc td{padding:7px 12px;border-top:1px solid #e6e9f5;vertical-align:top;white-space:normal}.sc td:first-child{color:#5c667d;width:42%}.sc td:last-child{font-weight:600}
+
+
+/* ---- intro message: gallery + video sit INSIDE the chat bubble border ---- */
+.m.wide{max-width:min(calc(100% - 42px),420px);padding:12px}
+.m.wide .gal{margin:10px 0 0;padding:0 0 4px;gap:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.m.wide .gal::-webkit-scrollbar{display:none}
+.m.wide .gal figure{width:100%;border:1px solid #d5dbee;border-radius:12px;box-shadow:0 1px 3px #0001}
+.m.wide .gal figcaption{background:#f8f9fd;border-top:1px solid #e6e9f5}
+.gal:after{content:'';flex:none;width:1px}
+.hint{font-size:12px;color:#8a93a8;text-align:center;margin:4px 0 0}
+.m.wide video,.m.wide iframe{width:100%;max-width:100%;margin-top:10px;border:1px solid #d5dbee;border-radius:12px;background:#000;box-shadow:0 1px 3px #0001}
+
+/* ---- logo watermark behind the chat + border around the chatbot ---- */
+#app{border:3px solid var(--blue);box-shadow:inset 0 0 0 1px #fff}
+#box{background:linear-gradient(rgba(238,241,248,.90),rgba(238,241,248,.90)),url(/static/logo.png) center 45%/min(72%,460px) no-repeat,var(--bg)}
+@media(max-width:600px){ #app{border-width:2px}}
+/* call-department tab + map button */
+.lks{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.lks a.map{display:block;text-align:center;padding:10px 12px;border-radius:10px;background:#2e3f96;color:#fff!important;text-decoration:none;font-weight:600;font-size:14px}
+.lks details{border-radius:10px;background:#ee6a24;color:#fff;overflow:hidden}
+.lks summary{list-style:none;cursor:pointer;text-align:center;padding:10px 12px;font-weight:600;font-size:14px}
+.lks summary::-webkit-details-marker{display:none}.lks details[open] summary:after{content:' ▲'}.lks summary:after{content:' ▼'}
+.lks details>div{background:#fff;border:1.5px solid #ee6a24;border-top:0;border-radius:0 0 10px 10px}
+.lks details a{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 14px;color:#1c2333!important;text-decoration:none;border-top:1px solid #f1e3da;font-size:14.5px}
+.lks details a:first-child{border-top:0}.lks details a b{color:#ee6a24;white-space:nowrap}.lks details a span{color:#5c667d;font-size:13px;display:block}
+
+/* ================= WhatsApp look ================= */
+:root{--wa:#008069;--wa2:#00a884;--bg:#efeae2}
+body{background:#d1d7db}
+#app{border:2px solid var(--wa);background:var(--bg)}
+header{background:var(--wa);border-bottom:0;box-shadow:0 1px 3px #0003;color:#fff}
+header img.pf{height:38px;width:auto;max-width:none;border-radius:8px;background:#fff;padding:3px 9px;object-fit:contain}.lw{margin-right:auto;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}.on{display:flex;align-items:center;gap:5px;font-size:12px;line-height:1;color:#d3ebe5}.on i{width:8px;height:8px;border-radius:50%;background:#27ae60}#app.m-home .on{color:var(--hmut)}
+@media(max-width:600px){header img.pf{height:32px;padding:3px 7px}}
+.ti b{color:#fff;font-size:16.5px;font-weight:600}.ti span{color:#d3ebe5;font-size:12.5px}
+header button,header a{background:rgba(255,255,255,.16);color:#fff}header button:hover,header a:hover{background:rgba(255,255,255,.32);color:#fff}
+#prog{background:#f0f2f5;border-bottom:1px solid #d9dde1}.pl b{color:var(--wa)}.pb{background:#d9dde1}.pb i{background:var(--wa2)}
+/* wallpaper + logo watermark */
+#box{background:linear-gradient(rgba(239,234,226,.90),rgba(239,234,226,.90)),url(/static/logo.png) center 45%/min(72%,460px) no-repeat,var(--bg)}
+#msgs{gap:3px;padding:14px 12px 10px}
+.day{background:#fff;color:#54656f;box-shadow:0 1px 1px #0002;border-radius:8px;font-size:12.5px;padding:5px 12px;margin:6px 0 8px;text-transform:uppercase}
+.av{display:none}.r{gap:0}
+.m{position:relative;border-radius:8px;box-shadow:0 1px 1px #0b141a21;font-size:14.8px;line-height:1.45;padding:7px 9px 6px 9px;color:#111b21}
+.bot{background:#fff;border:0}
+.me{background:#d9fdd3;color:#111b21;border:0}
+.bot.tail{border-top-left-radius:0;margin-top:6px}.me.tail{border-top-right-radius:0;margin-top:6px}
+.bot.tail:before{content:'';position:absolute;top:0;left:-8px;border-right:9px solid #fff;border-bottom:10px solid transparent}
+.me.tail:before{content:'';position:absolute;top:0;right:-8px;border-left:9px solid #d9fdd3;border-bottom:10px solid transparent}
+.typing:before{display:none}
+.ts{color:#667781;font-size:11px}.me .ts{color:#667781}.tk{color:#53bdeb}
+.m.wide{padding:6px}.m.wide>*:first-child{padding-left:3px}
+.m.wide .gal figure,.m.wide video,.m.wide iframe{border-color:#e9edef;border-radius:7px}
+.m.wide .gal figcaption{background:#fff;border-top:1px solid #e9edef}
+.m img.lg{margin-bottom:8px}
+/* quick-reply buttons like WhatsApp business */
+.opts,.dp{margin-left:0;max-width:100%}.opts{gap:6px;width:min(100%,420px);margin-top:4px}
+.opts .o{text-align:center;background:#fff;color:#027eb5;border:0;border-radius:8px;box-shadow:0 1px 1px #0b141a21;min-height:42px;padding:10px 14px;font-size:14.5px;font-weight:600}
+.opts .o:hover,.opts .o:active{background:#f0f2f5;color:#027eb5}
+.sec button{background:#fff;border:0;color:#54656f;box-shadow:0 1px 1px #0b141a21;border-radius:8px}.sec button:hover{background:#f0f2f5;color:#111b21}
+.dp{background:#fff;border:0;border-radius:8px;box-shadow:0 1px 1px #0b141a21}.dp button{background:var(--wa2)}
+.sc{border-color:#e9edef;background:#f7f8fa;border-radius:8px}.sc>b{background:var(--wa)}
+.lks a.map{background:#fff!important;color:#027eb5!important;border:1px solid #e9edef;border-radius:8px}
+.lks details{background:var(--wa2);border-radius:8px}.lks details>div{border-color:var(--wa2);border-radius:0 0 8px 8px}.lks details a b{color:var(--wa)}
+/* input bar */
+footer{background:#f0f2f5;border-top:0;padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
+#t{border:0;background:#fff;border-radius:22px;padding:12px 18px;font-size:15.5px}#t:focus{background:#fff}
+#s{background:var(--wa2);width:46px;height:46px}
+
+/* ---- in-chat forms (Customer Details / Enquiry) ---- */
+.m:has(.fm){width:100%;max-width:100%}
+.fm{display:flex;flex-direction:column;gap:4px;margin-top:4px;min-width:min(78vw,340px)}
+.fm .ft{font-weight:700;font-size:16px;color:var(--wa)}.fm .fn{font-size:13px;color:#667781;margin-bottom:2px}
+.fm .fs{margin-top:10px;padding:6px 10px;border-radius:8px;background:#e7f5f1;color:#075e54;font-weight:700;font-size:13.5px}
+.fm .fl{margin-top:8px;font-size:13px;font-weight:600;color:#3b4a54}.fm .fl em{color:#d93025;font-style:normal}
+.fm input,.fm select,.fm textarea{width:100%;box-sizing:border-box;border:1px solid #cfd8dc;border-radius:8px;padding:11px 12px;font:inherit;font-size:16px;background:#fff;color:#111b21;min-width:0}
+.fm textarea{resize:vertical;min-height:64px}
+.fm input:focus,.fm select:focus,.fm textarea:focus{outline:2px solid var(--wa2);border-color:var(--wa2)}
+.fm .fe{color:#d93025;font-size:12.5px;margin-top:2px}.fm input:has(+.fe),.fm select:has(+.fe){border-color:#d93025}
+.fm .fb{margin-top:14px;background:var(--wa2);color:#fff;border:0;border-radius:24px;padding:13px;font-size:16px;font-weight:700;cursor:pointer}
+.fm.done{opacity:.55}.fm.done .fb{background:#8696a0}
+/* contact cards: details on the left, call button in front of them */
+.cds{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+.cd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid #e9edef}
+.cd:first-child{border-top:0}
+.cd .in{min-width:0;font-size:14px;line-height:1.45;overflow-wrap:anywhere}.cd .in b{display:block;font-size:14.5px}
+.cd a.cb{flex:none;display:flex;align-items:center;gap:5px;background:var(--wa2);color:#fff!important;border-radius:20px;padding:8px 14px;font-weight:600;font-size:13.5px;text-decoration:none}
+@media(max-width:600px){.m:has(.cds){width:100%;max-width:100%}.cd{gap:8px}.cd .in{font-size:13.5px}.cd a.cb{padding:9px 12px;font-size:13px}}
+@media(max-width:360px){.cd{flex-direction:column;align-items:stretch}.cd a.cb{justify-content:center}}
+/* document card (catalogue / datasheet / certificates): view + download */
+.dc{display:flex;flex-direction:column;gap:10px;min-width:230px}
+.dc .hd{display:flex;align-items:center;gap:12px}
+.dc .ic{flex:none;width:46px;height:54px;border-radius:6px;background:#e53935;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:7px;position:relative;letter-spacing:.5px}
+.dc .ic:before{content:'';position:absolute;top:0;right:0;border-left:13px solid #fff;border-bottom:13px solid #b71c1c;border-top-right-radius:6px;opacity:.9}
+.dc .ic.o{background:#2e7d32}.dc .ic.w{background:#1565c0}.dc .ic.i{background:#6a1b9a}
+.dc .tt{min-width:0}.dc .tt b{display:block;font-size:14.5px;line-height:1.3;overflow-wrap:anywhere}.dc .tt small{color:#667781;font-size:12px}
+.dc .bt{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dc .bt.one{grid-template-columns:1fr}
+.dc .bt a{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none}
+.dc .bt a.v{background:#fff;color:#027eb5!important;border:1px solid #cfd8dc}.dc .bt a.d{background:var(--wa2);color:#fff!important}
+/* direct-call buttons (one per department, tap = dial) */
+.lks.calls,.lks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lks a.map{grid-column:1/-1}
+.lks a.call{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;background:var(--wa2)!important;color:#fff!important;border-radius:8px;padding:10px 8px;font-weight:600;font-size:14.5px;text-decoration:none;line-height:1.25}
+.lks a.call small{font-size:11.5px;font-weight:400;opacity:.9}
+
+/* ================= HOME TAB (Ashoka-Buildcon style hero slider) ================= */
+#tabs{display:flex;background:#fff;border-bottom:1px solid #d9dde1;z-index:2}
+#tabs button{flex:1;background:none;border:0;border-bottom:3px solid transparent;padding:11px 8px;font-size:14.5px;font-weight:700;color:#54656f;cursor:pointer}
+#tabs button.on{color:var(--blue);border-bottom-color:var(--orange)}
+#home{display:none;flex:1;overflow-y:auto;background:#fff;overscroll-behavior:contain}
+#app.th #home{display:block}#app.th #box,#app.th footer,#app.th #prog{display:none}
+.hero{position:relative;height:min(68vh,540px);min-height:400px;overflow:hidden;background:#0d1b3d;touch-action:pan-y}
+.sl{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .9s ease,visibility .9s;background-size:cover;background-position:center}
+.sl.on{opacity:1;visibility:visible}.sl.on:before{animation:kb 9s ease-out forwards}
+.sl:before{content:'';position:absolute;inset:0;background:inherit;transform:scale(1)}@keyframes kb{to{transform:scale(1.08)}}
+.sl:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,18,48,.88) 0%,rgba(8,18,48,.62) 45%,rgba(8,18,48,.15) 100%)}
+.sc2{position:absolute;z-index:2;left:0;right:0;bottom:0;top:0;display:flex;flex-direction:column;justify-content:center;padding:24px 64px;max-width:720px;color:#fff}
+.sc2 .tag{display:inline-block;align-self:flex-start;background:var(--orange);color:#fff;font-size:11.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 11px;border-radius:3px;margin-bottom:12px}
+.sc2 h2{margin:0 0 6px;font-size:clamp(26px,5.2vw,44px);line-height:1.1;font-weight:800}.sc2 h4{margin:0 0 14px;font-weight:500;font-size:clamp(14px,2.4vw,18px);color:#ffd2bb}
+.sc2 ul{list-style:none;margin:0 0 18px;padding:0;font-size:clamp(13px,2vw,15.5px);line-height:1.5}.sc2 li{padding-left:18px;position:relative;margin:4px 0}.sc2 li:before{content:'';position:absolute;left:0;top:.55em;width:8px;height:8px;background:var(--orange);transform:rotate(45deg)}
+.sc2 .bt{display:flex;gap:10px;flex-wrap:wrap}.sc2 .bt button{border:0;border-radius:3px;padding:11px 20px;font-size:14px;font-weight:700;cursor:pointer}.b1{background:var(--orange);color:#fff}.b2{background:transparent;color:#fff;border:2px solid #fff!important}
+.sl.on .sc2>*{animation:up .8s both}.sl.on .sc2>*:nth-child(2){animation-delay:.1s}.sl.on .sc2>*:nth-child(3){animation-delay:.2s}.sl.on .sc2>*:nth-child(4){animation-delay:.3s}.sl.on .sc2>*:nth-child(5){animation-delay:.4s}@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.ar{position:absolute;z-index:4;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;font-size:22px;cursor:pointer;backdrop-filter:blur(4px)}.ar:hover{background:var(--orange)}.ar.l{left:12px}.ar.r{right:12px}
+.dots{position:absolute;z-index:4;left:64px;bottom:20px;display:flex;gap:8px;align-items:center}.dots i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.45);cursor:pointer;transition:.3s}.dots i.on{width:30px;border-radius:6px;background:var(--orange)}
+.cnt{position:absolute;z-index:4;right:22px;bottom:18px;color:#fff;font-weight:700;font-size:15px;letter-spacing:1px}
+.hp{position:absolute;z-index:4;left:0;bottom:0;height:4px;background:var(--orange);width:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--blue);color:#fff;text-align:center}.stats div{padding:20px 6px;border-right:1px solid #ffffff22}.stats div:last-child{border:0}
+.stats b{display:block;font-size:clamp(22px,4.5vw,34px);color:#ffb08a}.stats span{font-size:12.5px;opacity:.9}
+.hs{padding:28px 18px;max-width:1100px;margin:0 auto}.hs h3{margin:0 0 4px;font-size:24px;color:var(--blue)}.hs h3:after{content:'';display:block;width:54px;height:4px;background:var(--orange);margin:8px 0 6px}.hs>p{margin:0 0 16px;color:#5c667d}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.pc{border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 2px 10px #0002;cursor:pointer;transition:.25s}.pc:hover{transform:translateY(-4px);box-shadow:0 8px 20px #0003}
+.pc div{height:120px;background-size:cover;background-position:center}.pc{display:flex;flex-direction:column;position:relative;border-radius:12px;border:1px solid #e1e5f0;box-shadow:0 2px 10px #101a461a}.pc:hover,.pc:focus-visible{border-color:var(--orange);box-shadow:0 10px 24px #101a4638;outline:0}.pc div.pi{height:150px}.pc small{flex:1;padding-bottom:14px}.pc .pt{position:absolute;top:10px;left:10px;background:var(--orange);color:#fff;font-size:12px;font-weight:700;padding:5px 11px;border-radius:20px;box-shadow:0 2px 8px #0004;pointer-events:none}.pc.first:not(.seen){animation:ppulse 2.2s ease-out infinite}.pc.first.seen .pt{display:none}@keyframes ppulse{0%{box-shadow:0 0 0 0 #ee6a2466}70%{box-shadow:0 0 0 14px #ee6a2400}100%{box-shadow:0 0 0 0 #ee6a2400}}.phint{display:flex;align-items:center;gap:10px;margin:0 0 16px;padding:11px 14px;background:#fff6f0;border:1px solid #f8d3bd;border-left:4px solid var(--orange);border-radius:8px;color:#3b4560;font-size:14px;line-height:1.4}.phint b{color:var(--blue)}.phint .phi{font-size:20px;line-height:1;animation:pnudge 1.6s ease-in-out infinite}.phint.seen{display:none}@keyframes pnudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}@media (prefers-reduced-motion:reduce){.pc.first:not(.seen),.phint .phi{animation:none}}
+.pc div.pi{position:relative;overflow:hidden}.pc div.pi:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0b142e22,#0b142ecc);opacity:0;transition:opacity .3s}.pc div.pi:after{content:"View details  \2192";position:absolute;left:50%;top:50%;transform:translate(-50%,-10%) scale(.8);opacity:0;white-space:nowrap;background:#fff;color:var(--blue);font-weight:700;font-size:14px;padding:10px 20px;border-radius:30px;box-shadow:0 6px 18px #0006;transition:opacity .25s,transform .35s cubic-bezier(.34,1.56,.64,1)}@media (hover:hover){.pc:hover div.pi:before,.pc:focus-visible div.pi:before{opacity:1}.pc:hover div.pi:after,.pc:focus-visible div.pi:after{opacity:1;transform:translate(-50%,-50%) scale(1);animation:pcue 1.4s .4s ease-in-out infinite}.pc:hover .pt{opacity:0}}.pc.peek div.pi:before{opacity:1}.pc.peek div.pi:after{opacity:1;transform:translate(-50%,-50%) scale(1);animation:pcue 1.4s .3s ease-in-out infinite}.pc.peek .pt{opacity:0}.pc{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}.pc:active div.pi:before{opacity:1}.pc:active div.pi:after{opacity:1;transform:translate(-50%,-50%) scale(.96)}
+@keyframes pcue{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.07)}}.pc .pt{transition:opacity .2s}@media (prefers-reduced-motion:reduce){.pc:hover div.pi:after,.pc:focus-visible div.pi:after{animation:none}}
+.pc b{display:block;padding:11px 12px 2px;color:var(--blue);font-size:15px}.pc small{display:block;padding:0 12px 12px;color:#5c667d;font-size:12.5px}
+.hf{background:#0d1b3d;color:#cfd6ee;text-align:center;padding:22px 14px;font-size:13.5px;line-height:1.7}.hf a{color:#ffb08a;text-decoration:none}
+@media(max-width:600px){.sc2{padding:20px 22px 74px;justify-content:flex-end}.dots{left:22px;bottom:26px}.ar{display:none}.stats{grid-template-columns:repeat(2,1fr)}.stats div{border-bottom:1px solid #ffffff22}.cnt{display:none}.hero{height:78vh}}
+.opts.old{opacity:.8}
+.hb{position:sticky;top:0;z-index:20;background:#fff;padding:10px 12px;border-bottom:3px solid var(--orange);box-shadow:0 2px 8px #0003}.hb button{width:100%;background:var(--orange);color:#fff;border:0;border-radius:10px;padding:14px 18px;font-size:17px;font-weight:800;cursor:pointer;animation:pulse 1.8s infinite;box-shadow:0 3px 10px #ee6a2466}@keyframes pulse{0%{box-shadow:0 0 0 0 #ee6a2499}70%{box-shadow:0 0 0 12px #ee6a2400}100%{box-shadow:0 0 0 0 #ee6a2400}}.hb button:active{transform:scale(.98)}.hbb{position:sticky;bottom:0;z-index:20;display:flex;justify-content:center;padding:10px 12px calc(10px + env(safe-area-inset-bottom));pointer-events:none}.hbb button{pointer-events:auto;width:auto;min-width:230px;max-width:90%;background:var(--orange);color:#fff;border:0;border-radius:26px;padding:12px 28px;font-size:16px;font-weight:800;cursor:pointer;animation:pulse 1.8s infinite;box-shadow:0 4px 14px #0004}
+
+/* ================= ABOUT US PAGE - same layout as https://www.shreejisteeltubes.com/about-us/ ================= */
+#about{display:none;flex:1;overflow-y:auto;background:#f2eeee;overscroll-behavior:contain;color:#4a4a4a}
+#app.ta #about{display:block}#app.ta #box,#app.ta footer,#app.ta #prog{display:none}
+.ab-ban{background:linear-gradient(90deg,#0b2158 0%,#0b2158e6 35%,#0b215899 70%,#0b215855 100%),url(/static/home/hero-pipes.jpg) center/cover;padding:46px 18px;min-height:130px;display:flex;align-items:center}
+.ab-ban h1{margin:0 auto;width:100%;max-width:1100px;color:#fff;font-size:34px;font-weight:700;letter-spacing:-.5px}
+.ab-c{max-width:1000px;margin:0 auto;padding:34px 18px;text-align:center}
+.ab-c img.lg{height:84px;width:auto;max-width:80%;object-fit:contain;display:block;margin:0 auto 14px}
+.ab-c h2{margin:0 0 20px;color:#0a1f5c;font-weight:400;font-size:30px;line-height:1.3}
+.ab-c p{margin:0;font-size:16px;line-height:2;color:#555}
+.ab-2{max-width:1100px;margin:0 auto;padding:20px 18px 40px;display:grid;grid-template-columns:5fr 7fr;gap:34px;align-items:start}
+.ab-2 img{width:100%;display:block}.ab-2 p{margin:0 0 22px;font-size:16px;line-height:2;color:#555}
+.ab-w{background:#fff;padding:34px 0}
+.ab-h{max-width:1100px;margin:0 auto;padding:0 18px;text-align:center}
+.ab-h h2{margin:0;color:#0a1f5c;font-size:30px;font-weight:800}.ab-h h2:after{content:'';display:block;width:150px;height:3px;margin:14px auto 28px;background:linear-gradient(90deg,#0a1f5c 33%,#c9c9c9 33%)}
+.ab-h p{margin:0;font-size:16px;line-height:2.1;color:#555}
+.ab-v{display:grid;grid-template-columns:repeat(3,1fr)}.ab-v div{padding:48px 28px 56px;color:#fff;text-align:center}
+.ab-v div:nth-child(1){background:#3b7ba5}.ab-v div:nth-child(2){background:#66676a}.ab-v div:nth-child(3){background:#2cb3a0}
+.ab-v h3{margin:0 0 18px;font-size:22px;font-weight:700}.ab-v p{margin:0;font-size:16px;line-height:2}
+.ab-m{max-width:1000px;margin:0 auto;padding:0 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:36px}
+.ab-m .c{background:#f4f5f9;text-align:center;padding-bottom:22px}
+.ab-m .ph{background:#de6414;padding:32px 0}.ab-m .ph img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#eee}
+.ab-m h4{margin:18px 14px 2px;color:#0a1f5c;font-size:20px}.ab-m em{display:block;font-style:normal;color:#de6414;font-weight:700;margin-bottom:10px}.ab-m p{margin:0 18px;font-size:15px;line-height:1.8;color:#555}
+.ab-bk{text-align:center;padding:26px 14px}.ab-bk button{border:0;border-radius:26px;padding:12px 26px;font-size:15px;font-weight:800;cursor:pointer;background:#0a1f5c;color:#fff}
+@media(max-width:760px){.ab-2{grid-template-columns:1fr}.ab-v{grid-template-columns:1fr}.ab-c h2{font-size:24px}.ab-ban h1{font-size:28px}}
+/* product detail popup (opens on the Home screen itself) */
+#ty{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;background:#0009;padding:16px;overscroll-behavior:contain}#ty.on{display:flex}
+#ty .tb{position:relative;background:#fff;border-radius:16px;max-width:380px;width:100%;padding:30px 24px 24px;text-align:center;box-shadow:0 14px 44px #0007;animation:typ .4s cubic-bezier(.2,1.3,.4,1)}
+@keyframes typ{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+#ty .te{font-size:62px;line-height:1;margin-bottom:6px;animation:tyb 1s ease .3s 2}@keyframes tyb{0%,100%{transform:translateY(0)}40%{transform:translateY(-12px)}}
+#ty h3{margin:0 0 10px;color:var(--blue);font-size:23px}#ty p{margin:0 0 6px;color:#444;font-size:15.5px;line-height:1.55}#ty .tn{display:inline-block;margin:4px 0 10px;padding:4px 14px;border-radius:20px;background:#e9f7ee;color:#1d6b3a;font-weight:700;font-size:14.5px}
+#ty button{margin-top:14px;min-width:130px;padding:12px 28px;border:0;border-radius:24px;background:var(--orange);color:#fff;font-size:16px;font-weight:700;cursor:pointer}
+#pd{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:#0009;padding:16px;overscroll-behavior:contain}
+#pd.on{display:flex}
+#pd .pb2{background:#fff;border-radius:10px;max-width:560px;width:100%;max-height:92vh;overflow-y:auto;position:relative;box-shadow:0 12px 40px #0006}
+#pd .px{position:absolute;top:8px;right:8px;width:34px;height:34px;border:0;border-radius:50%;background:#000a;color:#fff;font-size:20px;line-height:1;cursor:pointer}
+#pd .pi{height:210px;background-size:cover;background-position:center;border-radius:10px 10px 0 0}
+#pd .pt2{padding:16px 18px 20px}#pd h3{color:var(--blue);font-size:19px;margin:0 0 4px}
+#pd .pl2{width:46px;height:3px;background:var(--orange);margin:6px 0 12px}
+#pd p{color:#4a4a4a;font-size:14px;line-height:1.55;margin:0 0 14px}
+#pd table{width:100%;border-collapse:collapse;font-size:14.5px;border:1px solid #cfd6ea;border-radius:8px;overflow:hidden}
+#pd td{padding:10px 12px;border-bottom:1px solid #cfd6ea;vertical-align:top;color:#1c2333!important;font-weight:600;background:#fff!important;line-height:1.45}
+#pd td:first-child{width:34%;font-weight:700;color:#fff!important;background:var(--blue)!important;border-bottom-color:#4b5bb0}
+#pd tr:last-child td{border-bottom:0}
+#pd h3{color:var(--blue)!important}#pd p{color:#333!important}
+/* chat product card: keep text readable too */
+.sc td{color:#1c2333!important}.sc td:first-child{color:#2E3F96!important;font-weight:700}
+/* products check-list (chat) */
+.ck{margin-top:10px;border:1px solid #d5dbee;border-radius:10px;background:#f8f9fd;padding:6px 10px}
+.ck label{display:flex;align-items:center;gap:10px;padding:9px 4px;font-size:15px;font-weight:600;color:#1c2333;cursor:pointer;border-bottom:1px solid #e6e9f5}
+.ck label:last-of-type{border-bottom:0}.ck label.sub{padding-left:30px;font-weight:500}
+.ck input{width:20px;height:20px;accent-color:var(--orange);flex:none;cursor:pointer}
+.ck button{display:block;width:100%;margin:8px 0 4px;border:0;border-radius:8px;padding:11px;font-size:15px;font-weight:800;background:var(--orange);color:#fff;cursor:pointer}
+.ck button:disabled{background:#c9cfdf;cursor:not-allowed}
+#pd .pk+.pk{border-top:6px solid #eef1f8}
+/* PRODUCT PAGES - full screen, same layout as the website product page */
+#gl{display:none;flex:1;overflow-y:auto;background:#fff;overscroll-behavior:contain;color:#4a4a4a}#app.tg #gl{display:block}#app.tg #box,#app.tg footer,#app.tg #prog{display:none}
+.gl-g{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1180px;margin:0 auto;padding:0 20px 34px}.gl-g button{display:block;padding:0;border:0;background:#eef0f5;overflow:hidden;cursor:zoom-in;aspect-ratio:4/3}.gl-g img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}.gl-g button:hover img,.gl-g button:focus-visible img{transform:scale(1.07)}
+@media(max-width:900px){.gl-g{grid-template-columns:repeat(3,1fr);gap:12px}}@media(max-width:600px){.gl-g{grid-template-columns:repeat(2,1fr);gap:8px;padding:0 12px 26px}}
+#qa{display:none;flex:1;overflow-y:auto;background:#fff;overscroll-behavior:contain;color:#4a4a4a}#app.tq #qa{display:block}#app.tq #box,#app.tq footer,#app.tq #prog{display:none}
+.qa-b{max-width:1000px;margin:0 auto;padding:48px 22px 44px;text-align:center}.qa-b h2{margin:0;color:#0a1f5c;font-size:34px;font-weight:700;letter-spacing:-.5px}
+.qa-ln{position:relative;width:150px;height:1px;background:#d3d7e0;margin:18px auto 34px}.qa-ln:before{content:"";position:absolute;left:0;top:0;width:50px;height:1px;background:#0a1f5c}
+.qa-b p{margin:0;font-size:16.5px;line-height:2;color:#555}@media(max-width:760px){.qa-b{padding:34px 18px 30px}.qa-b h2{font-size:27px}.qa-b p{font-size:15px;line-height:1.85}}
+/* AUTHORISED DEALERS & DISTRIBUTORS PAGE */
+#dl{display:none;flex:1;overflow-y:auto;background:#fff;overscroll-behavior:contain;color:#4a4a4a}#app.td #dl{display:block}#app.td #box,#app.td footer,#app.td #prog{display:none}
+.dl-lead{max-width:900px;margin:0 auto;padding:0 22px;text-align:center;font-size:16.5px;line-height:1.85;font-weight:600;color:#4a5368}
+.dl-sub{max-width:1100px;margin:46px auto 0;padding:0 22px;text-align:center}.dl-sub h2{margin:0;color:#0a1f5c;font-size:30px;font-weight:700;letter-spacing:-.5px}.dl-sub .qa-ln{margin:16px auto 30px}
+.dl-g{display:grid;grid-template-columns:repeat(4,1fr);gap:26px 30px;max-width:1100px;margin:0 auto;padding:0 22px 34px}
+.dl-c{aspect-ratio:324/176;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #dde2ee;overflow:hidden;transition:box-shadow .2s,border-color .2s}
+.dl-c:hover{border-color:#2E3F96;box-shadow:0 4px 16px #101a4622}.dl-c img{display:block;width:100%;height:100%;object-fit:contain;padding:8px}
+@media(max-width:900px){.dl-g{grid-template-columns:repeat(3,1fr);gap:18px}}
+@media(max-width:600px){.dl-g{grid-template-columns:repeat(2,1fr);gap:12px;padding:0 14px 26px}.dl-sub h2{font-size:22px}.dl-sub{margin-top:34px}.dl-lead{font-size:15px;line-height:1.8}}
+/* REQUEST FOR QUOTE PAGE */
+#cl{display:none;flex:1;overflow-y:auto;background:#fff;overscroll-behavior:contain;color:#4a4a4a}#app.tc #cl{display:block}#app.tc #box,#app.tc footer,#app.tc #prog{display:none}
+.cl-ban{background:linear-gradient(90deg,#0b2158 0%,#0b2158f2 30%,#0b215899 62%,#0b215822 100%),url(/static/home/clients-banner.jpg) right center/cover}
+#sv{display:none;flex:1;overflow-y:auto;background:#fff;overscroll-behavior:contain;color:#222}#app.tv #sv{display:block}#app.tv #box,#app.tv footer,#app.tv #prog{display:none}
+.sv-lead{max-width:1000px;margin:0 auto;padding:0 22px;text-align:center;font-size:20px;line-height:1.6;font-weight:700;color:#222}
+.sv-car{position:relative;max-width:1100px;margin:34px auto 0;padding:0 22px}
+.sv-trk{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.sv-trk div{aspect-ratio:450/336;background:#eef0f5;overflow:hidden;animation:svf .45s ease}.sv-trk img{display:block;width:100%;height:100%;object-fit:cover}
+@keyframes svf{from{opacity:.35}to{opacity:1}}
+.sv-ar{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border:0;border-radius:50%;background:#0006;color:#fff;font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}.sv-ar:hover{background:#000a}.sv-ar.l{left:30px}.sv-ar.r{right:30px}
+.sv-dots{display:flex;justify-content:center;gap:11px;margin:16px 0 4px}.sv-dots button{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:#ccc;cursor:pointer}.sv-dots button.on{background:#000}
+.sv-g{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;max-width:1100px;margin:34px auto 0;padding:0 22px 34px}
+.sv-g div{display:flex;align-items:center;justify-content:center;text-align:center;min-height:62px;padding:14px 16px;border:1px solid #e6e8f0;background:#fff;font-size:16.5px;font-weight:600;line-height:1.4;color:#222}
+.sv-g div:last-child:nth-child(3n+1){grid-column:2}
+@media(max-width:900px){.sv-g{grid-template-columns:repeat(2,1fr);gap:16px}.sv-g div:last-child:nth-child(3n+1){grid-column:auto}.sv-trk{gap:14px}}
+@media(max-width:600px){.sv-lead{font-size:16px}.sv-trk{grid-template-columns:1fr}.sv-trk div:not(.c){display:none}.sv-car{padding:0 14px}.sv-ar.l{left:22px}.sv-ar.r{right:22px}.sv-g{grid-template-columns:1fr;gap:10px;padding:0 14px 26px}.sv-g div{min-height:54px;font-size:15.5px}}
+#ct{display:none;flex:1;overflow-y:auto;background:#fff;overscroll-behavior:contain;color:#4a4a4a}#app.tk #ct{display:block}#app.tk #box,#app.tk footer,#app.tk #prog{display:none}
+.ct-w{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:56px;max-width:1100px;margin:46px auto 0;padding:0 22px;align-items:start}
+.ct-card{background:#f3f4f8;padding:34px 30px 30px;box-shadow:0 10px 36px #0000001c}.ct-card h2{margin:0 0 10px;font-size:28px;font-weight:700;color:#4a4a4a}.ct-card>p{margin:0 0 24px;font-size:16px;line-height:1.7;color:#444}
+.ct-i{display:flex;gap:16px;margin-bottom:22px}.ct-i svg{flex:none;width:28px;height:28px;margin-top:2px;stroke:#444;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ct-i b{display:block;font-size:17px;color:#444;margin-bottom:3px}.ct-i span,.ct-i a{font-size:15px;line-height:1.75;color:#444;text-decoration:none;word-break:break-word}.ct-i a.vm{display:inline-block;margin-top:4px;font-weight:700;color:#0a1f5c;cursor:pointer;border-bottom:1px solid #0a1f5c}
+.ct-fm h2{margin:0;color:#0a1f5c;font-size:30px;font-weight:700;letter-spacing:-.5px}.ct-fm .qa-ln{margin:16px 0 28px;margin-left:0}
+.ct-g{display:grid;grid-template-columns:1fr 1fr;gap:22px 24px}.ct-g .full{grid-column:1/-1}
+.ct-f input,.ct-f textarea{display:block;width:100%;box-sizing:border-box;padding:22px 20px;font:inherit;font-size:16px;color:#333;background:#f3f4f8;border:1px solid transparent;border-radius:2px;outline:0}.ct-f textarea{min-height:170px;resize:vertical}
+.ct-f input:focus,.ct-f textarea:focus{border-color:#2E3F96;background:#fff}.ct-f.err input,.ct-f.err textarea{border-color:#d33}.ct-f .em{display:none;margin-top:6px;font-size:13.5px;color:#d33}.ct-f.err .em{display:block}
+.ct-ok{display:none;margin-bottom:18px;padding:14px 16px;background:#e9f7ee;border:1px solid #bfe3cb;color:#1d6b3a;font-size:15px;line-height:1.6}.ct-top{display:none;margin-bottom:18px;padding:12px 14px;background:#fdecec;border:1px solid #f3c2c2;color:#b42318;font-size:14.5px}
+.ct-sb{margin-top:24px;padding:20px 40px;border:0;border-radius:3px;background:#0a1f5c;color:#fff;font-size:16px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;cursor:pointer}.ct-sb:hover{background:#2E3F96}.ct-sb:disabled{background:#a9a9a9;cursor:wait}
+.ct-maps{max-width:1100px;margin:64px auto 0;padding:0 22px 40px}.ct-mg{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:stretch}
+.ct-m{display:flex;flex-direction:column;border:1px solid #dde2ee;background:#fff;transition:box-shadow .25s,border-color .25s}.ct-m.hl{border-color:#2E3F96;box-shadow:0 6px 22px #2E3F9638}
+.ct-mh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px}.ct-mh b{font-size:17px;color:#0a1f5c}.ct-mh a{flex:none;padding:8px 14px;background:#0a1f5c;color:#fff;font-size:13.5px;font-weight:700;text-decoration:none;border-radius:3px}.ct-mh a:hover{background:#2E3F96}
+.ct-m p{margin:0;padding:0 16px 12px;font-size:14px;line-height:1.6;color:#555}.ct-m iframe{display:block;width:100%;height:340px;margin-top:auto;border:0;background:#e8ecf4}
+@media(max-width:900px){.ct-w{grid-template-columns:1fr;gap:34px}.ct-mg{grid-template-columns:1fr}}
+@media(max-width:600px){.ct-w{margin-top:28px;padding:0 14px}.ct-card{padding:26px 20px}.ct-g{grid-template-columns:1fr;gap:14px}.ct-fm h2{font-size:24px}.ct-maps{margin-top:40px;padding:0 14px 30px}.ct-m iframe{height:280px}}
+#rq{display:none;flex:1;overflow-y:auto;background:#fff;overscroll-behavior:contain;color:#4a4a4a}#app.tr #rq{display:block}#app.tr #box,#app.tr footer,#app.tr #prog{display:none}
+.rq-lead{max-width:900px;margin:0 auto;padding:0 22px;text-align:center;font-size:16.5px;line-height:2;color:#555}
+.rq-card{max-width:830px;margin:44px auto 60px;padding:30px 30px 34px;background:#fff;border:1px solid #e6e8ee;border-radius:3px;box-shadow:0 1px 6px #0000001a}
+.rq-f{margin-bottom:26px}.rq-f label{display:block;margin-bottom:9px;font-size:16px;font-weight:700;color:#555}
+.rq-f input,.rq-f textarea{display:block;width:100%;box-sizing:border-box;padding:15px 14px;font:inherit;font-size:16px;color:#333;background:#fafafa;border:1px solid #dcdfe6;border-radius:2px;outline:0}
+.rq-f textarea{min-height:110px;resize:vertical}.rq-f input:focus,.rq-f textarea:focus{border-color:#2E3F96;background:#fff}
+.rq-f.err input,.rq-f.err textarea{border-color:#d33}.rq-f .em{display:none;margin-top:6px;font-size:13.5px;color:#d33}.rq-f.err .em{display:block}
+.rq-sb{display:block;margin:6px auto 0;min-width:130px;padding:15px 30px;border:0;border-radius:3px;background:#0a1f5c;color:#fff;font-size:17px;font-weight:700;cursor:pointer}.rq-sb:hover{background:#2E3F96}.rq-sb:disabled{background:#a9a9a9;cursor:wait}
+.rq-ok{display:none;margin:0 0 24px;padding:16px 18px;border-radius:4px;background:#e8f6ec;border:1px solid #9bd5ab;color:#1d6b35;font-weight:600;line-height:1.6;text-align:center}.rq-top{display:none;margin:0 0 20px;padding:12px 16px;border-radius:4px;background:#fdecec;border:1px solid #f0b3b3;color:#b02323;text-align:center}
+@media(max-width:600px){.rq-card{margin:28px 14px 40px;padding:22px 16px 26px}.rq-lead{font-size:15px;line-height:1.85}.rq-f label{font-size:15px}}
+#prod{display:none;flex:1;overflow-y:auto;background:#fff;overscroll-behavior:contain;color:#4a4a4a}
+#app.tp #prod{display:block}#app.tp #box,#app.tp footer,#app.tp #prog{display:none}
+.pw{max-width:1180px;margin:0 auto;padding:30px 18px 24px;display:grid;grid-template-columns:300px minmax(0,1fr);gap:40px;align-items:start}
+.pmain,.pside{min-width:0}.pside .sm{background:#272727;border:0}
+.pside .sm a,.pside .sm .sg>a{display:flex;align-items:center;justify-content:space-between;padding:19px 24px;border-bottom:1px solid #3d3d3d;color:#fff;font-weight:600;font-size:16px;text-decoration:none;cursor:pointer}
+.pside .sm a.on{background:#363636;box-shadow:inset 4px 0 0 var(--orange)}
+.pside .sm .sg a.sb{padding-left:40px;font-weight:500;font-size:15px;background:#1e1e1e;color:#e9e9e9}
+.pside .sm .sg a.sb.on{background:#363636}
+.pside .sm .sg:last-child>a,.pside .sm>a:last-child{border-bottom:0}
+.pside svg{width:15px;height:15px;flex:none;transition:.2s}.pside .sg.open>a svg{transform:rotate(90deg)}
+.pside .sg .sub{display:none}.pside .sg.open .sub{display:block}
+.pcard{background:#001f5b;color:#fff;text-align:center;padding:38px 22px;margin-top:24px}
+.pcard b{display:block;font-size:19px;font-weight:600;line-height:1.4;margin-bottom:22px}.pcard p{margin:0 0 20px;font-size:14.5px;line-height:1.85}
+.pcard a{display:block;color:#fff;font-weight:700;text-decoration:none;font-size:15.5px;line-height:1.9;word-break:break-all}
+.pmain h1{margin:0;color:#0a1f5c;font-size:32px;font-weight:700;letter-spacing:-.5px;line-height:1.2}
+.pmain h2{margin:30px 0 0;color:#0a1f5c;font-size:25px;font-weight:700;line-height:1.25}
+.pmain h1:after,.pmain h2:after{content:'';display:block;width:60px;height:2px;margin:14px 0 20px;background:linear-gradient(90deg,#0a1f5c 33%,#d6d6d6 33%)}
+.pmain p.d{margin:0;padding-left:12px;font-size:16px;line-height:1.75;color:#6b6b6b}
+.pmain .ph2{width:100%;max-height:320px;object-fit:cover;display:block;margin:0 0 20px;background:#eee}
+.pl3{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:2px 30px}
+.pl3 li{position:relative;padding:3px 0 3px 30px;font-size:16px;line-height:1.55;color:#555}
+.pl3 li:before{content:'';position:absolute;left:3px;top:9px;width:9px;height:9px;border-right:1.6px solid #0a1f5c;border-top:1.6px solid #0a1f5c;transform:rotate(45deg)}
+.tw{overflow-x:auto;border:1px solid #e3e3e3;border-radius:4px;background:#fafafa}
+.tw table{width:100%;min-width:520px;border-collapse:collapse;font-size:15px}
+.tw th{text-align:left;padding:16px 14px;color:#111;font-weight:700;text-transform:uppercase;font-size:14px;line-height:1.35;border-bottom:1px solid #e3e3e3;border-right:1px solid #e3e3e3;background:#fafafa}
+.tw td{padding:14px;color:#222;border-bottom:1px solid #e3e3e3;border-right:1px solid #e3e3e3;vertical-align:top;line-height:1.5;background:#fafafa}
+.tw th:last-child,.tw td:last-child{border-right:0}.tw tr:last-child td{border-bottom:0}
+.tw.kv td:first-child{width:32%;font-weight:700;color:#fff;background:var(--blue);border-bottom-color:#4b5bb0}.tw.kv td{background:#fff;font-weight:600}
+.wcb a{margin:6px 8px}.wch{background:#fff}.wch img{display:block;width:100%;min-width:900px}
+.vs{text-align:center;margin:22px 0 6px}.vs a{display:inline-block;background:#0a1f5c;color:#fff;font-weight:700;font-size:16px;padding:14px 30px;border-radius:3px;text-decoration:none}
+.pmain .subp{margin-top:36px;padding-top:4px;border-top:6px solid #eef1f8}
+@media(max-width:860px){.pw{grid-template-columns:minmax(0,1fr);gap:22px;padding-top:18px}.pl3{grid-template-columns:1fr}.pmain h1{font-size:27px}.pmain h2{font-size:22px}.pcard{margin-top:0}.pmain p.d{padding-left:0}}
+/* --- language button + voice input --- */
+#mic{flex:none;width:46px;height:46px;border:0;border-radius:50%;background:#fff;color:#54656f;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 2px #0002}
+#mic:hover{color:var(--blue)}#mic[hidden]{display:none}
+#mic.rec{background:#e53935;color:#fff;animation:micp 1.1s infinite}
+@keyframes micp{0%{box-shadow:0 0 0 0 #e5393590}70%{box-shadow:0 0 0 14px #e5393500}100%{box-shadow:0 0 0 0 #e5393500}}
+#lg{white-space:nowrap}
+</style></head><body><div id="app">
+<header><div class="lw"><img class="pf" src="/static/logo.png" alt="Shreeji SteelTubes"><span class="on"><i></i>online</span></div>
+
+<button id="lg" type="button" aria-label="Change language / भाषा बदलें" title="Change language / भाषा बदलें">🌐 <span id="lgt">हिंदी</span></button>
+<a href="/admin/dashboard">⚙<span class="tx"> Admin</span></a><a href="/admin/login">🔐<span class="tx"> Admin</span></a></header>
+<div id="prog" hidden><div><div class="pl"><b id="pt"></b><span id="pn"></span></div><div class="pb"><i id="pf"></i></div></div></div>
+<div id="home"><div class="hero" id="hero"></div>
+<div class="stats"><div><b data-n="50" data-s="+">0</b><span>Years of Legacy</span></div><div><b data-n="1500" data-s="+">0</b><span>Satisfied Clients</span></div><div><b data-n="44800" data-s="+">0</b><span>Tons Annual Sales</span></div><div><b data-n="80000" data-s="">0</b><span>Sq. ft. Warehouse</span></div></div>
+<div class="hs"><h3>Our Products</h3><p>Widest range of steel tubes in ready stock</p><div class="phint" id="phint" role="note"><span class="phi" aria-hidden="true">\u261D</span><span><b>New here?</b> Tap any product below to see sizes, grades &amp; specifications \u2013 and request a quote in one step.</span></div><div class="pg" id="pg"></div></div>
+<div class="hf"><b>Shreeji SteelTubes Pvt. Ltd.</b> - House of Quality Steel Tubes<br>📞 <a href="tel:+912241718888">022 4171 8888</a> • ✉️ <a href="mailto:sales@shreejisteeltubes.com">sales@shreejisteeltubes.com</a><br>Head Office: Mumbai • Stock Yard: Kalamboli • Serving All Over India</div><div class="hbb"><button type="button" onclick="backToChat()">⬅ Back to Chat Screen</button></div></div>
+<div id="ty" onclick="if(event.target===this)tyClose()"><div class="tb" role="dialog" aria-modal="true" aria-labelledby="ty-h"><div class="te">🎉</div><h3 id="ty-h"></h3><p id="ty-p"></p><div class="tn" id="ty-n"></div><p id="ty-q"></p><button type="button" id="ty-b" onclick="tyClose()"></button></div></div>
+<div id="pd" onclick="if(event.target===this)pdClose()"><div class="pb2"><button class="px" onclick="pdClose()" aria-label="Close">&times;</button><div id="pdc"></div></div></div>
+<div id="about"></div>
+<div id="prod"></div>
+<div id="qa"></div>
+<div id="gl"></div>
+<div id="dl"></div>
+<div id="cl"></div>
+<div id="sv"></div>
+<div id="ct"></div>
+<div id="rq"></div>
+<div id="box"><div id="msgs" role="log" aria-live="polite" aria-label="Chat messages"></div></div>
+<footer><form id="f" onsubmit="return send()"><input id="t" placeholder="Type a message… e.g. price, catalogue, contact" aria-label="Type your message" autocomplete="off" enterkeyhint="send">
+<button id="mic" type="button" aria-label="Speak your message" title="Speak / बोलकर लिखें" hidden><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12h-2z"/></svg></button>
+<button id="s" aria-label="Send"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button></form></footer>
+<div id="splash" onclick="endSplash()"><img src="/static/logo.png" alt="Shreeji SteelTubes"><p>Welcome 🙏</p><div class="bar"><b></b></div></div></div>
+<script>
+let LOG=[];function saveLog(){}
+const msgs=document.getElementById('msgs'),sc=document.getElementById('box'),t=document.getElementById('t');let started=false,busy=false,last='';
+const now=()=>new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),down=()=>sc.scrollTo({top:sc.scrollHeight}),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const fmt=s=>esc(s).replace(/\*(.+?)\*/g,'<b>$1</b>').replace(/_(.+?)_/g,'<i>$1</i>');
+function row(who,cls,h){const r=document.createElement('div');r.className='r '+(who==='me'?'rr':'rl');
+ if(who==='bot')r.innerHTML='<img class="av'+(last==='bot'?' ghost':'')+'" src="/static/avatar.png" alt="">';
+ const d=document.createElement('div');d.className='m '+cls+(last!==who?' tail':'');d.innerHTML=h;r.appendChild(d);msgs.appendChild(r);last=who;down();return r}
+function add(c,h){return row(c.startsWith('me')?'me':'bot',c,h+'<span class="ts">'+now()+(c.startsWith('me')?'<span class="tk">✓✓</span>':'')+'</span>')}
+function typing(){const p=last,r=row('bot','bot typing','<i></i><i></i><i></i>');r.prev=p;return r}
+function untype(r){last=r.prev;r.remove()}
+function escA(s){return esc(String(s==null?'':s)).replace(/"/g,'&quot;')}
+function attachForm(bub,fm){
+ const f=document.createElement('form');f.autocomplete='off';f.className='fm';const lists={};
+ let h='<div class="ft">'+esc(fm.title)+'</div>'+(fm.note?'<div class="fn">'+fmt(fm.note)+'</div>':'');
+ fm.sections.forEach(s=>{h+='<div class="fs">'+esc(s.title)+'</div>';s.fields.forEach(x=>{
+  const id='f_'+fm.id+'_'+x.name,rq=x.req?' required':'';
+  h+='<label class="fl" for="'+id+'">'+esc(x.label)+(x.req?' <em>*</em>':'')+'</label>';
+  if(x.type==='select')h+='<select id="'+id+'" name="'+x.name+'"'+rq+'><option value="">'+esc(x.ph||'Select')+'</option>'+x.options.map(o=>'<option'+(o===x.val?' selected':'')+'>'+esc(o)+'</option>').join('')+'</select>';
+  else if(x.type==='textarea')h+='<textarea id="'+id+'" name="'+x.name+'" rows="2" placeholder="'+escA(x.ph)+'">'+esc(x.val||'')+'</textarea>';
+  else{if(x.lists)lists[x.name]=x.lists;
+   h+='<input id="'+id+'" name="'+x.name+'" type="'+(x.type==='tel'?'tel':x.type==='date'?'date':'text')+'" value="'+escA(x.val)+'" placeholder="'+escA(x.ph)+'"'+rq+(x.maxlen?' maxlength="'+x.maxlen+'"':'')+(x.type==='tel'?' inputmode="tel"':'')+(x.upper?' style="text-transform:uppercase"':'')+(x.lists?' list="dl_'+id+'" data-dep="'+x.depends+'"':'')+'>'+(x.lists?'<datalist id="dl_'+id+'"></datalist>':'')}
+  if(x.err)h+='<div class="fe">'+esc(x.err)+'</div>'})});
+ f.innerHTML=h+'<button class="fb" type="submit">'+esc(fm.submit)+'</button>';
+ const d=f.querySelector('input[type=date]');if(d){const n=new Date();d.min=new Date(n.getTime()-n.getTimezoneOffset()*60000).toISOString().slice(0,10)}
+ const upd=()=>f.querySelectorAll('input[data-dep]').forEach(i=>{const L=lists[i.name],dp=f.elements[i.dataset.dep],o=L[dp&&dp.value]||L['default']||[];i.nextElementSibling.innerHTML=o.map(z=>'<option value="'+escA(z)+'">').join('')});
+ const dp=f.elements['product'];if(dp)dp.addEventListener('change',upd);upd();
+ f.onsubmit=e=>{e.preventDefault();if(busy||!f.reportValidity())return;const vals={};new FormData(f).forEach((v,k)=>vals[k]=v);
+  f.classList.add('done');f.querySelectorAll('input,select,textarea,button').forEach(el=>el.disabled=true);
+  go('@@FORM@@'+JSON.stringify({id:fm.id,values:vals}),false,fm.id==='customer'?'📝 Customer details submitted':'📋 Enquiry submitted')};
+ bub.insertBefore(f,bub.querySelector('.ts'));setTimeout(()=>bub.scrollIntoView({block:'start',behavior:'smooth'}),60)}
+const HINT_TOK={hi:'Hi',menu:'Home'};   // typed words the server already understands (sent as typed)
+let CUR=[];                                  // suggestions currently on screen: [label, token]
+const clean=l=>String(l).replace(/^[^A-Za-z0-9]+/,'').trim();
+const nrm=x=>String(x).toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+const hintWords=m=>{const a=(m.chips||[]).map(c=>HINT_TOK[c[1]]||clean(c[0]));return a.filter((x,i)=>x&&a.indexOf(x)===i)};
+function matchChip(v){const q=nrm(v);if(!q)return null;const L=CUR.filter(c=>!HINT_TOK[c[1]]);
+ if(/^\d+$/.test(q)&&+q>=1&&+q<=L.length)return L[+q-1];
+ let r=L.filter(c=>nrm(c[0])===q);if(r.length===1)return r[0];
+ if(q.length>=3){r=L.filter(c=>nrm(c[0]).includes(q));if(r.length===1)return r[0];r=L.filter(c=>q.includes(nrm(clean(c[0]))));if(r.length===1)return r[0]}return null}
+function render(m){
+ // Supply Chain list never appears as a chat bubble: the server's popup flag OR its old 'Supply Chain / Choose one' text -> selection popup instead
+ if(m.type==='text'&&(m.popup==='supply'||/^\*?(Supply Chain|\u0938\u092A\u094D\u0932\u093E\u0908 \u091A\u0947\u0928)\*?\s*\n\s*(Choose one|\u0915\u094B\u0908 \u090F\u0915 \u091A\u0941\u0928\u0947\u0902)/.test(String(m.text||'').trim())||m.lt==='Select supply chain topic')){showSupply();return}
+ if(m.type!=='text'){const ext=(m.name.split('.').pop()||'').toLowerCase(),viewable=['pdf','png','jpg','jpeg','gif','webp','txt'].includes(ext),cl=ext==='pdf'?'':['xls','xlsx','csv'].includes(ext)?'o':['doc','docx'].includes(ext)?'w':['png','jpg','jpeg','gif','webp'].includes(ext)?'i':'',u=m.url.split('?')[0];
+ add('bot wide','<div class="dc"><div class="hd"><div class="ic '+cl+'">'+esc(ext.toUpperCase().slice(0,4))+'</div><div class="tt"><b>'+esc(m.caption||m.name)+'</b><small>'+esc(ext.toUpperCase())+(m.size?' • '+esc(m.size):'')+'</small></div></div><div class="bt'+(viewable?'':' one')+'">'+(viewable?'<a class="v" href="'+esc(u)+'" target="_blank" rel="noopener">👁 View</a>':'')+'<a class="d" href="'+esc(u)+'?dl=1" download="'+esc(m.name)+'">⬇ Download</a></div></div>');return}
+ if(m.thanks)setTimeout(()=>showThanks(m.thanks),450);
+ let h=(m.image?'<img class="lg" src="'+m.image+'" alt="Shreeji SteelTubes">':'')+fmt(m.text);
+ if(m.chips&&m.chips.length)CUR=m.chips.slice();
+ if(m.gallery)h+='<div class="gal">'+m.gallery.map(g=>'<figure><img loading="lazy" src="'+g.img+'" alt=""><figcaption>'+esc(g.cap)+'</figcaption></figure>').join('')+'</div><div class="hint">👉 Swipe to see more</div>';
+ if(m.video){const y=m.video.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);
+  h+=y?'<iframe src="https://www.youtube.com/embed/'+y[1]+'" allowfullscreen></iframe>':'<video src="'+m.video+'"'+(m.poster?' poster="'+m.poster+'"':'')+' controls playsinline preload="metadata"></video>'}
+ if(m.card)h+='<div class="sc"><b>'+esc(m.card.title)+'</b><table>'+m.card.rows.map(r=>'<tr><td>'+esc(r[0])+'</td><td>'+esc(String(r[1]))+'</td></tr>').join('')+'</table></div>';
+ if(m.contacts)h+='<div class="cds">'+m.contacts.map(c=>'<div class="cd"><div class="in"><b>'+esc(c.dept)+'</b>'+(c.name?esc(c.name)+(c.desig?' – '+esc(c.desig):'')+'<br>':'')+(c.phone?'📞 '+esc(c.phone)+'<br>':'')+(c.direct?'☎️ Direct Line: '+esc(c.direct)+'<br>':'')+(c.email?'✉️ '+esc(c.email):'')+'</div>'+(c.tel?'<a class="cb" href="'+esc(c.tel)+'">📞 Call</a>':'')+'</div>').join('')+'</div>';
+ if(m.checklist){const L=(c,sub)=>'<label'+(sub?' class="sub"':'')+'><input type="checkbox" value="'+escA(c.k)+'">'+esc(c.l)+'</label>';
+  h+='<div class="ck">'+m.checklist.map(c=>L(c)+(c.sub||[]).map(z=>L(z,1)).join('')).join('')+'<button type="button" disabled>View Details</button></div>'}
+ if(m.links){const mp=m.links.filter(l=>!l[1].startsWith('tel:')),tl=m.links.filter(l=>l[1].startsWith('tel:'));h+='<div class="lks">'+mp.map(l=>'<a class="map" href="'+esc(l[1]).replace(/"/g,'&quot;')+'" target="_blank" rel="noopener">'+esc(l[0])+'</a>').join('')+tl.map(l=>'<a class="call" href="'+esc(l[1])+'">📞 '+esc(l[0])+(l[2]?'<small>'+esc(l[2])+'</small>':'')+'</a>').join('')+'</div>'}
+ const rw=add('bot'+(m.gallery||m.video||m.card||m.form||m.checklist?' wide':''),h);if(m.checklist)attachChecklist(rw);if(m.form)attachForm(rw.querySelector('.m'),m.form);const g=rw.querySelector('.gal');if(g)g.scrollLeft=0;
+ if(m.chips&&m.chips.some(c=>!HINT_TOK[c[1]])){const bb=rw.querySelector('.m'),lb=document.createElement('div');lb.className='lb';
+  lb.innerHTML='<button type="button" class="lbtn" aria-label="'+escA(m.lt||'Select')+'" title="'+escA(m.lt||'Select')+'"><span class=\"li\">&#9776;</span><span class=\"ln\">'+esc(m.lt||'Select')+'</span></button>';lb.firstChild.onclick=()=>openSheet(m.chips,m.lt,m.extra);bb.appendChild(lb)}
+ if(m.picker==='date'){const d=document.createElement('div');d.className='dp';const n=new Date(),iso=new Date(n.getTime()-n.getTimezoneOffset()*60000).toISOString().slice(0,10);
+  d.innerHTML='<span>📅</span><input type="date" min="'+iso+'"><button type="button">Select date</button>';
+  d.querySelector('button').onclick=()=>{const v=d.querySelector('input').value;if(!v)return;const p=v.split('-'),x=p[2]+'-'+p[1]+'-'+p[0];go(x,false,'📅 '+x)};msgs.appendChild(d)}
+ down()}
+function ui(replies){const m=[...replies].reverse().find(x=>x.type==='text')||{},p=m.progress,pr=document.getElementById('prog');
+ pr.hidden=!p;if(p){document.getElementById('pt').textContent=p[2];document.getElementById('pn').textContent='Step '+p[0]+' of '+p[1];document.getElementById('pf').style.width=Math.round(p[0]/p[1]*100)+'%'}
+ t.placeholder=(m.ph&&!/Tap an option above/.test(m.ph))?m.ph:(LANG==='hi'?'संदेश लिखें…':'Type a message…');t.inputMode=m.mode||'text';
+ if(!m.picker&&!m.form&&m.type==='text'&&!matchMedia('(pointer:coarse)').matches)t.focus()}
+const ABOUT_RE=/\babout\s*-?\s*us\b|^(about|aboutus|about company|company|company profile|company info)$/i;
+function pageOf(x){const w=String(x).toLowerCase().replace(/[^\w\s-]/g,'').trim(),h=String(x).trim();
+ if(/^(उत्पाद|उत्पादों|प्रोडक्ट|प्रोडक्ट्स)$/.test(h))return 'prod:gi';if(/^(हमारे बारे में|कंपनी के बारे में)$/.test(h))return 'about';       // Hindi typed / spoken words
+ if(/^गैलरी$/.test(h))return 'gl';if(/^गुणवत्ता आश्वासन$/.test(h))return 'qa';if(/^(होम|मुख्य पृष्ठ)$/.test(h))return 'home';       // button tokens AND typed words open the same page
+ const pm=/^p:(gi|ms|hollow|seamless|gp)$/.exec(String(x));if(pm)return 'prod:'+pm[1];
+ if(x==='r:qa'||/^quality assurance$/.test(w))return 'qa';
+ if(x==='v:dealers'||/^authori[sz]ed dealers?( (and|&) distributors?)?$/.test(w))return 'dl';
+ if(x==='s:contact'||/^(contact|contact us|contact details|map|location|address)$/.test(w)||/^(संपर्क|सम्पर्क|संपर्क करें)$/.test(h))return 'ct';
+ if(x==='s:services'||/^(our )?services$/.test(w)||/सेवाएँ|सेवाएं/.test(h))return 'sv';
+ if(x==='v:clients'||/^(our )?clients$/.test(w)||/^(हमारे ग्राहक|ग्राहक)$/.test(h))return 'cl';
+ if(x==='v:rfq'||/^request for quot(e|ation)$/.test(w))return 'rq';
+ if(x==='r:gal'||/^gallery$/.test(w))return 'gl';       // Quality Assurance opens its own page
+ if(x==='s:products'||/^products?$/.test(w))return 'prod:gi';       // Products button -> opens the full-screen Products page directly (no product list in chat)
+ return x==='u:home'||w==='home'?'home':x==='s:about'||ABOUT_RE.test(w)?'about':'chat'}
+let LANG='en';                                   // chat language chosen by the visitor ('en' / 'hi') - the server remembers it
+const LG_TXT={en:'हिंदी',hi:'English'};
+function setLang(l){if(l!=='hi'&&l!=='en')return;LANG=l;const b=document.getElementById('lgt');if(b)b.textContent=LG_TXT[l];document.documentElement.lang=l}
+document.getElementById('lg').onclick=()=>{if(!busy)go('lang:toggle',true)};
+fetch('/chat/lang').then(r=>r.json()).then(j=>setLang(j.lang)).catch(()=>{});
+(function(){                                     // ---- voice input: browser speech recognition (Chrome / Edge / Safari; needs https or localhost)
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition,mic=document.getElementById('mic');
+ if(!SR)return;mic.hidden=false;let rec=null,on=false,old='',note=null;
+ const hi=()=>LANG==='hi',say=h=>{if(note&&note.isConnected)note.remove();note=add('bot',h)};      // one note at a time - no repeated messages
+ const MSG={
+  http:()=>hi()?'🎤 माइक्रोफ़ोन सिर्फ़ सुरक्षित (https) लिंक पर चलता है। कृपया चैटबॉट को https:// से खोलें।':'🎤 The microphone works only on a secure link. Please open the chatbot with https:// (or localhost).',
+  blocked:()=>hi()?'🎤 माइक्रोफ़ोन ब्लॉक है। एड्रेस बार के 🔒 आइकन पर क्लिक करें → माइक्रोफ़ोन → अनुमति दें, फिर पेज रीलोड करके 🎤 दबाएँ।':'🎤 The microphone is blocked. Click the 🔒 icon next to the address bar → Microphone → Allow, then reload the page and tap 🎤 again.',
+  none:()=>hi()?'🎤 कोई माइक्रोफ़ोन नहीं मिला। कृपया माइक्रोफ़ोन जोड़ें/चालू करें।':'🎤 No microphone was found. Please connect or enable a microphone.',
+  silent:()=>hi()?'🎤 कुछ सुनाई नहीं दिया, फिर से बोलकर देखें।':'🎤 I did not hear anything, please try again.',
+  net:()=>hi()?'🎤 वॉइस सेवा से कनेक्ट नहीं हो पाया। इंटरनेट जाँचें या लिखकर भेजें।':'🎤 Could not reach the voice service. Check your internet or type your message.'};
+ mic.onclick=async()=>{
+  if(on){rec&&rec.stop();return}
+  if(busy)return;
+  if(!window.isSecureContext){say(MSG.http());return}
+  try{if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){const st=await navigator.mediaDevices.getUserMedia({audio:true});st.getTracks().forEach(x=>x.stop())}}   // ask for permission first so the browser shows its prompt
+  catch(e){say(e&&e.name==='NotFoundError'?MSG.none():MSG.blocked());return}
+  rec=new SR();rec.lang=hi()?'hi-IN':'en-IN';rec.interimResults=true;rec.continuous=false;rec.maxAlternatives=1;
+  rec.onstart=()=>{on=true;old=t.placeholder;t.value='';mic.classList.add('rec');t.placeholder=hi()?'सुन रहा हूँ… बोलिए':'Listening… speak now'};
+  rec.onresult=e=>{let x='';for(let i=0;i<e.results.length;i++)x+=e.results[i][0].transcript;t.value=x};
+  rec.onerror=e=>{const c=e.error;if(c==='not-allowed'||c==='service-not-allowed')say(MSG.blocked());else if(c==='audio-capture')say(MSG.none());else if(c==='no-speech')say(MSG.silent());else if(c==='network')say(MSG.net())};
+  rec.onend=()=>{on=false;mic.classList.remove('rec');t.placeholder=old||'Type a message…';const v=t.value.trim();if(v&&!busy)send()};
+  try{rec.start()}catch(_){}};
+})();
+async function go(x,silent,label){
+ if(x==='s:supply'||/^(supply\s*chain|supplychain|सप्लाई चेन)$/i.test(String(x).trim())){if(!silent)add('me',esc(label||x));showSupply();return}
+ if(busy)return;busy=true;CUR=[];tab(pageOf(x));msgs.querySelectorAll('.dp').forEach(e=>e.remove());msgs.querySelectorAll('.opts:not(.old)').forEach(e=>e.classList.add('old'));     // answered option buttons disappear
+ if(!silent){add('me',esc(label||x));LOG.push({me:label||x})}
+ let tp=typing(),j;
+ try{const r=await fetch('/chat/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:x})});j=await r.json();if(j.lang)setLang(j.lang)}
+ catch(e){untype(tp);busy=false;add('bot',LANG==='hi'?'⚠️ कनेक्शन में समस्या है। कृपया इंटरनेट जाँचकर फिर कोशिश करें।':'⚠️ Connection problem. Please check your internet and try again.');return}
+ const rs=j.replies;rs.forEach(m=>LOG.push({b:m}));saveLog();                       // bubbles appear one by one, like a human typing
+ for(let i=0;i<rs.length;i++){await sleep(Math.min(500,i?250+(rs[i].text||'').length*2:200));untype(tp);render(rs[i]);if(i<rs.length-1)tp=typing()}
+ if(!rs.length)untype(tp);ui(rs);busy=false}
+const sh=document.createElement('div');sh.id='sheet';sh.hidden=true;
+sh.innerHTML='<div class="sbk"></div><div class="spn"><div class="shd"><button type="button" class="sx" aria-label="Close">&#10005;</button><b></b></div><div class="sls"></div></div>';
+document.body.appendChild(sh);
+function sheetClose(){sh.hidden=true;SHB=null}
+let SHB=null,SHC=null;   // 'previous popup' - X / outside tap / Esc re-opens it; null = first popup, so it closes
+function sheetX(){if(SHB){const f=SHB;SHB=null;f()}else sheetClose()}
+sh.querySelector('.sbk').onclick=sheetX;sh.querySelector('.sx').onclick=sheetX;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sh.hidden)sheetX()});
+function openSheet(chips,title,extra,sub){const ls=sh.querySelector('.sls');ls.innerHTML='';const grp=extra&&extra.length;SHB=null;SHC={chips:chips,title:title,extra:extra};
+ sh.querySelector('.shd b').textContent=grp?(sub?'Company Overview':'Select option'):(title||'Select');
+ const item=c=>{const d=document.createElement('button');d.type='button';d.className='sit';d.innerHTML='<span>'+esc(HINT_TOK[c[1]]||c[0])+'</span><i></i>';
+  d.onclick=()=>{if(c[1]==='s:resource'){window.__RS=null;showResources(()=>openSheet(chips,title,extra,sub));return}if(c[1]==='s:supply'){showSupply(()=>openSheet(chips,title,extra,sub));return}sheetClose();if(busy)return;RET={chips:chips,title:title,extra:extra};if(HINT_TOK[c[1]])go(HINT_TOK[c[1]]);else go(c[1],false,clean(c[0]));RET=null};return d};
+ if(!grp||sub){chips.forEach(c=>ls.appendChild(item(c)));if(sub)SHB=()=>openSheet(chips,title,extra)}   // sub-page: ONLY the sections; closing it returns to the 2-option page
+ else{   // page 1: Company Overview (opens the sections page) + Customer Enquiry Form
+  const hd=document.createElement('button');hd.type='button';hd.className='sit';hd.innerHTML='<span>\uD83C\uDFE2 Company Overview</span><i></i>';hd.onclick=()=>openSheet(chips,title,extra,true);ls.appendChild(hd);
+  extra.forEach(x=>{const d=document.createElement('button');d.type='button';d.className='sit';d.innerHTML='<span>'+esc(x[0])+'</span><i></i>';
+   d.onclick=()=>{if(x[1]==='s:enquiry'){window.__CT=null;showDoubt(x);return}sheetClose();if(busy)return;go(x[1],false,clean(x[0]))};ls.appendChild(d)})}
+ sh.hidden=false;ls.scrollTop=0}
+const DEPT_ORDER=[[/market/i,'\uD83D\uDCE3'],[/(^|[^a-z])t\.?c\.?([^a-z]|$)|test\s*cert/i,'\uD83D\uDCDC'],[/account/i,'\uD83E\uDDFE'],[/director/i,'\uD83D\uDC54']];   // Marketing, TC, Accountant, Director
+const deptRank=d=>{const k=DEPT_ORDER.findIndex(z=>z[0].test(d));return k<0?99:k},deptIcon=d=>{const k=DEPT_ORDER.findIndex(z=>z[0].test(d));return k<0?'\uD83C\uDFE2':DEPT_ORDER[k][1]};
+function showDoubt(x){const ls=sh.querySelector('.sls'),prev=SHC;sh.querySelector('.shd b').textContent='Need help before you start?';
+ SHB=prev?()=>openSheet(prev.chips,prev.title,prev.extra):null;   // X -> back to the 2-option popup
+ const go2=()=>{sheetClose();if(!busy)go(x[1],false,clean(x[0]))};
+ const skip='<div class="dqf"><button type="button" class="dqb">Skip \u2013 Fill the Enquiry Form \u279C</button></div>';
+ ls.innerHTML='<div class="dqi">Have any doubt before filling the form? Select a department to see its contact numbers. If not, skip and continue to the form.</div><div id="dql"><div class="dqi" style="color:#667781">Loading departments\u2026</div></div>'+skip;
+ ls.querySelector('.dqb').onclick=go2;ls.scrollTop=0;
+ const L=ls.querySelector('#dql');
+ const catOf=c=>{let k=DEPT_ORDER.findIndex(z=>z[0].test(c.dept||''));return k<0?DEPT_ORDER.findIndex(z=>z[0].test(c.desig||'')):k};   // e.g. 'Accountant Executive' -> Account department even if its dept is spelt differently
+ const LBL=['MARKETING DEPARTMENT','TC DEPARTMENT','ACCOUNT DEPARTMENT','DIRECTOR'];
+ const telOf=n=>{const d=String(n||'').replace(/\D/g,'');return d.length===10?'tel:+91'+d:d.length===11&&d[0]==='0'?'tel:+91'+d.slice(1):d.length===12&&d.slice(0,2)==='91'?'tel:+'+d:''};
+ const view=rows=>{const G=[],M={};rows.forEach(c=>{const k=catOf(c),key=k>=0?'k'+k:'o'+(c.dept||'OTHER');
+   if(!M[key]){M[key]={k:k<0?99:k,n:G.length,list:[],name:null};G.push(M[key])}const g=M[key];g.list.push(c);
+   if(!g.name&&(k<0||DEPT_ORDER[k][0].test(c.dept||'')))g.name=c.dept||'OTHER'});
+  G.forEach(g=>{if(!g.name)g.name=g.k<99?LBL[g.k]:'OTHER'});G.sort((a,b)=>a.k-b.k||a.n-b.n);
+  L.innerHTML='';if(!G.length){L.innerHTML='<div class="dqi">No contact numbers available right now.</div>';return}
+  G.forEach(g=>{const b=document.createElement('button');b.type='button';b.className='sit';b.innerHTML='<span>'+deptIcon(g.name)+' '+esc(g.name)+'</span><i></i>';b.onclick=()=>deptView(g.name,g.list);L.appendChild(b)})};
+ const deptView=(d,list)=>{   // level 3: one department's people (each number has its own Call button); X -> back to the department list
+  SHB=()=>{showDoubt(x)};sh.querySelector('.shd b').textContent=d;
+  const SV=p=>'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>',
+   PH=SV('<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>'),
+   ML=SV('<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>');
+  const line=(ic,txt,href,cls,lbl,ico)=>'<div class="dl"><span>'+ic+' '+esc(txt)+'</span>'+(href?'<a class="dcl '+cls+'" href="'+escA(href)+'">'+ico+lbl+'</a>':'')+'</div>';
+  const mails=e=>String(e||'').split(/[,;\s\/]+/).filter(z=>/.+@.+\..+/.test(z));
+  ls.innerHTML='<div id="dql">'+list.map(c=>'<div class="dq"><div class="dqm">'+(c.name?'<b>'+esc(c.name)+'</b>':'')+(c.desig?'<div class="dsg">'+esc(c.desig)+'</div>':'')
+   +(c.phone?line('\uD83D\uDCDE',c.phone,c.tel||telOf(c.phone),'cl','Call',PH):'')+(c.direct?line('\u260E\uFE0F','Direct: '+c.direct,telOf(c.direct),'dr','Direct Call',PH):'')
+   +mails(c.email).map(m=>line('\u2709\uFE0F',m,'mailto:'+m,'ml','Mail',ML)).join('')+'</div></div>').join('')+'</div>'+skip;
+  ls.querySelector('.dqb').onclick=go2;ls.scrollTop=0};
+ if(window.__CT)view(window.__CT);
+ else fetch('/contacts/data',{cache:'no-store'}).then(r=>r.json()).then(rows=>{window.__CT=rows;if(sh.hidden||!ls.contains(L))return;view(rows)})
+  .catch(()=>{if(ls.contains(L))L.innerHTML='<div class="dqi">Contacts could not be loaded. You can continue to the form.</div>'})}
+/* ---------- RESOURCES popup: Product Catalogue / Certificates / Quality Assurance / Gallery / Documents ---------- */
+const DLI='<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>';   // standard 'download' icon (arrow into tray)
+let RSB=null;
+const RS_ITEMS=[['\uD83D\uDCD8 Product Catalogue','catalogue'],['\uD83C\uDFC5 Certificates','certificate'],['\u2705 Quality Assurance','qa'],['\uD83D\uDDBC Gallery','gallery'],['\uD83D\uDCC4 Documents','downloads']];
+const rsData=()=>window.__RS?Promise.resolve(window.__RS):fetch('/resources/data',{cache:'no-store'}).then(r=>r.json()).then(d=>(window.__RS=d));
+const SC_ITEMS=[['\uD83C\uDFED Authorised Dealers & Distributors','v:dealers'],['\uD83D\uDCAC Request For Quote','v:rfq'],['\uD83E\uDD1D Vendor Registration','v:vendor'],['\uD83D\uDC65 Clients','v:clients']];
+let SCB=null;
+function showSupply(back){if(back)SCB=back;const ls=sh.querySelector('.sls');sh.querySelector('.shd b').textContent='Supply Chain';SHB=SCB;ls.innerHTML='';
+ SC_ITEMS.forEach(z=>{const b=document.createElement('button');b.type='button';b.className='sit';b.innerHTML='<span>'+esc(z[0])+'</span><i></i>';
+  b.onclick=()=>{sheetClose();if(z[1]==='v:dealers'){RET={sup:true};tab('dl');return}if(z[1]==='v:rfq'){RET={sup:true};tab('rq');return}if(z[1]==='v:clients'){RET={sup:true};tab('cl');return}if(busy)return;RET={sup:true};go(z[1],false,clean(z[0]));RET=null};ls.appendChild(b)});
+ sh.hidden=false;ls.scrollTop=0}
+function showResources(back){if(back)RSB=back;const ls=sh.querySelector('.sls');sh.querySelector('.shd b').textContent='Resources';SHB=RSB;ls.innerHTML='';
+ RS_ITEMS.forEach(z=>{const b=document.createElement('button');b.type='button';b.className='sit';b.innerHTML='<span>'+z[0]+'</span><i></i>';b.onclick=()=>resView(z[1],z[0]);ls.appendChild(b)});sh.hidden=false;ls.scrollTop=0}
+function resView(k,label){if(k==='qa'||k==='gallery'){sheetClose();RET={res:true};tab(k==='qa'?'qa':'gl');return}
+ const ls=sh.querySelector('.sls');sh.querySelector('.shd b').textContent=label.replace(/^[^A-Za-z]+/,'');SHB=()=>showResources();
+ ls.innerHTML='<div class="dqi" style="color:#667781">Loading\u2026</div>';ls.scrollTop=0;
+ rsData().then(d=>{if(sh.hidden||SHB===null)return;
+  const empty='<div class="dqi">This will be shared soon.</div>';
+  if(k==='qa'){ls.innerHTML='<div class="rqa">'+fmt(d.qa||'')+'</div>'+(d.qa_img?'<img class="rqi" src="'+escA(d.qa_img)+'" alt="Quality &amp; Certifications">':'');return}
+  if(k==='gallery'){const im=[].concat((d.awards||[]).filter(x=>/\.(png|jpe?g|webp|gif)$/i.test(x.name)).map(x=>({img:x.url,cap:x.title})),d.gallery||[]);
+   ls.innerHTML=im.length?'<div class="rgal">'+im.map((x,n)=>'<figure data-n="'+n+'"><img loading="lazy" src="'+escA(x.img)+'" alt=""><figcaption>'+esc(x.cap||'')+'</figcaption></figure>').join('')+'</div>':empty;
+   ls.querySelectorAll('figure').forEach(f=>f.onclick=()=>{const x=im[+f.dataset.n];openViewer(x.img,x.cap||'Gallery')});return}
+  if(k==='certificate'||k==='catalogue'||k==='downloads'){const cs=(k==='catalogue'?d.catalogue:k==='certificate'?d.certificate:d.downloads)||[];const EYE='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+   ls.innerHTML=cs.length?'<div class="rcg">'+cs.map((x,n)=>'<div class="rcc" data-n="'+n+'" tabindex="0"><div class="rci">'+(x.thumb?'<img loading="lazy" src="'+escA(x.thumb)+'" alt="'+escA(x.title)+'">':'<span class="nf">PDF</span>')+'<div class="rco"><button type="button" class="rb rv1">'+EYE+'View</button><a class="rb rdl2" href="'+escA(x.url.split('?')[0])+'?dl=1" download="'+escA(x.name)+'" onclick="event.stopPropagation()">'+DLI+'Download</a></div></div><div class="rct">'+esc(x.title)+'</div></div>').join('')+'</div>':empty;
+   ls.querySelectorAll('.rcc').forEach(c=>{const x=cs[+c.dataset.n],op=()=>openViewer(x.url,x.title);c.onclick=op;c.onkeydown=e=>{if(e.key==='Enter')op()};c.querySelector('.rv1').onclick=e=>{e.stopPropagation();op()}});return}
+  const docs=k==='catalogue'?d.catalogue:k==='certificate'?d.certificate:d.downloads;
+  ls.innerHTML=(docs&&docs.length)?docs.map((x,n)=>{const ext=(x.name.split('.').pop()||'').toUpperCase().slice(0,4);return '<div class="rd" data-n="'+n+'"><div class="ric">'+esc(ext)+'</div><div class="rtt"><b>'+esc(x.title)+'</b><small>Tap to view</small></div><a class="rdl" href="'+escA(x.url.split('?')[0])+'?dl=1" download="'+escA(x.name)+'" onclick="event.stopPropagation()" title="Download" aria-label="Download">'+DLI+'</a></div>'}).join(''):empty;
+  ls.querySelectorAll('.rd').forEach(r=>r.onclick=()=>{const x=docs[+r.dataset.n];openViewer(x.url,x.title)})
+ }).catch(()=>{ls.innerHTML='<div class="dqi">Could not load. Please try again.</div>'})}
+/* full-screen viewer: PDF / image with a cancel (X) that returns to the Resources popup */
+const RV=document.createElement('div');RV.id='rv';RV.hidden=true;
+RV.innerHTML='<div class="rvh"><button type="button" class="rvx" aria-label="Close">&#10005;</button><b></b><a class="rvd" target="_blank" rel="noopener" download title="Download" aria-label="Download">'+DLI+'</a></div><div class="rvb"></div>';
+document.body.appendChild(RV);let RVT=0;
+window.RVopen=()=>!RV.hidden;
+function rvDone(){RV.hidden=true;RVT++;RV.querySelector('.rvb').innerHTML='';if(!document.getElementById('app').classList.contains('tg'))showResources()}   // X -> back to where all resources are
+window.RVclose=rvDone;
+RV.querySelector('.rvx').onclick=()=>{if(history.state&&history.state.rv)history.back();else rvDone()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!RV.hidden)RV.querySelector('.rvx').click()});
+const loadPdfJs=()=>window.pdfjsLib?Promise.resolve():new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+ s.onload=()=>{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';ok()};s.onerror=no;document.head.appendChild(s)});
+function openViewer(url,title){const tk=++RVT,body=RV.querySelector('.rvb'),clean0=String(url).split('?')[0],isImg=/\.(png|jpe?g|webp|gif)$/i.test(clean0);
+ RV.querySelector('.rvh b').textContent=title||'';const dl=RV.querySelector('.rvd');dl.href=clean0+(clean0.startsWith('/')?'?dl=1':'');dl.style.display=isImg?'none':'';
+ sh.hidden=true;RV.hidden=false;body.scrollTop=0;history.pushState({rv:1},'');
+ const fallback=()=>{if(tk===RVT)body.innerHTML='<iframe class="rvf" src="'+escA(clean0)+'"></iframe><div class="rvn"><a href="'+escA(clean0)+'" target="_blank" rel="noopener">Open in new tab</a></div>'};
+ if(isImg){body.innerHTML='<img class="rvi" src="'+escA(clean0)+'" alt="">';return}
+ body.innerHTML='<div class="rvn">Loading document\u2026</div>';
+ loadPdfJs().then(()=>pdfjsLib.getDocument(clean0).promise).then(async pdf=>{if(tk!==RVT)return;body.innerHTML='';
+  const p1=await pdf.getPage(1),v1=p1.getViewport({scale:1}),io=new IntersectionObserver(es=>es.forEach(en=>{if(!en.isIntersecting)return;io.unobserve(en.target);renderPg(en.target)}),{root:body,rootMargin:'800px 0px'});
+  const renderPg=async w=>{const n=+w.dataset.n,pg=await pdf.getPage(n);if(tk!==RVT)return;const vp1=pg.getViewport({scale:1}),sc=(w.clientWidth*(window.devicePixelRatio||1))/vp1.width,vp=pg.getViewport({scale:sc}),cv=document.createElement('canvas');
+   cv.width=vp.width;cv.height=vp.height;cv.style.width='100%';cv.style.height='auto';w.style.aspectRatio=vp1.width+'/'+vp1.height;w.appendChild(cv);await pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise};
+  for(let n=1;n<=pdf.numPages;n++){const w=document.createElement('div');w.className='rvp';w.dataset.n=n;w.style.aspectRatio=v1.width+'/'+v1.height;body.appendChild(w);io.observe(w)}
+ }).catch(fallback)}
+function send(){const v=t.value.trim();if(v){t.value='';const c=matchChip(v);if(c){CUR=[];go(c[1],false,v)}else go(v)}return false}
+
+/* ---------- HOME TAB ---------- */
+const HS=[
+['cover','Since 1970','House of Quality Steel Tubes','Shreeji SteelTubes Pvt. Ltd. - ISO 9001:2015 Certified',['Distributor • Stockist • Supplier of Iron & Steel','Head Office: Mumbai | Serving All Over India','Call 022 4171 8888'],'s:about','Know More'],
+['about','About Us','A Brief Story About The Company','Five decades of trust in steel',['80,000 sq. ft. warehouse at Kalamboli','GI, MS, GP, ERW, Seamless & Hollow Section pipes','1,500+ satisfied clients across India'],'s:about','Know More'],
+['chrono','Our Journey','Company Chronology','From a procurement firm to a nationwide distributor',['1970 - Modi Bros Company formed','2011 - Shreeji Steel Tubes formed as distributor','2018 - Revenue crossed INR 101 Cr','2024 - 44,800 tons annual sales & 1200+ customers'],'s:about','Our Story'],
+['industries','Industries We Serve','From Infrastructure to Innovation','Our steel powers every sector of growth',['Infrastructure • Oil & Gas • Fire Fighting & HVAC','Prefab Engineered Buildings • General Fabrication','Automotive • Solar, Renewable & Power Plants','Heavy Engineering • Agriculture & Farming'],'v:clients','Our Clients'],
+['gi','Product','GI Pipe','Hot Dipped Galvanized Pipe',['15 NB - 500 NB (21.70 - 508.00 mm OD)','2.00 - 12.70 mm • Light / Medium / Heavy','IS 1239 / IS 3589 • ASTM A53 • BS 1387'],'p:gi','View Details'],
+['ms','Product','MS Pipe','Black Pipe / ERW Pipe',['15 NB - 600 NB (21.70 - 610.00 mm OD)','1.00 - 16.00 mm • 4 - 12 m','IS1239, IS3589, IS1161 YST210 - YST355'],'p:ms','View Details'],
+['ldp','Product','Large Diameter Pipes','ERW / H-SAW / L-SAW',['Up to 3048 mm OD • 5 - 16 mm','IS3589 • API 5L up to X80 • ASTM A252 / A139','3LPE, FBE & cement mortar lining available'],'p:ldp','View Details'],
+['hollow','Product','Structural Hollow Sections','Square (SHS) / Rectangle (RHS) / Circular (CHS)',['SHS 12x12 - 600x600 • RHS 26x13 - 600x550 mm','High grade YST310 / YST355 in ready stock','IS4923 / IS1161 • Hot-dip galvanized available'],'p:hollow','View Details'],
+['seamless','Product','Seamless Pipe','Uniform strength for high-pressure use',['21.70 - 610 mm OD • SCH 20 - SCH XXS','ASTM A106 Gr.B / ASTM A53','Oil & Gas • Boilers • Petrochemical • Fertilizer'],'p:seamless','View Details'],
+['gp','Product','Pre-Galvanized Tube (GP Pipe)','Zinc pre-coated for long-term protection',['Round 21.30 - 76.30 mm • SHS • RHS','0.80 - 3.00 mm • 60 / 90 / 120 GSM zinc','Gates, hoardings, scaffolding, greenhouses'],'p:gp','View Details'],
+['services','Services','A to Z Services - 365 Days','From our office & warehouse',['Cut to length • Bevelling • Threading • Coating','Test certificate • Third-party inspection • Lab testing','Transport & same-day delivery on demand'],'s:services','All Services'],
+['awards','Recognition','Awards & Certifications','Trusted by India\'s leading brands',['Jindal Group - Best Performance in ERW, Maharashtra','Top 10 Leaders in Mining & Metals 2024','Authorised distributor: Jindal, Tata, Hi-Tech, Asian'],'r:gal','View Gallery']];
+(function(){const hero=document.getElementById('hero');let cur=0,tm,pt;
+ hero.innerHTML=HS.map((x,i)=>'<div class="sl" style="background-image:url(/static/home/'+x[0]+'.jpg)"><div class="sc2"><span class="tag">'+x[1]+'</span><h2>'+x[2]+'</h2><h4>'+x[3]+'</h4><ul>'+x[4].map(l=>'<li>'+esc(l)+'</li>').join('')+'</ul></div></div>').join('')
+ +'<button class="ar l" aria-label="Previous">❮</button><button class="ar r" aria-label="Next">❯</button><div class="dots">'+HS.map((_,i)=>'<i data-i="'+i+'"></i>').join('')+'</div><div class="cnt"></div><div class="hp"></div>';
+ const sl=hero.querySelectorAll('.sl'),dt=hero.querySelectorAll('.dots i'),bar=hero.querySelector('.hp'),cn=hero.querySelector('.cnt');
+ function show(i){cur=(i+HS.length)%HS.length;sl.forEach((e,k)=>e.classList.toggle('on',k===cur));dt.forEach((e,k)=>e.classList.toggle('on',k===cur));cn.textContent=String(cur+1).padStart(2,'0')+' / '+String(HS.length).padStart(2,'0');
+  bar.style.transition='none';bar.style.width='0';clearTimeout(tm);setTimeout(()=>{bar.style.transition='width 6s linear';bar.style.width='100%'},30);tm=setTimeout(()=>show(cur+1),6000)}
+ hero.querySelector('.ar.l').onclick=()=>show(cur-1);hero.querySelector('.ar.r').onclick=()=>show(cur+1);dt.forEach(d=>d.onclick=()=>show(+d.dataset.i));
+ let x0=null;hero.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});hero.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>45)show(cur+(d<0?1:-1));x0=null});
+ (function(){let seen=false;try{seen=localStorage.getItem('pcSeen')==='1'}catch(e){}
+ const pgEl=document.getElementById('pg'),hint=document.getElementById('phint');
+ pgEl.innerHTML=HS.filter(x=>x[1]==='Product').map((x,n)=>'<div class="pc'+(n===0?' first':'')+(seen?' seen':'')+'" role="button" tabindex="0" aria-label="'+x[2]+' - view details" onclick="pdOpen(\''+x[5].replace('p:','')+'\')"><div class="pi" style="background-image:url(/static/home/'+x[0]+'.jpg)">'+(n===0?'<span class="pt">\uD83D\uDC46 Tap to view</span>':'')+'</div><b>'+x[2]+'</b><small>'+x[3]+'</small></div>').join('');
+ const done=()=>{try{localStorage.setItem('pcSeen','1')}catch(e){}pgEl.querySelectorAll('.pc').forEach(c=>c.classList.add('seen'));if(hint)hint.classList.add('seen')};
+ if(seen&&hint)hint.classList.add('seen');
+ pgEl.addEventListener('click',e=>{if(e.target.closest('.pc'))done()});
+ // phones / tablets have no hover: while a finger is on a card (or slides across the cards) the same animated 'View details' shows, like a mouse hover
+ let cur=null,off=0;const setPk=c=>{if(c===cur)return;if(cur)cur.classList.remove('peek');cur=c;if(c)c.classList.add('peek')};
+ const under=t=>{const e=document.elementFromPoint(t.clientX,t.clientY);return e&&e.closest?e.closest('#pg .pc'):null};
+ const lift=()=>{clearTimeout(off);off=setTimeout(()=>setPk(null),900)};
+ pgEl.addEventListener('touchstart',e=>{clearTimeout(off);setPk(under(e.touches[0]))},{passive:true});
+ pgEl.addEventListener('touchmove',e=>{clearTimeout(off);setPk(under(e.touches[0]))},{passive:true});
+ pgEl.addEventListener('touchend',lift,{passive:true});pgEl.addEventListener('touchcancel',()=>{clearTimeout(off);setPk(null)},{passive:true});
+ pgEl.addEventListener('keydown',e=>{const c=e.target.closest&&e.target.closest('.pc');if(c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();c.click()}});
+})();
+ window.homeShow=show;window.homeStop=()=>clearTimeout(tm);show(0)})();
+function hgo(tk,l){go(tk,false,'🏠 '+l)}
+/* ---------- PRODUCT POPUP (stays on Home - no chat) ---------- */
+let PD=null;
+function pdLoad(){return PD?Promise.resolve(PD):fetch('/products/data').then(r=>r.json()).then(d=>PD=d)}
+function pdBlock(p){return '<div class="pk"><div class="pi" style="background-image:url('+escA(p.img)+')"></div><div class="pt2"><h3>'+esc(p.title)+'</h3><div class="pl2"></div><p>'+esc(p.desc)+'</p><table>'+p.rows.map(r=>'<tr><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td></tr>').join('')+'</table></div></div>'}
+function pdOpen(k){pdOpenMany([k])}
+function pdOpenMany(keys){pdLoad().then(d=>{const ps=keys.map(k=>d[k]).filter(Boolean);if(!ps.length)return;
+ document.getElementById('pdc').innerHTML=ps.map(pdBlock).join('');
+ document.getElementById('pd').classList.add('on');document.querySelector('#pd .pb2').scrollTo(0,0)}).catch(()=>{})}
+function attachChecklist(rw){const bx=rw.querySelectorAll('.ck input'),bt=rw.querySelector('.ck button');
+ const sync=()=>{bt.disabled=![...bx].some(i=>i.checked)};bx.forEach(i=>i.onchange=sync);
+ bt.onclick=()=>pdOpenMany([...bx].filter(i=>i.checked).map(i=>i.value))}
+/* ---------- PRODUCT PAGES (full screen, same layout as the website product page) ---------- */
+const GI_X={title:'Galvanised Pipe (GI Pipe)',
+ desc:'The Hot Dip Galvanized Pipes are made using quality steel metal with a galvanized coating. These pipes are coated with additional layer of zinc by plunging the metal in a bath of molten zinc at quite a high temperature. The hot dip galvanized pipes are preferred over others as these have superior corrosion resistance. Further, hot dip galvanized pipe can be easily welded and are suited for high temperature applications. It is used in oil & petroleum industry, gas industry and hydro industry. In order to seek long-term structural performance in the harshest of weather conditions, designers, builders and consumers have turned to using zinc-coated steel pipes. This is because zinc-coated galvanised steel pipes and tube resist the attack of wind, water and road salts. We make sure our pipes have tough and uniform barrier coating, which helps in long term protection and makes them suitable for both indoor and outdoor environments.',
+ feat:['Hold superior corrosion resistance strength','Economical in operation','Can be installed in indoor as well as outdoor areas','Uniform design','Longer working life','Available in various length, thickness and size'],
+ appT:'Application of GI Pipes',
+ app:['Underground piping','Steel Structures i.e. Airports, Metro Station etc.','Overground piping','Fire-fighting systems','Power','HVAC','Refineries','Electric Pole’s','Scaffolding'],
+ size:[['PRODUCT','SIZE','THICKNESS','LENGTH'],['GALVINISED PIPE (GI Pipe)','15NB – 300NB (21.70mm OD – 355.60mm OD)','2.00mm – 12.00mm Class : Light/Medium/Heavy','4.00 - 12.00 meter']],
+ std:[['GALVANISED PIPES APPLICATION','INDIAN STANDARD IS','AMERICAN STANDARD ASTM / ANSI','BRITISH STANDARD BS / EN'],['Water, Gas, Sewage, Fire.. Etc','IS1239(PART1 - 2004)','ASTM A53 / 1993','BS 1387 / 1985'],['Mechanical, Structural (CHS) & General Engineering','IS1161 – YST210, YST240, YST310, YST355 / IS3601','','']],
+ pdf:'/static/home/GI_Pipe_Specification.pdf'};
+const MS_X={title:'Ms Black Pipes (Ms Pipes)',
+ desc:'The Black Pipes are made from steel as well as iron and are widely suited for water supply and flammable gases. Pipes are developed under the stringent supervision of experienced engineer’s team, who tests these on several quality parameters. The black pipes are available in various lengths and thickness as per the suitability of our clients. These pipes are also used in many places to transmit natural gas or propane fuel, heating or cooling water to heat exchangers, air handlers, variable air volume devices or HVAC equipment.Mild Steel (MS) pipes are widely used across industries because it is easy to weld and forge in various shapes and sizes to meet the various pipelining and tubing applications.',
+ feat:['Hold superior corrosion resistance strength','Can be installed in indoor as well as outdoor areas','Longer working life','Economical in operation','Uniform design','Available in various length, thickness and size'],
+ appT:'Application Of Ms Erw Black Pipes',
+ app:['Liquid Transmission','Conveyers Idlers','Structural','Water & Sewage','Water Wells','Fire Protection','Fencing','Mechanical & General Engineering','Electrical Conduits','Fabrication','Electric Pole’s'],
+ size:[['PRODUCT','SIZE','THICKNESS','LENGTH'],['MS ERW BLACK PIPE (MS Pipe)','15NB - 500NB (21.70mm OD - 610mm OD)','1.00mm - 12.00mm Class : Light/Medium/Heavy','4.00 - 12.00 meter']],
+ std:[['APPLICATION','INDIAN STANDARD IS','AMERICAN STANDARD ASTM / ANSI','BRITISH STANDARD BS / EN','JAPANESE JIS','GERMAN DIN'],
+  ['Water, Gas, Sewage.. Etc','IS1239 (PART1 : 2004) / IS3589 - FE330, FE410','ASTM A53 / 1993','BS 1387 : 1985 / EN10256 : 2004 / BS534','JIS 3452','DIN 2440 / DIN 2441'],
+  ['Mechanical, Structural & General Engineering','IS1161 – YST210,240,310,355 / IS3601','ASTM A500GR A : 1993','BS4360 / BS1775','JIS G3444 : 1994','DIN 2439 – 2441'],
+  ['Oil & Gas Sector','IS3589 - FE330, FE410','API 5L, 5CT / ASTM A53 GR. A & B / ISO 3183 - Grades up to x80','EN10224 / EN10225','BS EN10225','DIN EN10225'],
+  ['Automotive Industry','IS3601 / IS3074','ASTM A513 : 1994','BS 6323 : 1982 / EN10305','JIS G3445 : 1983','DIN 2393 : 1994 / DIN 2394 : 1994'],
+  ['Scaffolding Tube','','','BS1139 PART1 : 1982','',''],
+  ['Water Wells','IS4270 : 2001','','','',''],
+  ['Idlers & Conveyor Tubes','IS9295 : 1983','','EN10256 : 2003','',''],
+  ['Air Heater Tubes, Condenser, Boiler, Heat Exchanger, Superheater','','ASTM A178 / A214 / A333 / A334','BS6323 PART V / BS3059 PART I & PART V','JIS G3461 : 1984','DIN 17177 : 1979']]};
+const HX={title:'Square Hollow Sections (SHS) / Rectangle Hollow Sections (RHS) / Circular Hollow Sections (CHS)',
+ secs:[['Square Hollow Sections (SHS)','The Square Sections enhance the reliability of the structure. These are manufactured using graded steel in compliance with set international standards. The square sections are used as support in automotive industry, transmission tower plants, machinery industry, construction industry and many others. These sections are made using high grade steel metal in compliance with international standards. The square section holds superb tensile strength and is rust resistant with ability to offer long working life. The sections are tested on various parameters, which are tensile, bending, flattening and other strengths.'],
+  ['Rectangle Hollow Sections (RHS)','The Rectangular Sections are constructed using finest steel. These are preferred for their robustness. The rectangular section has precise dimensions and accuracy, which is one of the trademarks of our high-grade manufacturing abilities. It is tested on several international standards, where tensile strength, flattening, bending and drift expansion. It is preferred in several industries such as furniture industry, construction industry, automotive industry and many more.'],
+  ['Circular Hollow Sections (CHS)','The Round Hollow Sections are accurately designed and are used in several industries. The sections are manufactured using prime grade steel, which offers supreme rigidness and corrosion resistance. Circular hollow sections possess superior tensile strength, light weight and high impact strength. Further, the hollow sections have better weld ability, better resistance to surge pressure and are free from chemical contamination.']],
+ feat:['Good weld-ability','Supreme resistance to torsion','Cost beneficial / Economical solution. Easily executed direct joints, shorter construction times and easy maintenance, are the results of a correct design and the guarantee of a competitive delivery date and price.','High impact strength','Corrosion resistant','Supreme tensile strength','Dimensional accuracy','Easy to transport','Aesthetically looks good','Lighter and more diaphanous structures. Pieces of greater length with fewer joints','More slender supports. Fewer sections, which can be reduced even more with the use of tubular sections filled with concrete.','Expressive capacity. Circular, square, rectangular sections, a range of wall thicknesses for every dimension of tubular section, absence of sharp edges, etc. These are the elements that provide innovating, wide ranging possibilities for architects and engineers'],
+ appT:'Application',
+ app:['Machinery manufacturing industry','Storage systems','Transmission tower plants','Automotive industry','Construction industry','Furniture','Heavy Machine Equipment','Agricultural Equipment','Earth Moving Equipment','Solar Panel & Systems','Electric Pole’s'],
+ after:[['Hot Dipped Galvanised Sections (SHS , RHS , CHS)','Above all can also be available in Hot Dip Galvanised form depending on your requirement & quantity. Galvanising will increase the lifeline, durability, strength, rust prevention of the product.']],
+ size:[['SHAPES / PRODUCT','SIZE','THICKNESS','LENGTH METER','INDIAN STANDARD','STEEL GRADE'],
+  ['CIRCULAR HOLLOW SECTIONS (CHS)','21.70mm OD - 508.00mm OD','1.200MM – 12.00MM','4.00 to 12.00mtr','IS 1161 / IS 3589','YST 210/240/310/355 & FE330/FE410'],
+  ['SQUARE HOLLOW SECTION (SHS)','12mm X 12mm - 400mm X 400mm','1.200MM – 12.00MM','4.00 to 12.00mtr','IS 4923','YST 210/240/310/355'],
+  ['RECTANGLE HOLLOW SECTION (RHS)','26mm X 13mm - 400mm X 200mm','1.200MM – 12.00MM','4.00 to 12.00mtr','IS 4923','YST 210/240/310/355']],
+ stdT:'Application, Specifications & Steel Grade – Mechanical & Chemical Properties',
+ std:[['APPLICATION','INDIAN STANDARD | IS','AMERICAN STANDARD | ASTM','EUROPEAN STANDARD | EN'],['Mechanical, Structural & General Engineering','CHS : IS1161 | RHS & SHS : IS4923 YST210, YST240, YST310, YST355','ASTM A500GR A / B / C / D','EN10219']],
+ tabs:[['Tensile Properties Of Steel Tubes For Structural Purpose',[['GRADE','CHS TENSILE STRENGTH Min - MPA','CHS YIELD STRENGTH Min - MPA','CHS ELONGATION %','SHS / RHS TENSILE STRENGTH Min - MPA','SHS / RHS YIELD STRENGTH Min - MPA','SHS / RHS ELONGATION %'],['YST210','330','210','20','330','210','20'],['YST240','410','240','17','410','240','15'],['YST310','450','310','14','450','310','10'],['YST355','490','355','10','490','355','10']]],
+  ['Dimensional Tolerance For SHS & RHS / Square & Rectangle Hollow Sections',[['OUTSIDE DIMENSIONAL','THICKNESS','SQUARENESS','CORNER RADIUS','WEIGHT INDIVIDUAL LENGTHS','WEIGHT ON LOT OF 10 MT'],['+/- 1% with a minimum of +/- 0.50mm','+/- 10.00%','90 deg +/- 2deg.','3t Max','10% -8%','+/- 7.5%']]],
+  ['Tolerance For CHS – Circular Hollow Sections',[['OUTSIDE DIMENSIONAL','THICKNESS','WEIGHT INDIVIDUAL LENGTHS','WEIGHT ON LOT OF 10 MT'],['Upto 48.30mm : + 0.40mm / - 0.80mm Above 48.30 : + / - 1.00%','+/- 10.00%','10% -8%','+/- 5.% for Light Class +/- 7.5% For Medium & Heavy Class']]],
+  ['Chemical & Mechanical Properties – As Per Steel Grade IS2062',[['STEEL GRADE','C (LADLE ANALYSIS, % MAX)','Mn','S','P','Si','CARBON EQUIVALENT CE, Max','TENSILE STRENGTH Rm, Min MPa','YIELD STRENGTH Min, MPa','ELONGATION %'],['E250','0.22','1.5','0.045','0.045','0.4','0.41','410','250','23'],['E300','0.2','1.5','0.045','0.045','0.45','0.44','440','300','22'],['E350','0.2','1.55','0.045','0.045','0.45','0.47','490','350','22'],['E410','0.2','1.6','0.045','0.045','0.5','0.5','540','410','20']]]],
+ btns:[['Circular Hollow Section - CHS','/static/home/Weight_Chart_CHS_IS1161.pdf','Weight Chart For Circular Hollow Section (CHS) – IS1161'],['SQ - Rect Hollow Section','/static/home/Weight_Chart_SHS_RHS_IS4923.pdf','Weight Chart For Square & Rectangular Hollow Section (SHS / RHS) – IS4923']]};
+const LDP_X={title:'Large Diameter Pipes – (LDP) (ERW / H-SAW / L-SAW)',
+ desc:'Manufactured in direction of IS 3589 : 2001 steel pipes used for water & sewage. It covers a wide range of diameters, from OD 168.3 mm to OD 2540.0 mm in ERW (Electric Resistance Welded Pipe) / H-SAW (Helically Submerged Arc Welded – Spiral Welded Pipes) / L-SAW (LONGITUDINAL SUBMERGED ARC WELDED) forms. This standard is widely used in collieries for extraction of water, thermal power plants, transports, industrial pipe lines, agriculture & irrigation purposes.',
+ secs:[['Pipe Coating For Large Dia Pipes','As per requirement we also offer Pipe Coating Solutions – 3LPE Coating, Fusion Bond Epoxy, External Coal Tar Tape Coating, External Coating, External Cement Mortar Lining, Internal Liquid Epoxy Coating, Internal Cement Mortar Lining, 3 Layer PE Coating.']],
+ appT:'Applications',
+ app:['Water Mains for Domestic & Industrial use','Industrial Water Lines, Plant Piping.','Agriculture and Irrigation','Oil Pipe Lines','Refinery Piping, Crude Oil Piping.','Cross Country Pipe Line','Gas Supply'],
+ size:[['PRODUCT','SIZE','THICKNESS','LENGTH','STANDARD'],
+  ['H-SAW PIPE - SPIRAL WELDED PIPE / L-SAW PIPE','457.00mm OD – 2540.00mm OD (18” NB – 100” NB)','5.00mm – 16.00mm','6.00 – 12.00meter','IS3589 FE330 OR FE410, API 5L GR up to X80, ASTM A 252, ASTM A 139, IS 5504'],
+  ['MS ERW PIPE','168.30mm OD – 610.00mm OD (6” NB – 24” NB)','4.00mm – 16.00mm','4.00 – 12.00meter','IS3589 FE330 OR FE410, API 5L GR up to X80, ASTM A 252, ASTM A 139, IS 5504']],
+ btns:[['View Specifications - ERW','/static/home/LDP_ERW_Specification.pdf'],['View Specifications - Spiral Welded Pipe','/static/home/LDP_Spiral_Welded_Pipe_Specification.pdf']]};
+const PX={gi:GI_X,ms:MS_X,msblack:MS_X,hollow:HX,ldp:LDP_X};
+const CHV='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 16 12 9 19"/></svg>';
+function pSide(k){const L=(id,t,c)=>'<a class="'+(c||'')+(id===k?' on':'')+'" onclick="tab(\'prod:'+id+'\')">'+esc(t)+'</a>';
+ const G=(t,ids,open)=>'<div class="sg'+(open?' open':'')+'"><a onclick="this.parentNode.classList.toggle(\'open\')">'+esc(t)+CHV+'</a><div class="sub">'+ids.map(x=>L(x[0],x[1],'sb')).join('')+'</div></div>';
+ return '<div class="pside"><div class="sm">'+L('gi','Gi Pipe')+G('MS Pipe',[['ms','MS Pipe'],['msblack','MS Black Pipe'],['ldp','Large Diameter Pipes']],['ms','msblack','ldp'].includes(k))+G('Structural Steel Pipes',[['hollow','Structural Hollow Sections']],k==='hollow')+L('seamless','Seamless Pipe')+L('gp','GP Pipe')+'</div>'
+ +'<div class="pcard"><b>M/s. Shreeji SteelTubes Pvt. Ltd.</b><p>Office 314/315, Hive 67, 3rd Floor, Poisar Gymkhana Road, Mahavir Nagar, Near Raghuleela Mall, Kandivali West, Mumbai 400067.</p><a href="tel:+919920050742">+919920050742</a><a href="mailto:sales@shreejisteeltubes.com">sales@shreejisteeltubes.com</a></div></div>'}
+function pTable(rows){return '<div class="tw"><table><tr>'+rows[0].map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr>'+rows.slice(1).map(r=>'<tr>'+r.map(c=>'<td>'+esc(c)+'</td>').join('')+'</tr>').join('')+'</table></div>'}
+function pList(a){return '<ul class="pl3">'+a.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>'}
+function pBasic(q,first){return '<div class="'+(first?'':'subp')+'"><img class="ph2" src="'+escA(q.img)+'" alt="" onerror="this.style.display=\'none\'"><h'+(first?1:2)+'>'+esc(q.title)+'</h'+(first?1:2)+'><p class="d">'+esc(q.desc)+'</p><h2>Specifications</h2><div class="tw kv"><table>'+q.rows.map(r=>'<tr><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td></tr>').join('')+'</table></div></div>'}
+function buildProd(k){const el=document.getElementById('prod');el.scrollTo(0,0);
+ pdLoad().then(d=>{const p=d[k];if(!p)return;const x=PX[k];let m;
+  if(x){const SC=a=>(a||[]).map(z=>'<h2>'+esc(z[0])+'</h2><p class="d">'+esc(z[1])+'</p>').join('');
+   m='<h1>'+esc(x.title)+'</h1>'+(x.desc?'<p class="d">'+esc(x.desc)+'</p>':'')+SC(x.secs)+(x.feat?'<h2>Features</h2>'+pList(x.feat):'')+'<h2>'+esc(x.appT)+'</h2>'+pList(x.app)+SC(x.after)+'<h2>'+esc(x.sizeT||'Size Range')+'</h2>'+pTable(x.size)+(x.std?'<h2>'+esc(x.stdT||'Application')+'</h2>'+pTable(x.std):'')+(x.tabs||[]).map(t=>'<h2>'+esc(t[0])+'</h2>'+pTable(t[1])).join('')+(x.btns?'<div class="vs wcb">'+x.btns.map((b,n)=>'<a href="'+escA(b[1])+'" target="_blank" rel="noopener">'+esc(b[0])+'</a>').join('')+'</div>':'')+(x.pdf?'<div class="vs"><a href="'+escA(x.pdf)+'" target="_blank" rel="noopener">View Specifications</a></div>':'')}
+  else{const subs=k==='ms'?['msblack','ldp'].map(z=>d[z]).filter(Boolean):[];m=pBasic(p,1)+subs.map(q=>pBasic(q)).join('')}
+  el.innerHTML='<div class="ab-ban"><h1>'+esc(x?x.title:p.label)+'</h1></div><div class="pw">'+pSide(k)+'<div class="pmain">'+m+'</div></div><div class="hbb"><button type="button" onclick="backToChat()">⬅ Back to Chat Screen</button></div>';
+  el.scrollTo(0,0)}).catch(()=>{})}
+const TY_T={en:['Thank You, ','! 🙏','Your enquiry has been submitted successfully.','Enquiry No. #','Our team will contact you shortly. 😊','OK 👍'],
+ hi:['धन्यवाद, ','! 🙏','आपकी पूछताछ सफलतापूर्वक जमा हो गई है।','पूछताछ क्र. #','हमारी टीम जल्द ही आपसे संपर्क करेगी। 😊','ठीक है 👍']};
+function showThanks(t){const x=TY_T[LANG]||TY_T.en,nm=String((t&&t.name)||'').trim().split(/\s+/)[0];
+ document.getElementById('ty-h').textContent=x[0]+nm+x[1];document.getElementById('ty-p').textContent=x[2];document.getElementById('ty-n').textContent=x[3]+(t&&t.no!=null?t.no:'');
+ document.getElementById('ty-q').textContent=x[4];document.getElementById('ty-b').textContent=x[5];document.getElementById('ty').classList.add('on');setTimeout(()=>{try{document.getElementById('ty-b').focus()}catch(e){}},50)}
+function tyClose(){document.getElementById('ty').classList.remove('on')}
+function pdClose(){document.getElementById('pd').classList.remove('on')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){pdClose();tyClose()}});
+pdLoad().catch(()=>{});
+
+function counters(){document.querySelectorAll('.stats b[data-n]').forEach(b=>{const n=+b.dataset.n,s=b.dataset.s;let k=0;const st=Math.max(1,Math.round(n/40)),iv=setInterval(()=>{k=Math.min(n,k+st);b.textContent=k.toLocaleString('en-IN')+(k===n?s:'');if(k===n)clearInterval(iv)},30)})}
+/* ---------- back-button handling: page opened from the 'Select section' popup -> Back reopens that popup ---------- */
+let RET=null,PAGE_RET=null,POPPING=false;   // RET: popup just used | PAGE_RET: popup to reopen when the current page is left
+/* ---------- QUALITY ASSURANCE PAGE (text from https://www.shreejisteeltubes.com/quality-assurance/) ---------- */
+const QA_P='We at Shreeji Steel Tubes continuously update and train ourselves to provide all best possible solutions to requirements of our customers. Excellent procurement policies of firm has justified our tag line House of Quality Steel Tube TM. WE REGULARLY MONITOR all statutory, regulatory, health, safety and environmental requirements. Our quality management team is continuously involved in acquiring knowledge that helps in improvement in services provided by us. Every product is thoroughly checked & inspected before dispatch which helps our customer to have blind faith on us !';
+function buildQA(){const el=document.getElementById('qa');el.scrollTo(0,0);
+ el.innerHTML='<div class="ab-ban"><h1>Quality Assurance</h1></div><div class="qa-b"><h2>Quality Assurance</h2><div class="qa-ln"></div><p>'+esc(QA_P)+'</p></div><div class="hbb"><button type="button" onclick="backToChat()">\u2B05 Back to Chat Screen</button></div>'}
+/* ---------- GALLERY PAGE (photos as on https://www.shreejisteeltubes.com/gallery/) ---------- */
+const GL_N=21,GL_IMGS=Array.from({length:GL_N},(_,i)=>'/static/home/gallery/g'+String(i+1).padStart(2,'0')+'.jpg');
+function buildGL(){const el=document.getElementById('gl');el.scrollTo(0,0);
+ el.innerHTML='<div class="ab-ban"><h1>Gallery</h1></div><div class="qa-b" style="padding-bottom:0"><h2>Gallery</h2><div class="qa-ln"></div></div><div class="gl-g">'+GL_IMGS.map((u,n)=>'<button type="button" data-n="'+n+'" aria-label="Photo '+(n+1)+'"><img loading="lazy" src="'+u+'" alt="Shreeji Steel Tubes gallery photo '+(n+1)+'"></button>').join('')+'</div><div class="hbb"><button type="button" onclick="backToChat()">\u2B05 Back to Chat Screen</button></div>';
+ el.querySelectorAll('.gl-g button').forEach(b=>b.onclick=()=>openViewer(GL_IMGS[+b.dataset.n],'Gallery'))}
+const DL_MAIN=[['jindal-star','Jindal Star'],['msl','Maharashtra Seamless Limited'],['hitech-steel-pipes','Hi-Tech Pipes'],['asian-mills','Asian Mills'],['narmada','Narmada'],['asian','Asian'],['uttam','Uttam'],['rama-steel-tubes','Rama Steel Tubes Ltd.'],['khanna','KP'],['asian-tubes-pipes','Asian Tubes & Pipes']],
+ DL_ALSO=[['jco','JCO Gas Pipe Ltd.'],['tata-structura','Tata Structura Steel Hollow Sections'],['prakash-surya','Prakash Surya Steel Tubes & Pipes']];
+function buildDL(){const el=document.getElementById('dl');el.scrollTo(0,0);
+ const g=a=>'<div class="dl-g">'+a.map(b=>'<div class="dl-c"><img loading="lazy" src="/static/home/logos/'+b[0]+'.png" alt="'+esc(b[1])+'"></div>').join('')+'</div>';
+ el.innerHTML='<div class="ab-ban"><h1>Authorised Dealer\u2019s &amp; Distributors</h1></div><div class="qa-b" style="padding-bottom:26px"><h2>Authorised Dealer\u2019s &amp; Distributors</h2><div class="qa-ln" style="margin-bottom:0"></div></div>'
+ +'<p class="dl-lead">Over this year\u2019s prestigious brands have acknowledged our sincere efforts for development &amp; extended their valuable support for growth of our company by appointing us as an authorised distributors.</p>'
+ +'<div class="dl-sub"><h2>Brand</h2><div class="qa-ln"></div></div>'+g(DL_MAIN)
+ +'<div class="dl-sub"><h2>To meet our customer need we are also associated with brand</h2><div class="qa-ln"></div></div>'+g(DL_ALSO)
+ +'<div class="hbb"><button type="button" onclick="backToChat()">\u2B05 Back to Chat Screen</button></div>'}
+const CT_LOC={off:{t:'Head Office',n:'M/s. Shreeji SteelTubes Pvt Ltd Office',a:'314/315, Hive 67, 3rd Floor, Poisar Gymkhana Road, Mahavir Nagar, Near Raghuleela Mall, Kandivali West, Mumbai 400067.',q:'Shreeji SteelTubes Pvt Ltd, Hive 67, Poisar Gymkhana Road, Kandivali West, Mumbai 400067'},
+ yard:{t:'Kalamboli Stock Yard',n:'M/s. Shreeji SteelTubes Pvt Ltd',a:'Plot 1923/1924/1870/1630A/1669/1880/1667/980, Khedupada, Near New Taloja Bridge, Near Steel Chamber Kanta 2, Kalamboli. Dist.: Raigad 410218. Maharashtra',q:'Shreeji Steel Tubes Warehouse Plot 1923, Sector AWC, Kalamboli, Panvel, Maharashtra 410218'}};
+const CT_IC={home:'<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 9.5V21h5v-6h4v6h5V9.5"/></svg>',pin:'<svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>',call:'<svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>',mail:'<svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6v10H3zM3 10l9 6 9-6"/></svg>'};
+function buildCT(){const el=document.getElementById('ct');el.scrollTo(0,0);
+ const mu=q=>'https://www.google.com/maps?q='+encodeURIComponent(q)+'&output=embed',du=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+ const loc=(k,ic)=>{const L=CT_LOC[k];return '<div class="ct-i">'+CT_IC[ic]+'<div><b>'+esc(L.t)+'</b><span>'+esc(L.n)+'<br>'+esc(L.a).replace(/\//g,'/\u200B')+'</span><br><a class="vm" data-m="'+k+'">View on map \u2193</a></div></div>'};
+ const f=(id,ph,ty)=>'<div class="ct-f'+(ty==='area'||ty==='wide'?' full':'')+'" id="cf-'+id+'">'+(ty==='area'?'<textarea id="ct-'+id+'" maxlength="1500" placeholder="'+ph+'" aria-label="'+ph+'"></textarea>':'<input id="ct-'+id+'" type="'+(id==='email'?'email':'text')+'" maxlength="150" placeholder="'+ph+'" aria-label="'+ph+'" autocomplete="off"'+(id==='phone'?' inputmode="tel"':'')+'>')+'<div class="em"></div></div>';
+ const map=k=>{const L=CT_LOC[k];return '<div class="ct-m" id="cm-'+k+'"><div class="ct-mh"><b>\uD83D\uDCCD '+esc(L.t)+'</b><a href="'+du(L.q)+'" target="_blank" rel="noopener">Get Directions</a></div><p>'+esc(L.a)+'</p><iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="'+esc(L.t)+' map" src="'+mu(L.q)+'"></iframe></div>'};
+ el.innerHTML='<div class="ab-ban cl-ban"><h1>Contact</h1></div>'
+ +'<div class="ct-w"><div class="ct-card"><h2>Contact Details</h2><p>Get in touch with us for any questions about our industries.</p>'+loc('off','home')+loc('yard','pin')
+ +'<div class="ct-i">'+CT_IC.call+'<div><b>Call Support</b><a href="tel:+912241718888">022 4171 8888</a></div></div>'
+ +'<div class="ct-i">'+CT_IC.mail+'<div><b>Sales</b><a href="mailto:sales@shreejisteeltubes.com">sales@shreejisteeltubes.com</a></div></div>'
+ +'<div class="ct-i">'+CT_IC.mail+'<div><b>Accounts</b><a href="mailto:accounts@shreejisteeltubes.com">accounts@shreejisteeltubes.com</a></div></div>'
+ +'</div>'
+ +'<div class="ct-fm"><h2>Send a Message</h2><div class="qa-ln"></div><div class="ct-ok" id="ct-ok"></div><div class="ct-top" id="ct-top"></div>'
+ +'<div class="ct-g">'+f('fn','First Name')+f('ln','Last Name')+f('email','Email')+f('phone','Phone')+f('company','Company')+f('subject','Subject')+f('message','Message','area')+'</div>'
+ +'<button type="button" class="ct-sb" id="ct-sb">Send Now</button></div></div>'
+ +'<div class="ct-maps" id="ct-maps"><div class="dl-sub" style="margin-top:0"><h2>Find Us</h2><div class="qa-ln"></div></div><div class="ct-mg">'+map('off')+map('yard')+'</div></div>'
+ +'<div class="hbb"><button type="button" onclick="backToChat()">\u2B05 Back to Chat Screen</button></div>';
+ el.querySelectorAll('.vm').forEach(a=>a.onclick=()=>{const m=document.getElementById('cm-'+a.dataset.m);document.getElementById('ct-maps').scrollIntoView({behavior:'smooth',block:'start'});el.querySelectorAll('.ct-m').forEach(x=>x.classList.remove('hl'));m.classList.add('hl');setTimeout(()=>m.classList.remove('hl'),2600)});
+ const ids=['fn','ln','email','phone','company','subject','message'],sb=document.getElementById('ct-sb'),top=document.getElementById('ct-top'),ok=document.getElementById('ct-ok');
+ ids.forEach(i=>document.getElementById('ct-'+i).addEventListener('input',()=>document.getElementById('cf-'+i).classList.remove('err')));
+ sb.onclick=async()=>{const v={};ids.forEach(i=>v[i]=document.getElementById('ct-'+i).value.trim());top.style.display='none';ok.style.display='none';ids.forEach(i=>document.getElementById('cf-'+i).classList.remove('err'));sb.disabled=true;sb.textContent='Sending\u2026';
+  try{const r=await fetch('/contact/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(v)}),j=await r.json();
+   if(j.ok){ids.forEach(i=>document.getElementById('ct-'+i).value='');ok.innerHTML='\u2705 Thank you! Your message <b>#'+j.no+'</b> has been sent.<br>Our team will contact you shortly.';ok.style.display='block';ok.scrollIntoView({block:'center',behavior:'smooth'})}
+   else{const er=j.errors||{};let first=null;ids.forEach(i=>{if(er[i]){const w=document.getElementById('cf-'+i);w.classList.add('err');w.querySelector('.em').textContent=er[i];first=first||w}});if(er._){top.textContent=er._;top.style.display='block'}if(first)first.scrollIntoView({block:'center',behavior:'smooth'})}}
+  catch(e){top.textContent='Connection problem. Please check your internet and try again.';top.style.display='block'}
+  sb.disabled=false;sb.textContent='Send Now'};
+}
+const SV_IMGS=[['s1-coolant','Pipe cutting with coolant'],['s2-bending','Tube bending machine'],['s3-grinder','Grinding & deburring'],['s4-stack','Hollow section stock'],['s5-saw','Cold saw cutting'],['s6-caliper','Quality measurement'],['s7-bigpipe','Large diameter pipe coating'],['s8-spray','Protective coating']],
+ SV_LIST=['365 Days of service','Angle cuts','Arrangement of transportation at best rate','Bevelling','Chamfering (not in house)','Cold saw cutting','Cut to length','Deburring','Delivery on demand or same day pick up of your requirement','Direct delivery from nearby quality manufactures to save your freight cost.','Gas cutting','Lab testing facility','Lathe tube cutting (not in house)','Nesting of pipes','Profiling of Pipes* (under planning)','Project management system','Protective coatings','Special packaging & bundling','Specially inventory management software','Test certificate of all products','Third party inspection','Threading / socket','Transportation & logistics','Tube bending (not in house \u2013 dependent on size & quantity)','Tube laser cutting (not in house)'];
+let SV_I=0,SV_T=null;
+function buildSV(){const el=document.getElementById('sv');el.scrollTo(0,0);clearInterval(SV_T);SV_I=0;const N=SV_IMGS.length;
+ el.innerHTML='<div class="ab-ban cl-ban"><h1>Services</h1></div><div class="qa-b" style="padding-bottom:26px"><h2>Services</h2><div class="qa-ln" style="margin-bottom:0"></div></div>'
+ +'<p class="sv-lead">A to Z valuable services are offered by us for 365 Days from our office &amp; warehouse.</p>'
+ +'<div class="sv-car"><button type="button" class="sv-ar l" aria-label="Previous">&#8249;</button><div class="sv-trk" id="sv-trk"></div><button type="button" class="sv-ar r" aria-label="Next">&#8250;</button></div>'
+ +'<div class="sv-dots" id="sv-dots">'+SV_IMGS.map((_,i)=>'<button type="button" aria-label="Slide '+(i+1)+'" data-i="'+i+'"></button>').join('')+'</div>'
+ +'<div class="sv-g">'+SV_LIST.map(t=>'<div>'+esc(t)+'</div>').join('')+'</div>'
+ +'<div class="hbb"><button type="button" onclick="backToChat()">\u2B05 Back to Chat Screen</button></div>';
+ const trk=document.getElementById('sv-trk'),dots=el.querySelectorAll('#sv-dots button');
+ const draw=()=>{trk.innerHTML=[-1,0,1].map(o=>{const b=SV_IMGS[(SV_I+o+N)%N];return '<div'+(o===0?' class="c"':'')+'><img src="/static/home/services/'+b[0]+'.jpg" alt="'+esc(b[1])+'"></div>'}).join('');dots.forEach((d,i)=>d.classList.toggle('on',i===SV_I))};
+ const go2=d=>{SV_I=(SV_I+d+N)%N;draw()},auto=()=>{clearInterval(SV_T);SV_T=setInterval(()=>{if(!document.getElementById('app').classList.contains('tv')){clearInterval(SV_T);return}go2(1)},3500)};
+ el.querySelector('.sv-ar.l').onclick=()=>{go2(-1);auto()};el.querySelector('.sv-ar.r').onclick=()=>{go2(1);auto()};
+ dots.forEach(d=>d.onclick=()=>{SV_I=+d.dataset.i;draw();auto()});
+ let x0=null;const car=el.querySelector('.sv-car');car.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});car.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>40){go2(d<0?1:-1);auto()}x0=null});
+ draw();auto()}
+const CL_LIST=[['godrej','Godrej'],['adani','Adani'],['bharat-petroleum','Bharat Petroleum'],['tata-bluescope','Tata BlueScope Steel'],['oberoi-realty','Oberoi Realty'],['hp','Hindustan Petroleum'],['mahindra','Mahindra'],['kalpataru','Kalpataru']];
+function buildCL(){const el=document.getElementById('cl');el.scrollTo(0,0);
+ el.innerHTML='<div class="ab-ban cl-ban"><h1>Clients</h1></div><div class="qa-b" style="padding-bottom:26px"><h2>Clients</h2><div class="qa-ln" style="margin-bottom:0"></div></div>'
+ +'<div class="dl-g" style="padding-top:20px">'+CL_LIST.map(b=>'<div class="dl-c"><img loading="lazy" src="/static/home/clients/'+b[0]+'.png" alt="'+esc(b[1])+'"></div>').join('')+'</div>'
+ +'<div class="hbb"><button type="button" onclick="backToChat()">\u2B05 Back to Chat Screen</button></div>'}
+function buildRQ(){const el=document.getElementById('rq');el.scrollTo(0,0);
+ const f=(id,lb,ta)=>'<div class="rq-f" id="rf-'+id+'"><label for="rq-'+id+'">'+lb+'</label>'+(ta?'<textarea id="rq-'+id+'" maxlength="1500"></textarea>':'<input id="rq-'+id+'" type="'+(id==='email'?'email':'text')+'" maxlength="'+(id==='firm'||id==='email'?120:40)+'" autocomplete="off"'+(id==='contact'?' inputmode="tel"':'')+'>')+'<div class="em"></div></div>';
+ el.innerHTML='<div class="ab-ban"><h1>Request For Quote</h1></div><div class="qa-b" style="padding-bottom:26px"><h2>Request For Quote</h2><div class="qa-ln" style="margin-bottom:0"></div></div>'
+ +'<p class="rq-lead">At Shreeji Steel Tubes we offer widest range of quality steel tubes which are readily available / custom made requirement / brand specific requirement if any.<br>All your inquires will be attended by our skilled staff equipped with full knowledge of products.</p>'
+ +'<div class="rq-card"><div class="rq-ok" id="rq-ok"></div><div class="rq-top" id="rq-top"></div>'+f('firm','Name of Firm')+f('gst','GST Number')+f('contact','Contact Detail')+f('email','Email')+f('desc','Description',1)
+ +'<button type="button" class="rq-sb" id="rq-sb">Submit</button></div>'
+ +'<div class="hbb"><button type="button" onclick="backToChat()">\u2B05 Back to Chat Screen</button></div>';
+ const ids=['firm','gst','contact','email','desc'],sb=document.getElementById('rq-sb'),top=document.getElementById('rq-top'),ok=document.getElementById('rq-ok');
+ ids.forEach(i=>document.getElementById('rq-'+i).addEventListener('input',()=>document.getElementById('rf-'+i).classList.remove('err')));
+ sb.onclick=async()=>{const v={};ids.forEach(i=>v[i]=document.getElementById('rq-'+i).value.trim());top.style.display='none';ok.style.display='none';
+  ids.forEach(i=>document.getElementById('rf-'+i).classList.remove('err'));sb.disabled=true;sb.textContent='Submitting\u2026';
+  try{const r=await fetch('/rfq/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(v)}),j=await r.json();
+   if(j.ok){ids.forEach(i=>document.getElementById('rq-'+i).value='');ok.innerHTML='\u2705 Thank you! Your request for quote <b>#'+j.no+'</b> has been submitted.<br>Our team will contact you shortly.';ok.style.display='block';ok.scrollIntoView({block:'center',behavior:'smooth'})}
+   else{const er=j.errors||{};let first=null;ids.forEach(i=>{if(er[i]){const w=document.getElementById('rf-'+i);w.classList.add('err');w.querySelector('.em').textContent=er[i];first=first||w}});
+    if(er._){top.textContent=er._;top.style.display='block'}if(first)first.scrollIntoView({block:'center',behavior:'smooth'})}}
+  catch(e){top.textContent='Connection problem. Please check your internet and try again.';top.style.display='block'}
+  sb.disabled=false;sb.textContent='Submit'}}
+function backToChat(){if(history.state&&history.state.pg)history.back();else tab('chat')}
+window.addEventListener('popstate',e=>{if(window.RVopen&&window.RVopen()&&!(e.state&&e.state.rv)){window.RVclose();return}if(e.state&&e.state.rv)return;const pg=e.state&&e.state.pg;POPPING=true;
+ try{if(pg)tab(pg);else{tab('chat');if(PAGE_RET){const r=PAGE_RET;PAGE_RET=null;if(r.sup)showSupply();else if(r.res)showResources();else openSheet(r.chips,r.title,r.extra,true)}}}finally{POPPING=false}});
+if(history.state&&history.state.pg)history.replaceState(null,'');   // reload: start clean on chat
+function tab(n){if(!POPPING){
+  if(n==='chat'){if(history.state&&history.state.pg){PAGE_RET=null;history.back();return}}   // leaving a page by code (not via popup flow)
+  else{if(RET){PAGE_RET=RET;RET=null}
+   if(history.state&&history.state.pg)history.replaceState({pg:n},'');   // page -> page (sidebar): one Back still returns to chat
+   else history.pushState({pg:n},'')}}
+ const a=document.getElementById('app'),h=n==='home',ab=n==='about',pr=String(n).startsWith('prod:'),qa=n==='qa',gl=n==='gl',dl=n==='dl',rq=n==='rq',cl=n==='cl',sv=n==='sv',ct=n==='ct';a.classList.toggle('tk',ct);a.classList.toggle('tv',sv);a.classList.toggle('tc',cl);a.classList.toggle('tr',rq);a.classList.toggle('td',dl);a.classList.toggle('tg',gl);a.classList.toggle('th',h);a.classList.toggle('ta',ab);a.classList.toggle('tp',pr);a.classList.toggle('tq',qa);
+ if(pr){homeStop&&homeStop();buildProd(n.slice(5))}
+ else if(h){document.getElementById('home').scrollTo(0,0);homeShow(0);counters()}
+ else if(ab){homeStop&&homeStop();document.getElementById('about').scrollTo(0,0);counters()}
+ else if(qa){homeStop&&homeStop();buildQA()}
+ else if(gl){homeStop&&homeStop();buildGL()}
+ else if(dl){homeStop&&homeStop();buildDL()}
+ else if(ct){homeStop&&homeStop();buildCT()}
+ else if(sv){homeStop&&homeStop();buildSV()}
+ else if(cl){homeStop&&homeStop();buildCL()}
+ else if(rq){homeStop&&homeStop();buildRQ()}
+ else{homeStop&&homeStop();down()}}
+
+/* ---------- ABOUT US PAGE (data from https://www.shreejisteeltubes.com/about-us/) ---------- */
+const SITE='https://www.shreejisteeltubes.com/',IMG=SITE+'wp-content/uploads/';
+const AB={
+ rangeLead:'We provide a wide selection of steel tubes and related products to meet diverse industry requirements, including:',partnersLead:'We are authorized distributors of some of the most reputed steel manufacturers, including:',trust:'At Shreeji SteelTubes Pvt Ltd, our customer-focused approach, extensive inventory, and strong industry relationships make us a trusted and reliable name in the steel industry.',closing:'Your One-Stop Destination for Quality Steel Tubes!',
+ tagline:'We are committed to provide smooth & superior quality supply to all our customers !',
+ intro:['M/s. Shreeji SteelTubes Pvt Ltd (ISO 9001:2015) is a leading Distributor, Stockist, and Supplier of premium Iron & Steel products, based in Mumbai. With a commitment to excellence, we take pride in being recognized as the "House of Quality Steel Tubes™", offering a comprehensive range of high-quality steel solutions under one roof.',
+  'With an expansive 94,000 sq. ft. storage facility located in Kalamboli, Maharashtra\'s premier steel hub, we have the capability to fulfill large-scale orders efficiently. Our strategic location and vast inventory allow us to deliver high-quality steel products in desired sizes and quantities across Mumbai, Maharashtra, and all major regions of India.'],
+ range:['GI Pipe, MS Pipe, GP Pipe','Structural Hollow Sections (Circular (CHS), Square (SHS) & Rectangular (RHS) - MS YST210 / YST310 / YST355) & GI Both','Seamless Pipes','Spiral Welded Pipes (H-Saw Pipe) & L-Saw Pipe','MS Structure, MS Plate, MS Sheet, Colour Coated Profile Sheet & Galvanised Sheet'],
+ partners:['Jindal Pipes Ltd.','Maharashtra Seamless Ltd.','Tata Steel Ltd.','Hitech Pipes Ltd.','Hitech Saw Pvt Ltd.','Jindal Steel & Power Ltd.','Narmada Tubes Pvt Ltd.','Asian Mills Pvt Ltd.','Asian Tubes Pvt Ltd.','Rama Pipes Ltd.','Khanna Industrial Pipes Pvt. Ltd.'],
+ logos:['jindal-star','jindal-panther','msl','tata-pipes','tata-structura','hitech-steel-pipes','hitech-saw','narmada','asian','rama','khanna'],
+ others:'Additionally, we collaborate with Surya Prakash Pipes, Goel Pipes, and JCO Gas Line Ltd. to meet specific customer needs.',
+ history:[['',"Our business journey was started in year 1970 when Mr. Navnit P. Modi and his brother cum partner Mr. Rohit P. Modi started as a procurement consultant & agents for steel tubes in Mumbai. They established a firm called MODI BROTHERS. The two partners started the business with the goal to meet the need of customer with best quality service and professional ethics. Along with good business in this very competitive market they also earned high respect and reputation in market. Under the guidance of Shri Rohit P. Modi, his son Mr. Ronak Modi started Company M/S Shreeji Steel Tubes in September 2011 as a Stockiest & Supplier of steel tubes. In next 10 yrs. with his hard work, long term vision and innovative approach he managed this company's growth beyond expectation. Company has successfully achieved all targets that they set for and company also achieved the reputation of House of Quality Steel Tubes. During this glorifying journey, Shreeji Steel Tubes management has not only invested in building a huge inventory of steel, but also developed a team of highly result oriented staff competent enough to handle all situations and offer challenging project solutions to customers, in turn winning their trust. Shreeji Steel Tubes strong corporate governance, ethical practices, values, principles, integrity, focused employees and transparent business practices have all contributed to burgeoning of the company."]],
+ vmv:[['🎯 Vision',"Build for durability- We want to deliver something worth, that will endure the test of time. We will do this by relentlessly focusing on our customers' need, building high quality systems to serve them better & better with planning for long term scale and very skilled work force."],['🚀 Mission','The prime mission of Shreeji Steel Tube is to meet the need of developing Indian economy, with high quality steel tubes, best quality service to customers with competitive price. With feet firmly set on the ground and our enthusiasm sky high, we are now more than ready to explore new avenues and further strengthen our presence in the industry.'],['⚖️ Core Values','Not to do business of ethics but to do business with ethics. We are accountable by measuring ourselves against the highest standard of business ethics, integrity and fiscal responsibility.']],
+ mgmt:[['Mr. Ronak Rohit Modi','Managing Partner',IMG+'2021/07/Ronak-Rohit-Modi.jpg','A young & dynamic entrepreneur who plays a role similar to the CEO of Shreeji Steel Tubes. Strategic planning & policies of purchase and sales, communication, financial & tax management, office management and employee management are key areas of his function.'],
+  ['Mr. Rohit Prabhudas Modi','Managing Partner',IMG+'2021/07/Rohit-P-Modi.jpg','With his knowledge and experience of the market for 40 years, he helps in all crucial functions of the organization. Stock & employee management of warehouses, customer grievances, pricing policies and employee welfare are vital areas of his function.']]};
+function buildAbout(D){D=D||AB;const E=esc,fb="this.onerror=null;this.src='/static/home/gi-stack.jpg'",fa="this.onerror=null;this.src='/static/avatar.png'",P=x=>'<p>'+E(x)+'</p>';
+ const hist=(D.history||[]).map(x=>x[1]).join(' ');
+ document.getElementById('about').innerHTML='<div class="ab-ban"><h1>About us</h1></div>'
+ +'<div class="ab-c"><img class="lg" src="/static/logo.png" alt=""><h2>'+E(D.tagline)+'</h2>'+P(D.intro[0])+'</div>'
+ +'<div class="ab-2"><img src="'+E(D.aboutImg||IMG+'2021/08/about-img-1.jpg')+'" alt="" onerror="'+fb+'"><div>'
+   +'<p>Our Product Range '+E(D.rangeLead||'')+'</p>'+(D.range||[]).map(x=>'<p>✔ '+E(x)+'</p>').join('')
+   +(D.intro[1]?P(D.intro[1]):'')
+   +'<p>Trusted Partnerships</p><p>'+E((D.partnersLead||'')+' '+(D.partners||[]).join(' | '))+'</p>'
+   +(D.others?P(D.others):'')+(D.trust?P(D.trust):'')+(D.closing?P(D.closing):'')+'</div></div>'
+ +'<div class="ab-w"><div class="ab-h"><h2>History</h2>'+P(hist)+'</div></div>'
+ +'<div class="ab-v">'+(D.vmv||[]).map(x=>'<div><h3>'+E(x[0].replace(/^[^\w]+/,''))+'</h3>'+P(x[1])+'</div>').join('')+'</div>'
+ +'<div class="ab-w"><div class="ab-h"><h2>Management</h2></div><div class="ab-m">'+(D.mgmt||[]).map(x=>'<div class="c"><div class="ph"><img loading="lazy" src="'+E(x[2])+'" alt="'+E(x[0])+'" onerror="'+fa+'"></div><h4>'+E(x[0])+'</h4><em>'+E(x[1])+'</em>'+P(x[3])+'</div>').join('')+'</div></div>'
+ +'<div class="hbb"><button type="button" onclick="backToChat()">⬅ Back to Chat Screen</button></div>'}
+buildAbout();
+/* About Us details are read LIVE from https://www.shreejisteeltubes.com/about-us/ by the server (/about/data, cached); the text above is only the fallback */
+fetch('/about/data').then(r=>r.json()).then(d=>{if(d&&d.intro&&d.mgmt){buildAbout(d);if(document.getElementById('app').classList.contains('ta'))counters()}}).catch(()=>{});
+function restore(){let L=[];try{L=JSON.parse(localStorage.getItem('srjlog')||'[]')}catch(e){}
+ if(!L.length)return false;LOG=L;started=true;const sp=document.getElementById('splash');if(sp)sp.remove();
+ const d=document.createElement('div');d.className='day';d.textContent='Today';msgs.appendChild(d);let lf=null;
+ L.forEach(e=>{if(e.me!==undefined){add('me',esc(e.me));if(lf){lf.classList.add('done');lf.querySelectorAll('input,select,textarea,button').forEach(x=>x.disabled=true);lf=null}}
+  else{render(e.b);if(e.b.form){const fs=msgs.querySelectorAll('form.fm');lf=fs[fs.length-1]}}});
+ msgs.querySelectorAll('.opts').forEach((o,i,a)=>{if(i<a.length-1)o.classList.add('old')});
+ const lb=[...L].reverse().find(e=>e.b);if(lb)ui([lb.b]);down();return true}
+function endSplash(){if(started)return;started=true;const s=document.getElementById('splash');s.style.opacity=0;setTimeout(()=>{s.remove();
+ const d=document.createElement('div');d.className='day';d.textContent='Today';msgs.appendChild(d);
+ const m={type:'text',text:'👋 Welcome to *Shreeji SteelTubes*!\nType *Hi* to get started.',chips:[['Hi','hi']],ph:'Type a message…'};render(m);LOG.push({b:m});saveLog();ui([m])},450)}
+try{localStorage.removeItem('srjlog')}catch(e){}      // refresh = brand-new chat (old messages are not restored)
+setTimeout(endSplash,2200);
+</script></body></html>

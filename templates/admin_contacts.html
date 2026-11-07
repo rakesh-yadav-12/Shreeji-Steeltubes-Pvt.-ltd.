@@ -1,0 +1,30 @@
+{% extends "base.html" %}{% block body %}
+<datalist id="depts">{% for d in depts %}<option value="{{d}}">{% endfor %}
+<option value="ACCOUNT DEPARTMENT"><option value="BILLING AND TC"><option value="SALES"><option value="PAYMENT"><option value="GODOWN"><option value="OPERATION"><option value="ADMIN"></datalist>
+
+<div class="card"><h3>Add new contact</h3>
+<p style="margin-top:0;color:#666">Pick an existing department (or type a new one). The contact is filled under that department in the chatbot → option 3.</p>
+<form method="post" class="cform"><div class="cgrid">
+<label>Department<input name="department" list="depts" placeholder="e.g. ACCOUNT DEPARTMENT" required></label>
+<label>Name<input name="name" placeholder="Name"></label>
+<label>Designation<input name="designation" placeholder="e.g. Account Head"></label>
+<label>Contact no<input name="phone" placeholder="Contact no" inputmode="tel"></label>
+<label>Direct Line No.<input name="direct_line" placeholder="e.g. 022-41718806" inputmode="tel"></label>
+<label>Email<input name="email" placeholder="Email" inputmode="email"></label>
+</div><button>Add</button></form></div>
+
+{% for dept, rows in groups.items() %}
+<div class="card"><h3>{{dept}}</h3>
+{% for r in rows %}
+<form method="post" class="cform"><input type="hidden" name="id" value="{{r.id}}">
+<div class="cgrid">
+<label>Department<input name="department" list="depts" value="{{r.department}}" required></label>
+<label>Name<input name="name" value="{{r.name}}"></label>
+<label>Designation<input name="designation" value="{{r.designation}}"></label>
+<label>Contact no<input name="phone" value="{{r.phone}}" inputmode="tel"></label>
+<label>Direct Line No.<input name="direct_line" value="{{r.direct_line or ''}}" inputmode="tel"></label>
+<label>Email<input name="email" value="{{r.email}}" inputmode="email"></label>
+</div><button>Save</button>
+<button name="delete_id" value="{{r.id}}" onclick="return confirm('Delete this contact?')" style="background:#c0392b">Delete</button></form>
+{% endfor %}</div>
+{% endfor %}{% endblock %}

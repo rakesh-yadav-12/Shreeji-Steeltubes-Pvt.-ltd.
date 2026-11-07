@@ -1,0 +1,46 @@
+<!-- HOME TAB : Ashoka Buildcon style (logo + menu, banner slider, about, product cards, contact) -->
+<div id="home" tabindex="-1">
+
+ <section class="h-hero" id="s-top" aria-roledescription="carousel" aria-label="Shreeji SteelTubes highlights">
+  <div class="hs on"><img src="/static/home/hero-pipes.jpg" alt=""><div class="tx2"><div class="h-wrap"><h2>Pursuing <b>Excellence</b></h2><button class="h-btn o" onclick="openChat()">Enquire Now</button></div></div></div>
+  <div class="hs"><img src="/static/home/hero-oilgas.jpg" style="object-position:center 60%" alt=""><div class="tx2"><div class="h-wrap"><h2>Powering <b>Industries</b></h2><button class="h-btn o" onclick="homeGo('products')">Our Products</button></div></div></div>
+  <div class="hs"><img src="/static/home/hero-largedia.jpg" style="object-position:center 55%" alt=""><div class="tx2"><div class="h-wrap"><h2>Conquering <b>Large Diameters</b></h2><button class="h-btn o" onclick="openProd(2)">More Info</button></div></div></div>
+  <div class="hs"><img src="/static/home/hero-tower.jpg" style="object-position:center 22%" alt=""><div class="tx2"><div class="h-wrap"><h2>Creating <b>Landmarks</b></h2><button class="h-btn o" onclick="openProd(4)">More Info</button></div></div></div>
+  <div class="hs"><img src="/static/home/hero-warehouse.jpg" style="object-position:center 55%" alt=""><div class="tx2"><div class="h-wrap"><h2>Ready Stock, <b>365 Days</b></h2><button class="h-btn o" onclick="homeGo('contact')">Visit Us</button></div></div></div>
+  <button class="h-arr pv" aria-label="Previous slide" onclick="heroGo(-1)">&#8249;</button><button class="h-arr nx" aria-label="Next slide" onclick="heroGo(1)">&#8250;</button>
+  <div class="h-dots" id="hdots"></div>
+ </section>
+
+ <section class="h-sec" id="s-about"><div class="h-wrap"><div class="h-about">
+  <div class="ph"><img loading="lazy" src="/static/home/about-warehouse.jpg" alt="Shreeji warehouse"></div>
+  <div><div class="lb">Shreeji SteelTubes Pvt. Ltd.</div><h2 class="h-title">Focused &amp; Consistent.</h2>
+   <p class="t">Shreeji SteelTubes Pvt. Ltd. (ISO 9001:2015 Certified) is one of India&rsquo;s leading distributors, stockists and suppliers of iron &amp; steel tubes, known nationwide as the &ldquo;House of Quality Steel Tubes&trade;&rdquo;.</p>
+   <p class="t">From a humble beginning in 1970, we have grown through our commitment to Quality, Integrity and Commitment. Our 80,000 sq. ft. warehouse at Kalamboli holds the widest range of GI, MS, GP, ERW, Seamless and Structural Hollow Section pipes.</p>
+   <p class="t">We are authorised distributors of India&rsquo;s most trusted brands and serve 1,500+ clients across Infrastructure, Engineering, Oil &amp; Gas, Power and Fabrication.</p>
+   <p class="h-tag">Building India&rsquo;s Growth &mdash; One Tube at a Time.</p></div></div></div></section>
+
+ <section class="h-stats"><div class="h-wrap"><div class="g">
+  <div class="s"><b>50+</b><span>Years of legacy</span></div><div class="s"><b>80,000</b><span>sq. ft. warehouse</span></div>
+  <div class="s"><b>1,500+</b><span>Satisfied clients</span></div><div class="s"><b>44,800</b><span>Tons annual sales</span></div></div></div></section>
+
+ <section class="h-sec alt" id="s-products"><div class="h-wrap">
+  <h2 class="h-title c">Our Products</h2><div class="h-grid" id="pgrid"></div></div></section>
+
+ <section class="h-sec" id="s-brands"><div class="h-wrap">
+  <h2 class="h-title c">Authorised Distributor Of</h2><div class="h-brands" id="brands"></div></div></section>
+
+ <section class="h-sec h-ct" id="s-contact"><div class="h-wrap">
+  <h2 class="h-title c">Contact Us</h2>
+  <div class="h-cg">
+   <div><h3>Office Address</h3><p>Shreeji SteelTubes Pvt. Ltd.<br>Office 314/315, Hive 67, 3rd Floor, Poisar Gymkhana Road, Mahavir Nagar, Near Raghuleela Mall, Kandivali West, Mumbai 400067.</p></div>
+   <div><h3>Kalamboli Stock Yard</h3><p>Khedupada, Near New Taloja Bridge, Near Steel Chamber Kanta 2, Kalamboli, Dist. Raigad 410218, Maharashtra.</p></div>
+   <div><h3>Telephone, Email &amp; Web</h3><p><a href="tel:+912241718888">022 4171 8888</a> | <a href="tel:+919920050742">+91 9920050742</a><br><a href="mailto:sales@shreejisteeltubes.com">sales@shreejisteeltubes.com</a><br><a href="https://www.shreejisteeltubes.com" target="_blank" rel="noopener">www.shreejisteeltubes.com</a></p></div></div>
+  <div class="h-cb"><a class="h-btn o" href="tel:+912241718888">Call Now</a>
+   <a class="h-btn w" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Shreeji+SteelTubes+Pvt+Ltd+Hive+67+Poisar+Gymkhana+Road+Kandivali+West+Mumbai+400067">Head Office Map</a>
+   <a class="h-btn w" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Shreeji+SteelTubes+Pvt+Ltd+Khedupada+Near+New+Taloja+Bridge+Kalamboli+Raigad+410218">Stock Yard Map</a>
+   <a class="h-btn w" href="/static/home/Shreeji_SteelTubes_Catalogue.pdf" target="_blank" rel="noopener">Catalogue (PDF)</a>
+   <button class="h-btn b" onclick="openChat()">Chat with Us</button></div></div></section>
+ <div class="h-foot">All Rights Reserved &copy; Shreeji SteelTubes Pvt. Ltd. &mdash; House of Quality Steel Tubes&trade;</div>
+
+ <div id="pm" hidden><div class="pmb"><button class="pmx" aria-label="Close" onclick="closeProd()">&times;</button><div id="ppanel"></div></div></div>
+</div>
